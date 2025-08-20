@@ -1,6 +1,5 @@
-import Detail from "@/components/details/Detail";
 import React from "react";
 
-const page = () => <Detail />;
+const page = () => <h1>hello</h1>;
 
 export default page;

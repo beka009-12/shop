@@ -1,7 +1,6 @@
 "use client";
 import { useState, type FC } from "react";
 import scss from "./Cards.module.scss";
-import Detail from "@/components/details/Detail";
 import { useRouter } from "next/navigation";
 
 interface IBaseCard {
@@ -43,7 +42,6 @@ const Cards: FC<IBaseCard> = ({
   tags,
   createdAt,
 }) => {
-  const router = useRouter();
   return (
     <>
       <div className={scss.card}>
@@ -54,12 +52,7 @@ const Cards: FC<IBaseCard> = ({
             }
             alt={title}
           />
-          <button
-            className={scss.quickView}
-            onClick={() => router.push(`/detail/${id}`)}
-          >
-            Подробнее
-          </button>
+          <button className={scss.quickView}>Подробнее</button>
         </div>
 
         <div className={scss.info}>

@@ -14,7 +14,7 @@ const SignInWithGoogle = () => {
         `${process.env.NEXT_PUBLIC_API}/api/v1/auth/googleAuth`,
         { token },
 
-        { withCredentials: true } // если используешь cookie
+        { withCredentials: true }
       );
       router.push("/");
     } catch (err) {

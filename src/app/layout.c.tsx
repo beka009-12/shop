@@ -9,9 +9,7 @@ interface ILay {
 
 const LayoutClient: FC<ILay> = ({ children }) => {
   return (
-    <GoogleOAuthProvider
-      clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}
-    >
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
       <ReactQueryProvider>{children}</ReactQueryProvider>
     </GoogleOAuthProvider>
   );

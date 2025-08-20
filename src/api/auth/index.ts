@@ -7,7 +7,7 @@ const useLogin = () => {
   return useMutation({
     mutationKey: ["login"],
     mutationFn: async (data: { email: string; password: string }) => {
-      const response = await api.post("/auth/login", data);
+      const response = await api.post("/login", data);
       return response.data;
     },
     onSuccess: (data) => {
@@ -23,7 +23,7 @@ const useRegister = () => {
   return useMutation({
     mutationKey: ["register"],
     mutationFn: async (data: AUTH.RegisterReq) => {
-      const response = await api.post<AUTH.RegisterRes>("/auth/register", data);
+      const response = await api.post<AUTH.RegisterRes>("/register", data);
       return response.data;
     },
     onSuccess: (data) => {

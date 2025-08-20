@@ -1,0 +1,126 @@
+.Header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-block: 20px;
+  z-index: 1000;
+  background-color: #fafafa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+
+  &.hidden {
+    transform: translateY(-100%);
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    line-height: 16px;
+
+    h1 {
+      font-size: 24px;
+      span {
+        font-weight: 900;
+        color: #ff7a00;
+      }
+    }
+    .online {
+      font-size: 14px;
+      color: #676161;
+      margin-top: 5px;
+    }
+  }
+
+  .navigation nav {
+    display: flex;
+    gap: 35px;
+
+    p {
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #ff7a00;
+      }
+    }
+  }
+
+  .cart {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+
+    .cartLink {
+      position: relative;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+
+      .cartIcon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .cartCount {
+        background: #ff7a00;
+        color: white;
+        font-size: 12px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        font-family: monospace;
+        top: -4px;
+        right: -6.6px;
+      }
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px 10px;
+    .navigation nav {
+      display: none;
+    }
+    .cartLink {
+      display: none;
+    }
+  }
+}
+
+.active svg {
+  stroke: #ff7a00;
+  stroke-dasharray: 7 3;
+}
+
+.active img {
+  border: 2px solid #ff7a00;
+}

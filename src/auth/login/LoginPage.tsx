@@ -3,8 +3,6 @@
 import { useLogin, useRegister } from "@/api/auth";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
-import axios from "axios";
 import scss from "./LoginPage.module.scss";
 import SignInWithGoogle from "../SignInWuthGoogle";
 

@@ -39,4 +39,17 @@ const useRegister = () => {
   });
 };
 
-export { useLogin, useRegister };
+const useLoginWithGoogle = () => {
+  return useMutation({
+    mutationKey: ["loginWithGoogle"],
+    mutationFn: async (code: string) => {
+      const response = await api.get(`/auth/google/callback?code=${code}`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+    },
+  });
+};
+
+export { useLogin, useRegister, useLoginWithGoogle };

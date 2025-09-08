@@ -79,6 +79,11 @@
       user-select: none;
       -webkit-tap-highlight-color: transparent;
 
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(255, 122, 0, 0.5);
+      }
+
       .cartIcon {
         width: 24px;
         height: 24px;

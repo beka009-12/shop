@@ -1,7 +1,7 @@
 "use client";
-import { ReactQueryProvider } from "@/provider/Provider";
+import { Provider } from "@/provider/Provider";
 import { ReactNode, FC } from "react";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Toaster } from "react-hot-toast";
 
 interface ILay {
   children: ReactNode;
@@ -9,9 +9,10 @@ interface ILay {
 
 const LayoutClient: FC<ILay> = ({ children }) => {
   return (
-    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
-      <ReactQueryProvider>{children}</ReactQueryProvider>
-    </GoogleOAuthProvider>
+    <Provider>
+      {children}
+      <Toaster position="top-center" reverseOrder={false} />
+    </Provider>
   );
 };
 

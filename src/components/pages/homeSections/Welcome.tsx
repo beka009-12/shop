@@ -43,8 +43,6 @@ const Welcome: FC = () => {
     },
   ];
 
-  console.log("Google Client ID:", process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
-
   return (
     <section className={scss.Welcome}>
       <div className="container">

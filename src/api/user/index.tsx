@@ -23,7 +23,7 @@ const useGetMe = () => {
   return useQuery<AUTH.MeRes, Error>({
     queryKey: ["me"],
     queryFn: async () => {
-      const response = await api.get<AUTH.MeRes>("/auth/profile");
+      const response = await api.get("/auth/profile");
       return response.data;
     },
   });

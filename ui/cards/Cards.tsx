@@ -1,7 +1,6 @@
 "use client";
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import scss from "./Cards.module.scss";
-import { useRouter } from "next/navigation";
 
 interface IBaseCard {
   id: number;
@@ -10,7 +9,7 @@ interface IBaseCard {
   brand?: string;
   title?: string;
   description?: string;
-  images?: string[];
+  images?: string[]; // ✅ именно images, массив строк
   sizes?: number[] | string[];
   colors?: string[];
   price?: number;
@@ -24,7 +23,6 @@ interface IBaseCard {
 }
 
 const Cards: FC<IBaseCard> = ({
-  shopId,
   id,
   title,
   description,
@@ -32,48 +30,36 @@ const Cards: FC<IBaseCard> = ({
   price,
   newPrice,
   sale,
-  category,
-  brand,
-  sizes,
-  colors,
-  inStock,
-  rating,
-  reviews,
-  tags,
-  createdAt,
 }) => {
   return (
-    <>
-      <div className={scss.card}>
-        <div className={scss.imageWrapper}>
-          <img
-            src={
-              images && images.length > 0 ? images[0] : "/default-avatar.png"
-            }
-            alt={title}
-          />
-          <button className={scss.quickView}>Подробнее</button>
-        </div>
-
-        <div className={scss.info}>
-          {title && <h3>{title}</h3>}
-          {description && <p>{description}</p>}
-          {price !== undefined && (
-            <p className={scss.price}>
-              {sale && newPrice ? (
-                <>
-                  <span className={scss.oldPrice}>{price} сом</span>
-                  <span className={scss.newPrice}>{newPrice} сом</span>
-                </>
-              ) : (
-                <span className={scss.defultPrice}>{price} сом</span>
-              )}
-            </p>
-          )}
-          <button className={scss.btn}>Добавить</button>
-        </div>
+    <div className={scss.card}>
+      <div className={scss.imageWrapper}>
+        {images && images.length > 0 ? (
+          <img src={images[0]} alt={title || "product"} />
+        ) : (
+          <div className={scss.noImage}>Нет фото</div>
+        )}
+        <button className={scss.quickView}>Подробнее</button>
       </div>
-    </>
+
+      <div className={scss.info}>
+        {title && <h3>{title}</h3>}
+        {description && <p>{description}</p>}
+        {price !== undefined && (
+          <p className={scss.price}>
+            {sale && newPrice ? (
+              <>
+                <span className={scss.oldPrice}>{price} сом</span>
+                <span className={scss.newPrice}>{newPrice} сом</span>
+              </>
+            ) : (
+              <span className={scss.defultPrice}>{price} сом</span>
+            )}
+          </p>
+        )}
+        <button className={scss.btn}>Добавить</button>
+      </div>
+    </div>
   );
 };
 

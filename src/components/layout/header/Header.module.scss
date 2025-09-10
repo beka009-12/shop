@@ -31,7 +31,7 @@
       font-size: 24px;
       span {
         font-weight: 900;
-        color: #ff7a00;
+        color: #fb4517;
       }
     }
     .online {
@@ -52,7 +52,7 @@
       transition: color 0.2s;
 
       &:hover {
-        color: #ff7a00;
+        color: #fb4517;
       }
     }
   }
@@ -87,10 +87,11 @@
       .cartIcon {
         width: 24px;
         height: 24px;
+        object-fit: cover;
       }
 
       .cartCount {
-        background: #ff7a00;
+        background: #fb4517;
         color: white;
         font-size: 12px;
         width: 15px;
@@ -122,10 +123,10 @@
 }
 
 .active svg {
-  stroke: #ff7a00;
+  stroke: #fb4517;
   stroke-dasharray: 7 3;
 }
 
 .active img {
-  border: 2px solid #ff7a00;
+  border: 2px solid #fb4517;
 }

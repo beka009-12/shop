@@ -35,7 +35,7 @@
       bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
-      background: #ffffffe0;
+      background: #ffffff;
       border: 1px solid rgba(128, 128, 128, 0.163);
       padding: 6px 14px;
       border-radius: 999px;
@@ -45,7 +45,7 @@
       transition: opacity 0.3s ease, transform 0.3s ease;
       cursor: pointer;
       &:active {
-        background: #ebebebe0;
+        background: #ebebebef;
       }
     }
   }
@@ -97,12 +97,12 @@
       }
 
       .newPrice {
-        color: #ff7a00;
+        color: #fb4517; // бордовый свет
         font-weight: 700;
       }
 
       .defultPrice {
-        color: #cf6400;
+        color: #fb4517; // такой же бордовый
       }
     }
 
@@ -112,36 +112,36 @@
       align-items: center;
       gap: 6px;
       padding: 7px 16px;
-      border-radius: 4px;
-      background: #ff7a00;
+      border-radius: 6px;
+      background: #fb4517; // бордовый
       color: #fff;
       font-size: clamp(0.813rem, 0.759rem + 0.27vw, 1rem);
       font-weight: 700;
       cursor: pointer;
       position: relative;
-      transition: 0.3s;
+      transition: all 0.3s ease;
 
       svg {
         width: 20px;
         height: 20px;
-        transition: 0.3s;
+        transition: transform 0.3s ease;
         fill: #fff;
       }
 
       &:hover {
-        background: #ff8f27;
+        background: #ff572d;
         svg {
-          transform: scale(1.02);
+          transform: scale(1.05);
         }
       }
 
       &:active {
         transform: translateY(2px);
+        box-shadow: 0 3px 10px rgba(178, 34, 34, 0.3);
       }
 
       @media (max-width: 1024px) {
         padding: 7px 14px;
-
         svg {
           width: 18px;
           height: 18px;
@@ -152,7 +152,6 @@
         margin-top: 9px;
         padding: 7px 16px;
         width: 100%;
-
         svg {
           width: 18px;
           height: 18px;
@@ -163,7 +162,6 @@
         padding: 6px 16px;
         gap: 6px;
         width: 100%;
-
         svg {
           width: 15px;
           height: 15px;

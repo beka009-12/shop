@@ -4,6 +4,7 @@ interface User {
   name: string;
   phone: any;
   role: string;
+  avatar: string;
 }
 
 namespace AUTH {
@@ -11,6 +12,8 @@ namespace AUTH {
   type SignUpRes = { message: string; user: User; token: string };
   type SignInReq = { email: string; password: string };
   type SignInRes = { message: string; user: User; token: string };
-  type MeRes = User;
+  type MeRes = {
+    user: User;
+  };
   type MeReq = void;
 }

@@ -5,44 +5,39 @@ import { usePathname, useRouter } from "next/navigation";
 import Mobile from "../mobileNavigation/Mobile";
 import { useGetMe } from "@/api/user";
 import { links } from "@/utils/constant/Link";
+import Profile from "@/components/pages/profile/Profile";
 
 const Header: FC = () => {
   const router = useRouter();
   const pathname = usePathname();
-
   const { data: getMe, isLoading } = useGetMe();
 
-  const isAuthenticated = !!getMe?.user.id || !!getMe?.user.email || !!getMe;
+  const isAuthenticated = !!getMe?.user?.id || !!getMe?.user?.email || !!getMe;
 
   const isActive = (path: string) => pathname === path;
   const [hidden, setHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Функция для обработки навигации с проверкой авторизации
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
   const handleNavigation = (path: string) => {
     if (!isAuthenticated && !isLoading) {
       router.push("/sign-up");
       return;
     }
-
-    if (isAuthenticated) {
-      router.push(path);
-    }
+    if (isAuthenticated) router.push(path);
   };
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
       if (currentScrollY > lastScrollY && currentScrollY > 80) {
         setHidden(true);
       } else {
         setHidden(false);
       }
-
       setLastScrollY(currentScrollY);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
@@ -81,10 +76,9 @@ const Header: FC = () => {
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
-                      strokeWidth={1.5}
                       viewBox="0 0 24 24"
+                      strokeWidth="1.5"
                       stroke="currentColor"
-                      color="black"
                       className={scss.cartIcon}
                     >
                       <path
@@ -107,11 +101,10 @@ const Header: FC = () => {
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
-                      strokeWidth={1.5}
                       viewBox="0 0 24 24"
+                      strokeWidth={1.5}
                       stroke="currentColor"
                       className={scss.cartIcon}
-                      color="black"
                     >
                       <path
                         strokeLinecap="round"
@@ -130,8 +123,10 @@ const Header: FC = () => {
                 </button>
               )}
 
-              {isAuthenticated ? (
+              {/* Иконка пользователя */}
+              {isAuthenticated && (
                 <div
+                  onClick={() => setIsProfileOpen((prev) => !prev)}
                   className={`${scss.cartLink} ${
                     isActive("/profile") ? scss.active : ""
                   }`}
@@ -151,33 +146,15 @@ const Header: FC = () => {
                     />
                   </svg>
                 </div>
-              ) : (
-                <div
-                  onClick={() => router.push("/sign-up")}
-                  className={`${scss.cartLink} ${
-                    isActive("/sign-up") ? scss.active : ""
-                  }`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    className={scss.cartIcon}
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-                    />
-                  </svg>
-                </div>
               )}
             </div>
           </div>
         </div>
       </header>
+
+      {/* Модальное окно профиля */}
+      {isProfileOpen && <Profile onClose={() => setIsProfileOpen(false)} />}
+
       <Mobile />
     </>
   );

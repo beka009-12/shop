@@ -3,56 +3,47 @@ import { type FC } from "react";
 import scss from "./Profile.module.scss";
 import { useGetMe } from "@/api/user";
 
-const Profile: FC = () => {
+interface ProfileProps {
+  onClose: () => void;
+}
+
+const Profile: FC<ProfileProps> = ({ onClose }) => {
   const { data: user } = useGetMe();
 
   const menuItems = [
     {
       id: "favorites",
       label: "Избранное",
-      count: 1 || 12, // Замени на реальные данные
+      count: 1 || 12,
       className: scss.favorites,
     },
     {
       id: "cart",
       label: "Корзина",
-      count: 1 || 3, // Замени на реальные данные
+      count: 1 || 3,
       className: scss.cart,
     },
     {
       id: "orders",
       label: "Мои заказы",
-      count: 1 || 8, // Замени на реальные данные
+      count: 1 || 8,
       className: scss.orders,
     },
   ];
 
   const handleMenuClick = (itemId: string) => {
-    // Обработчики для навигации
     switch (itemId) {
       case "favorites":
-        // Переход на страницу избранного
-        console.log("Открыть избранное");
         break;
       case "cart":
-        // Переход в корзину
-        console.log("Открыть корзину");
         break;
       case "orders":
-        // Переход к заказам
-        console.log("Открыть заказы");
         break;
     }
   };
 
   const handleLogout = () => {
-    // Логика выхода из аккаунта
     console.log("Выход из аккаунта");
-  };
-
-  const handleClose = () => {
-    // Логика закрытия модалки
-    console.log("Закрыть модалку");
   };
 
   return (
@@ -61,7 +52,7 @@ const Profile: FC = () => {
         <div className={scss.wrapper}>
           <div className={scss.card}>
             {/* Кнопка закрытия */}
-            <button className={scss.closeBtn} onClick={handleClose}>
+            <button className={scss.closeBtn} onClick={onClose}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -82,7 +73,6 @@ const Profile: FC = () => {
               />
             </div>
 
-            {/* Информация пользователя */}
             <div className={scss.info}>
               <h2>{user?.user.name || "Без имени"}</h2>
               <p className={scss.phone}>

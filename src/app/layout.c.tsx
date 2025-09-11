@@ -1,6 +1,6 @@
 "use client";
 import { Provider } from "@/provider/Provider";
-import { ReactNode, FC } from "react";
+import { ReactNode, FC, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 
 interface ILay {
@@ -10,7 +10,7 @@ interface ILay {
 const LayoutClient: FC<ILay> = ({ children }) => {
   return (
     <Provider>
-      {children}
+      <Suspense>{children}</Suspense>
       <Toaster position="top-center" reverseOrder={false} />
     </Provider>
   );

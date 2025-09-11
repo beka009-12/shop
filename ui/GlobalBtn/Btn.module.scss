@@ -1,0 +1,41 @@
+.btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: 99px;
+  cursor: pointer;
+  border: 3px solid #fb4517;
+  color: #000000;
+  font-weight: 500;
+  font-size: clamp(14px, 2vw, 16px);
+  transition: 0.2s ease;
+
+  &:hover {
+    transform: scale(1.02);
+    background: #fb4517;
+    color: #ffffff;
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 10px rgba(178, 34, 34, 0.3);
+  }
+
+  // планшеты
+  @media (max-width: 1024px) {
+    padding: 0.45rem 1rem;
+    font-size: 15px;
+  }
+
+  // телефоны
+  @media (max-width: 768px) {
+    padding: 0.4rem 0.9rem;
+    font-size: 14px;
+  }
+
+  // очень маленькие экраны
+  @media (max-width: 480px) {
+    width: 100%; // кнопка на всю ширину
+    text-align: center;
+    font-size: 13px;
+    padding: 0.6rem;
+  }
+}

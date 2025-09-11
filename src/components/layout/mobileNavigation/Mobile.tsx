@@ -19,20 +19,13 @@ const Mobile: FC = () => {
 
   const handleNavigation = (path: string) => {
     if (!isAuthenticated && !isLoading) {
-      router.push("/sign-up");
+      router.push("/auth?mode=login");
       return;
     }
     if (isAuthenticated) {
       router.push(path);
     }
   };
-
-  if (isLoading)
-    return (
-      <div className="container">
-        <div className={scss.bottomHeader}></div>
-      </div>
-    );
 
   return (
     <>
@@ -157,57 +150,33 @@ const Mobile: FC = () => {
           </div>
 
           {/* Профиль или авторизация */}
-          {isAuthenticated ? (
-            <div
-              onClick={() => setIsProfileOpen((prev) => !prev)}
-              className={`${scss.cartLink} ${
-                isActive("/profile") ? scss.active : ""
-              }`}
+          <div
+            onClick={() => {
+              if (!isAuthenticated) {
+                router.push("/auth?mode=register");
+                return;
+              }
+              setIsProfileOpen((prev) => !prev);
+            }}
+            className={`${scss.cartLink} ${
+              isActive("/profile") ? scss.active : ""
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              className={scss.cartIcon}
+              stroke="currentColor"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                className={scss.cartIcon}
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                />
-              </svg>
-            </div>
-          ) : (
-            <div
-              onClick={() => router.push("/sign-up")}
-              className={`${scss.avatar} ${
-                isActive("/sign-up") ? scss.active : ""
-              }`}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "50%",
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                style={{ width: "24px", height: "24px" }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-                />
-              </svg>
-            </div>
-          )}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+              />
+            </svg>
+          </div>
         </div>
       </div>
       {isProfileOpen && <Profile onClose={() => setIsProfileOpen(false)} />}

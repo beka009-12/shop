@@ -3,11 +3,13 @@ import { type FC, useState } from "react";
 import scss from "./Register.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSignUp, useSignIn } from "@/api/user";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 
 const Auth: FC = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const searchParams = useSearchParams();
+  const mode = searchParams.get("mode");
+  const [isLogin, setIsLogin] = useState(mode === "login");
 
   const { mutateAsync: signUpMutate } = useSignUp();
   const { mutateAsync: signInMutate } = useSignIn();

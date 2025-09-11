@@ -6,6 +6,7 @@ import Mobile from "../mobileNavigation/Mobile";
 import { useGetMe } from "@/api/user";
 import { links } from "@/utils/constant/Link";
 import Profile from "@/components/pages/profile/Profile";
+import Btn from "../../../../ui/GlobalBtn/Btn";
 
 const Header: FC = () => {
   const router = useRouter();
@@ -118,12 +119,22 @@ const Header: FC = () => {
                   </div>
                 </>
               ) : (
-                <button onClick={() => handleNavigation("/sign-up")}>
-                  войти
-                </button>
+                <div className={scss.authLinks}>
+                  <div
+                    onClick={() => router.push("/auth?mode=login")}
+                    className={scss.authBtn}
+                  >
+                    <Btn title="Войти" />
+                  </div>
+                  <div
+                    onClick={() => router.push("/auth?mode=register")}
+                    className={scss.authBtn}
+                  >
+                    <Btn title="Регистрация" />
+                  </div>
+                </div>
               )}
 
-              {/* Иконка пользователя */}
               {isAuthenticated && (
                 <div
                   onClick={() => setIsProfileOpen((prev) => !prev)}
@@ -152,7 +163,6 @@ const Header: FC = () => {
         </div>
       </header>
 
-      {/* Модальное окно профиля */}
       {isProfileOpen && <Profile onClose={() => setIsProfileOpen(false)} />}
 
       <Mobile />

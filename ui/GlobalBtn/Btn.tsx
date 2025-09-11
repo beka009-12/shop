@@ -6,13 +6,7 @@ interface BtnProps {
 }
 
 const Btn: FC<BtnProps> = ({ title }) => {
-  return (
-    <section className={scss.Btn}>
-      <div className="container">
-        <div className={scss.content}>{title}</div>
-      </div>
-    </section>
-  );
+  return <button className={scss.btn}> {title}</button>;
 };
 
 export default Btn;

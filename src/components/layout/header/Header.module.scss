@@ -57,6 +57,12 @@
     }
   }
 
+  .authLinks {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
   .cart {
     display: flex;
     align-items: center;
@@ -114,6 +120,9 @@
   @media (max-width: 768px) {
     padding: 10px 10px;
     .navigation nav {
+      display: none;
+    }
+    .authLinks {
       display: none;
     }
     .cartLink {

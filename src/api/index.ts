@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_API}/api/v1`,
+  baseURL: `${process.env.NEXT_PUBLIC_API}/nest-shop`,
 });
 
 api.interceptors.request.use((config) => {

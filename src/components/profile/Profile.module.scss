@@ -3,7 +3,7 @@
   top: 0;
   right: 0;
   width: 400px;
-  height: 100dvh;
+  height: 100%;
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
   transform: translateX(0);
   z-index: 1000;
@@ -19,7 +19,6 @@
     border-radius: 0;
   }
 
-  // Overlay для блокировки заднего фона
   &::before {
     content: "";
     position: fixed;
@@ -32,7 +31,6 @@
     backdrop-filter: blur(4px);
   }
 
-  // Основной белый фон профиля
   &::after {
     content: "";
     position: absolute;
@@ -44,16 +42,10 @@
     z-index: -1;
   }
 
-  .container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
   .card {
     flex: 1;
-    display: flex;
     flex-direction: column;
+    justify-content: space-between;
     height: 100%;
     position: relative;
     overflow: hidden;
@@ -133,7 +125,6 @@
     -ms-user-select: none;
     -webkit-tap-highlight-color: transparent;
 
-    // Адаптивные отступы
     @media (max-height: 700px) {
       margin-top: 60px;
       margin-bottom: 14px;
@@ -202,6 +193,7 @@
     }
 
     .phone,
+    .edit,
     .email {
       display: flex;
       align-items: center;
@@ -211,7 +203,7 @@
       background: #f8f9fa;
       border-radius: 10px;
       border: 1px solid #e9ecef;
-      font-size: 13px;
+      font-size: clamp(0.875rem, 0.804rem + 0.15vw, 0.938rem);
       color: #495057;
       font-weight: 500;
       transition: all 0.2s ease;
@@ -256,6 +248,16 @@
           height: 12px;
           margin-right: 6px;
         }
+      }
+    }
+
+    .edit {
+      cursor: pointer;
+    }
+
+    .edit {
+      &::before {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='%23e6370b' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a1.003 1.003 0 00-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.83z'/%3E%3C/svg%3E");
       }
     }
 
@@ -395,7 +397,7 @@
         }
 
         .menuLabel {
-          font-size: 14px;
+          font-size: clamp(0.875rem, 0.804rem + 0.15vw, 0.938rem);
           font-weight: 600;
           color: #2c3e50;
 
@@ -513,5 +515,302 @@
         transform: translateY(0);
       }
     }
+  }
+}
+
+.logoutModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+
+  .modalOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  .modalContent {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 320px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1;
+    animation: slideIn 0.3s ease-out;
+
+    @media (max-width: 480px) {
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .modalHeader {
+      text-align: center;
+      margin-bottom: 16px;
+
+      h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1e2833;
+        margin: 0;
+
+        @media (max-width: 480px) {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .modalBody {
+      text-align: center;
+      margin-bottom: 24px;
+
+      p {
+        font-size: 15px;
+        color: #2c363e;
+        line-height: 1.5;
+        font-weight: 600;
+        margin: 0;
+
+        @media (max-width: 480px) {
+          font-size: 13px;
+        }
+      }
+    }
+
+    .modalActions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+
+      button {
+        flex: 1;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+
+        @media (max-width: 480px) {
+          padding: 10px 16px;
+          font-size: 13px;
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+
+      .cancelBtn {
+        background: #f8f9fa;
+        color: #24272a;
+        border: 1px solid #dee2e6;
+
+        &:hover {
+          background: #e9ecef;
+          color: #495057;
+        }
+      }
+
+      .confirmBtn {
+        background: linear-gradient(135deg, #fb4517, #fb4517);
+        color: white;
+        box-shadow: 0 4px 12px rgba(251, 69, 23, 0.3);
+
+        &:hover {
+          background: linear-gradient(135deg, #fa5227, #fa5025);
+          box-shadow: 0 6px 20px rgba(251, 69, 23, 0.4);
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.editModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+
+  .modalOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  .modalContent {
+    border-radius: 4px;
+    padding: 24px;
+    max-width: 470px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.042);
+    position: relative;
+    z-index: 1;
+    animation: slideIn 0.3s ease-out;
+
+    @media (max-width: 480px) {
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .modalHeader {
+      text-align: center;
+      margin-bottom: 16px;
+
+      h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1e2833;
+        margin: 0;
+
+        @media (max-width: 480px) {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .modalBody {
+      margin-bottom: 24px;
+
+      p {
+        font-size: 15px;
+        color: #2c363e;
+        line-height: 1.5;
+        font-weight: 600;
+        margin: 0;
+
+        @media (max-width: 480px) {
+          font-size: 13px;
+        }
+      }
+    }
+
+    .modalActions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+
+      button {
+        flex: 1;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+
+        @media (max-width: 480px) {
+          padding: 10px 16px;
+          font-size: 13px;
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+
+      .cancelBtn {
+        background: #f8f9fa;
+        color: #24272a;
+        border: 1px solid #dee2e6;
+
+        &:hover {
+          background: #e9ecef;
+          color: #495057;
+        }
+      }
+
+      .confirmBtn {
+        background: linear-gradient(135deg, #fb4517, #fb4517);
+        color: white;
+        box-shadow: 0 4px 12px rgba(251, 69, 23, 0.3);
+
+        &:hover {
+          background: linear-gradient(135deg, #fa5227, #fa5025);
+          box-shadow: 0 6px 20px rgba(251, 69, 23, 0.4);
+          transform: translateY(-1px);
+        }
+      }
+    }
+
+    .closeBtn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      svg {
+        width: 20px;
+        height: 20px;
+        color: #333;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }

@@ -1,11 +1,11 @@
 .Header {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
   padding-block: 20px;
   z-index: 1000;
-  background-color: #fafafa;
+  background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(10px);
   transition: transform 0.3s ease;

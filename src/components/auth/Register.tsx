@@ -1,10 +1,10 @@
 "use client";
 import { type FC, useState } from "react";
-import scss from "./Register.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSignUp, useSignIn } from "@/api/user";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
+import scss from "./Register.module.scss";
 
 const Auth: FC = () => {
   const searchParams = useSearchParams();

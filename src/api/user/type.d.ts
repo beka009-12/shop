@@ -1,10 +1,16 @@
 interface User {
   id: number;
   email: string;
+  password: string;
   name: string;
+  avatar: any;
   phone: any;
   role: string;
-  avatar: string;
+  createdAt: string;
+  updatedAt: string;
+  cart: any[];
+  favorites: any[];
+  orders: any[];
 }
 
 namespace AUTH {
@@ -16,4 +22,14 @@ namespace AUTH {
     user: User;
   };
   type MeReq = void;
+
+  type LogoutRes = { message: string };
+  type LogoutReq = void;
+
+  type UpdateProfileReq = {
+    name?: string;
+    phone?: string;
+    avatar?: string;
+  };
+  type UpdateProfileRes = { message: string; user: User; token: string };
 }

@@ -5,8 +5,6 @@ import Cards from "../cards/Cards";
 interface IBaseCard {
   id: number;
   shopId: number;
-  category?: string;
-  brand?: string;
   title?: string;
   description?: string;
   images?: string[];
@@ -15,7 +13,6 @@ interface IBaseCard {
   price?: number;
   newPrice?: number;
   sale?: boolean;
-  inStock?: boolean;
   rating?: number;
   reviews?: number;
   tags?: string[];

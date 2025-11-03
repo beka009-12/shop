@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "..";
 
 const useSignUp = () => {
@@ -29,4 +29,31 @@ const useGetMe = () => {
   });
 };
 
-export { useSignUp, useSignIn, useGetMe };
+const Logaut = () => {
+  const quryClient = useQueryClient();
+  return useMutation<AUTH.LogoutRes, Error, AUTH.LogoutReq>({
+    mutationFn: async () => {
+      const response = await api.post("/auth/logout");
+      return response.data;
+    },
+    onSuccess: () => {
+      quryClient.removeQueries({ queryKey: ["me"] });
+      quryClient.clear();
+    },
+  });
+};
+
+const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation<AUTH.UpdateProfileRes, Error, AUTH.UpdateProfileReq>({
+    mutationFn: async (data) => {
+      const response = await api.put("/auth/profile-update", data);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["me"] });
+    },
+  });
+};
+
+export { useSignUp, useSignIn, useGetMe, Logaut, useUpdateProfile };

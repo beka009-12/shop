@@ -17,25 +17,31 @@ const Detail: FC = () => {
   );
 
   if (isPending) return <Loader />;
-  if (!product) return <div>Продукт не найден</div>;
+  if (!product) return <div className={scss.notFound}>Продукт не найден</div>;
 
   const mainImage = activeImage || product.images?.[0];
 
   return (
     <section className={scss.detail}>
       <div className={scss.container}>
-        <div className={scss.galleryWrapper}>
+        {/* === ГАЛЕРЕЯ === */}
+        <div className={scss.gallery}>
           <div className={scss.thumbnails}>
             {product.images?.map((img, i) => (
-              <img
+              <button
                 key={i}
-                src={img}
-                alt={`${product.title} preview ${i}`}
+                onClick={() => setActiveImage(img)}
                 className={`${scss.thumb} ${
                   mainImage === img ? scss.activeThumb : ""
                 }`}
-                onClick={() => setActiveImage(img)}
-              />
+                aria-label={`Просмотр изображения ${i + 1}`}
+              >
+                <img
+                  src={img}
+                  alt={`${product.title} — превью ${i + 1}`}
+                  loading="lazy"
+                />
+              </button>
             ))}
           </div>
 
@@ -44,22 +50,23 @@ const Detail: FC = () => {
               src={mainImage}
               alt={product.title}
               className={scss.mainImage}
+              loading="lazy"
             />
           </div>
         </div>
 
+        {/* === ИНФО === */}
         <div className={scss.info}>
           <div className={scss.brandInfo}>
-            <span className={scss.brandTitle}>{brand?.name}</span>
-            {product.tags?.map((item, index) => (
-              <span key={index} className={scss.brandTitle}>
-                {item}
+            <span className={scss.brandPill}>{brand?.name}</span>
+            {product.tags?.map((tag, i) => (
+              <span key={i} className={scss.brandPill}>
+                {tag}
               </span>
             ))}
           </div>
-          <div className={scss.topBlock}>
-            <h1 className={scss.title}>{product.title}</h1>
-          </div>
+
+          <h1 className={scss.title}>{product.title}</h1>
 
           <div className={scss.priceBlock}>
             {product.newPrice ? (
@@ -74,33 +81,37 @@ const Detail: FC = () => {
 
           <p className={scss.description}>{product.description}</p>
 
+          {/* Цвета */}
           {product.colors?.length ? (
             <div className={scss.colors}>
-              <h4>Цвета:</h4>
+              <h4>Цвет:</h4>
               <div className={scss.colorList}>
                 {product.colors.map((color, i) => (
-                  <div
+                  <button
                     key={i}
                     className={scss.colorCircle}
                     style={{ backgroundColor: color }}
                     title={color}
+                    aria-label={`Выбрать цвет ${color}`}
                   />
                 ))}
               </div>
             </div>
           ) : null}
 
+          {/* Размеры */}
           {product.sizes?.length ? (
             <div className={scss.sizes}>
-              <h4>Размеры:</h4>
+              <h4>Размер:</h4>
               <div className={scss.sizeList}>
-                {product.sizes.map((size, i) => (
+                {product.sizes.map((size) => (
                   <button
-                    key={i}
+                    key={size}
+                    onClick={() => setSelectedSize(size)}
                     className={`${scss.sizeBtn} ${
                       selectedSize === size ? scss.activeSize : ""
                     }`}
-                    onClick={() => setSelectedSize(size)}
+                    aria-pressed={selectedSize === size}
                   >
                     {size}
                   </button>
@@ -110,13 +121,18 @@ const Detail: FC = () => {
           ) : null}
 
           <div className={scss.actions}>
-            <button className={scss.orderBtn}>Добавить в корзину</button>
-            <button className={scss.favoriteBtn}>
+            <button className={scss.orderBtn} aria-label="Добавить в корзину">
+              В корзину
+            </button>
+            <button
+              className={scss.favoriteBtn}
+              aria-label="Добавить в избранное"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                strokeWidth="1.8"
                 stroke="currentColor"
                 className={scss.heartIcon}
               >
@@ -126,7 +142,6 @@ const Detail: FC = () => {
                   d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
                 />
               </svg>
-              В избранное
             </button>
           </div>
         </div>

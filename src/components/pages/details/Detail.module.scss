@@ -144,22 +144,14 @@
   }
 
   @media (max-width: 480px) {
+    flex: 1 1 auto;
     padding: 8px;
   }
-}
-
-.mainImage {
-  max-height: 560px;
-  width: 100%;
-  object-fit: contain;
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-  @media (max-width: 768px) {
-    max-height: 480px;
-  }
-
-  @media (max-width: 480px) {
-    max-height: 400px;
+  .mainImage {
+    height: 560px;
+    width: 100%;
+    object-fit: contain;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 

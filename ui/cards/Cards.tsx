@@ -58,10 +58,10 @@ const Cards: FC<IBaseCard> = ({
         className={scss.imageWrapper}
         onClick={handleClick}
       >
-        {/* Горизонтальная прокрутка на мобилках */}
         <div className={scss.imageScroller}>
           {images.map((src, i) => (
             <img
+              loading="lazy"
               key={i}
               src={src}
               alt={title || "product"}

@@ -9,4 +9,8 @@ const Btn: FC<BtnProps> = ({ title }) => {
   return <button className={scss.btn}> {title}</button>;
 };
 
-export default Btn;
+const CartBtn: FC<BtnProps> = ({ title }) => {
+  return <button className={scss.cartBtn}> {title}</button>;
+};
+
+export { CartBtn, Btn };

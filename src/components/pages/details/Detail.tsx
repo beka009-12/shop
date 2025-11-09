@@ -15,6 +15,7 @@ const Detail: FC = () => {
   const [selectedSize, setSelectedSize] = useState<string | number | null>(
     null
   );
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
   if (isPending) return <Loader />;
   if (!product) return <div className={scss.notFound}>Продукт не найден</div>;
@@ -89,11 +90,28 @@ const Detail: FC = () => {
                 {product.colors.map((color, i) => (
                   <button
                     key={i}
-                    className={scss.colorCircle}
+                    onClick={() => setSelectedColor(color)}
+                    className={`${scss.colorCircle} ${
+                      selectedColor === color ? scss.activeColor : ""
+                    }`}
                     style={{ backgroundColor: color }}
-                    title={color}
                     aria-label={`Выбрать цвет ${color}`}
-                  />
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={scss.checkIcon}
+                    >
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                  </button>
                 ))}
               </div>
             </div>

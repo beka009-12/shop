@@ -21,7 +21,7 @@ const Header: FC = () => {
 
   const handleNavigation = (path: string) => {
     if (!isAuthenticated && !isLoading) {
-      router.push("/sign-up");
+      router.push("/auth?mode=sign-up");
       return;
     }
     if (isAuthenticated) router.push(path);

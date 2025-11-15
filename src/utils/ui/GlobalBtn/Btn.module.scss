@@ -39,3 +39,27 @@
     padding: 0.6rem;
   }
 }
+
+.cartBtn {
+  flex: 1;
+  min-width: 160px;
+  background: #fb4517;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 14px 10px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(251, 69, 23, 0.3);
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 10px rgba(178, 34, 34, 0.3);
+  }
+}

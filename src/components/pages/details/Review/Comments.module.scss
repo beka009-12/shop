@@ -1,0 +1,76 @@
+.Comments {
+  padding: 40px 0;
+  background: #fbfcfc;
+
+  .content {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-block: 20px;
+    padding-right: 8px; /* чтобы скролл не налезал на контент */
+
+    /* кастомный скролл */
+    &::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #ebe5e5;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #fb4517;
+      border-radius: 10px;
+    }
+  }
+
+  .comments {
+    user-select: none;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px 24px;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    .info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+
+      img {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e5e7eb;
+      }
+
+      .rating {
+        display: flex;
+        flex-direction: column;
+
+        span {
+          font-weight: 600;
+          color: #111827;
+          margin-bottom: 4px;
+        }
+      }
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #374151;
+      background: #f3f4f6;
+      padding: 10px 14px;
+      border-radius: 8px;
+    }
+  }
+}

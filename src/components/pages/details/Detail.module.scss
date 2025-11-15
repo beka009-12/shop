@@ -306,8 +306,7 @@
 }
 
 .activeColor {
-  border: 3px solid #fb4517;
-  transform: scale(1.02);
+  transform: scale(1.05);
 
   .checkIcon {
     display: flex;
@@ -363,31 +362,6 @@
   margin-top: 12px;
   flex-wrap: wrap;
   max-width: 100%;
-}
-
-.orderBtn {
-  flex: 1;
-  min-width: 160px;
-  background: #fb4517;
-  color: #fff;
-  font-weight: 600;
-  font-size: 16px;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(251, 69, 23, 0.3);
-
-  &:hover {
-    background: #e03e10;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(251, 69, 23, 0.4);
-  }
-
-  &:active {
-    transform: translateY(-1px);
-  }
 }
 
 .favoriteBtn {

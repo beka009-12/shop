@@ -1,8 +1,8 @@
 "use client";
 import { type FC } from "react";
 import scss from "./Welcome.module.scss";
-import Grid from "../../../../ui/cardGrid/Grid";
 import { useGetProduct } from "@/api/product";
+import Grid from "@/utils/ui/cardGrid/Grid";
 
 const Welcome: FC = () => {
   const { data: product } = useGetProduct();

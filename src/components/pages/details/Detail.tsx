@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { useGetBrandById, useGetProductById } from "@/api/product";
 import scss from "./Detail.module.scss";
 import Loader from "@/utils/loader/Loader";
+import { CartBtn } from "@/utils/ui/GlobalBtn/Btn";
 
 const Detail: FC = () => {
   const { id } = useParams();
@@ -25,7 +26,6 @@ const Detail: FC = () => {
   return (
     <section className={scss.detail}>
       <div className={scss.container}>
-        {/* === ГАЛЕРЕЯ === */}
         <div className={scss.gallery}>
           <div className={scss.thumbnails}>
             {product.images?.map((img, i) => (
@@ -139,9 +139,7 @@ const Detail: FC = () => {
           ) : null}
 
           <div className={scss.actions}>
-            <button className={scss.orderBtn} aria-label="Добавить в корзину">
-              В корзину
-            </button>
+            <CartBtn title="Добавить в корзину" />
             <button
               className={scss.favoriteBtn}
               aria-label="Добавить в избранное"

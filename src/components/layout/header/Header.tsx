@@ -6,7 +6,7 @@ import Mobile from "../mobileNavigation/Mobile";
 import { useGetMe } from "@/api/user";
 import { links } from "@/utils/constant/Link";
 import Profile from "@/components/profile/Profile";
-import { Btn } from "../../../../ui/GlobalBtn/Btn";
+import { Btn } from "@/utils/ui/GlobalBtn/Btn";
 
 const Header: FC = () => {
   const router = useRouter();

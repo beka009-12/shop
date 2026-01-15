@@ -24,6 +24,8 @@ interface GridProps {
 }
 
 const Grid: FC<GridProps> = ({ cards = [] }) => {
+  console.log(cards);
+
   return (
     <div className={scss.Grid}>
       {cards.map((item) => (

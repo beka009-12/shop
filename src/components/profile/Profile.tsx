@@ -1,7 +1,7 @@
 "use client";
 import { type FC, useState } from "react";
 import scss from "./Profile.module.scss";
-import { Logaut, useGetMe } from "@/api/user";
+import { useGetMe, useLogout } from "@/api/user";
 import toast from "react-hot-toast";
 import UpdateProfile from "./update/UpdateProfile";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ interface ProfileProps {
 
 const Profile: FC<ProfileProps> = ({ onClose }) => {
   const { data: user } = useGetMe();
-  const { mutateAsync: LogautMutation, reset: resetProfile } = Logaut();
+  const { mutateAsync: LogautMutation, reset: resetProfile } = useLogout();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const router = useRouter();

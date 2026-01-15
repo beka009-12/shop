@@ -36,6 +36,9 @@ interface IProduct {
     name: string;
     logo?: string;
   };
+  category?: Category;
+  brand?: Brand;
+  favorites?: { userId: number }[];
   tags?: string[];
   stockCount?: number;
   createdAt?: string;

@@ -34,7 +34,6 @@ const Cards: FC<IBaseCard> = ({
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-
   useEffect(() => {
     if (!isHovered || images.length <= 1) return;
     const interval = setInterval(() => {

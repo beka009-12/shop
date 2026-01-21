@@ -58,8 +58,12 @@ const Auth: FC = () => {
       <div className="container">
         <div className={scss.content}>
           {isLogin ? (
-            <>
-              <h1>С возвращением!</h1>
+            <div className={scss.loginBox}>
+              <h1 className={scss.h1}>С возвращением!</h1>
+              <p className={scss.subtitle}>
+                Войдите в аккаунт, чтобы продолжить работу
+              </p>
+
               <form
                 className={scss.form}
                 onSubmit={handleSubmitSignIn(onLogin)}
@@ -74,15 +78,28 @@ const Auth: FC = () => {
                   className={scss.inputs}
                   {...registerSignIn("password")}
                   type="password"
-                  placeholder="Password"
+                  placeholder="Пароль"
+                  minLength={6}
                 />
-                <button type="submit">Login</button>
+                <button className={scss.button} type="submit">
+                  Войти
+                </button>
               </form>
-              <button onClick={() => setIsLogin(false)}>Go to Register</button>
-            </>
+
+              <p
+                onClick={() => setIsLogin(false)}
+                className={scss.registerLink}
+              >
+                Нет аккаунта? <span>Создать</span>
+              </p>
+            </div>
           ) : (
             <>
-              <h1>Регистрация</h1>
+              <h1 className={scss.h1}>Добро пожаловать!</h1>
+              <p className={scss.subtitle}>
+                Создайте аккаунт, чтобы начать пользоваться сервисом
+              </p>
+
               <form
                 className={scss.form}
                 onSubmit={handleSubmitSignUp(onRegister)}
@@ -96,18 +113,24 @@ const Auth: FC = () => {
                 <input
                   className={scss.inputs}
                   {...registerSignUp("password")}
+                  minLength={6}
                   type="password"
-                  placeholder="Password"
+                  placeholder="Пароль"
                 />
                 <input
                   className={scss.inputs}
                   {...registerSignUp("name")}
                   type="text"
-                  placeholder="Name"
+                  placeholder="Ваше имя"
                 />
-                <button type="submit">Register</button>
+                <button className={scss.button} type="submit">
+                  Зарегистрироваться
+                </button>
               </form>
-              <button onClick={() => setIsLogin(true)}>Go to Login</button>
+
+              <p className={scss.registerLink} onClick={() => setIsLogin(true)}>
+                Уже есть аккаунт? <span>Войти</span>
+              </p>
             </>
           )}
         </div>

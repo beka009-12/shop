@@ -1,7 +1,7 @@
 "use client";
 import { type FC, useState } from "react";
 import scss from "./Profile.module.scss";
-import { useGetMe, useLogout } from "@/api/user";
+import { Logaut, useGetMe } from "@/api/user";
 import toast from "react-hot-toast";
 import UpdateProfile from "./update/UpdateProfile";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ interface ProfileProps {
 
 const Profile: FC<ProfileProps> = ({ onClose }) => {
   const { data: user } = useGetMe();
-  const { mutateAsync: LogautMutation, reset: resetProfile } = useLogout();
+  const { mutateAsync: LogautMutation, reset: resetProfile } = Logaut();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const router = useRouter();
@@ -88,9 +88,7 @@ const Profile: FC<ProfileProps> = ({ onClose }) => {
                     <span className={scss.menuLabel}>Избранное</span>
                   </div>
                   <div className={scss.menuRight}>
-                    <span className={scss.menuCount}>
-                      {user?.user.favorites.length || 0}
-                    </span>
+                    <span className={scss.menuCount}>0</span>
                   </div>
                 </button>
 
@@ -103,9 +101,7 @@ const Profile: FC<ProfileProps> = ({ onClose }) => {
                     <span className={scss.menuLabel}>Корзина</span>
                   </div>
                   <div className={scss.menuRight}>
-                    <span className={scss.menuCount}>
-                      {user?.user.cart.length || 0}
-                    </span>
+                    <span className={scss.menuCount}>0</span>
                   </div>
                 </button>
 
@@ -118,9 +114,7 @@ const Profile: FC<ProfileProps> = ({ onClose }) => {
                     <span className={scss.menuLabel}>Мои заказы</span>
                   </div>
                   <div className={scss.menuRight}>
-                    <span className={scss.menuCount}>
-                      {user?.user.orders.length || 0}
-                    </span>
+                    <span className={scss.menuCount}>0</span>
                   </div>
                 </button>
               </div>

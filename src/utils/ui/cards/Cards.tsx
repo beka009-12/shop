@@ -5,21 +5,29 @@ import { useRouter } from "next/navigation";
 
 interface IBaseCard {
   id: number;
-  shopId: number;
-  category?: string;
-  brand?: string;
-  title?: string;
-  description?: string;
-  images?: string[];
-  sizes?: number[] | string[];
-  colors?: string[];
-  price?: number;
-  newPrice?: number;
-  sale?: boolean;
-  rating?: number;
-  reviews?: number;
-  tags?: string[];
-  createdAt?: string;
+  storeId: number;
+  categoryId: number;
+  brandName?: string | null;
+  title: string;
+  description: string;
+  images: string[];
+  price: number;
+  oldPrice?: number | null;
+  stockCount: number;
+  tags: string[];
+  isActive: boolean;
+  createdAt: string;
+  category?: {
+    id: number;
+    name: string;
+  };
+  store?: {
+    id: number;
+    name: string;
+    logo?: string | null;
+    isVerified: boolean;
+    rating?: number | null;
+  };
 }
 
 const Cards: FC<IBaseCard> = ({
@@ -28,8 +36,7 @@ const Cards: FC<IBaseCard> = ({
   description,
   images = [],
   price,
-  newPrice,
-  sale,
+  oldPrice,
 }) => {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -81,9 +88,9 @@ const Cards: FC<IBaseCard> = ({
         {description && <p>{description}</p>}
         {price !== undefined && (
           <p className={scss.price}>
-            {newPrice ? (
+            {oldPrice ? (
               <>
-                <span className={scss.newPrice}>{newPrice} сом</span>
+                <span className={scss.oldPrice}>{oldPrice} сом</span>
                 <span className={scss.oldPrice}>{price} сом</span>
               </>
             ) : (

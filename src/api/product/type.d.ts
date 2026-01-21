@@ -1,3 +1,5 @@
+// types/product.types.ts
+
 interface Category {
   id: number;
   name: string;
@@ -8,60 +10,46 @@ interface Category {
   updatedAt: string;
 }
 
-interface Brand {
+interface Store {
   id: number;
   name: string;
-  logoUrl?: string;
-  createdAt: string;
-  updatedAt: string;
+  logo?: string | null;
+  isVerified: boolean;
+  rating?: number | null;
 }
 
 interface IProduct {
   id: number;
-  shopId: number;
-  categoryId?: number;
-  brandId?: number;
-  title?: string;
-  description?: string;
-  images?: string[];
-  sizes?: number[] | string[];
-  colors?: string[];
-  price?: number;
-  newPrice?: number;
-  sale?: boolean;
-  rating?: number;
-  reviews?: number;
-  store: {
-    id: number;
-    name: string;
-    logo?: string;
-  };
-  category?: Category;
-  brand?: Brand;
-  favorites?: { userId: number }[];
-  tags?: string[];
-  stockCount?: number;
-  createdAt?: string;
-
-  isArchived?: boolean;
+  storeId: number;
+  categoryId: number;
+  brandName?: string | null;
+  title: string;
+  description: string;
+  images: string[];
+  price: number;
+  oldPrice?: number | null;
+  stockCount: number;
+  tags: string[];
+  isActive: boolean;
   archivedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  category: Category;
+  store?: Store; // ✅ Добавили store
 }
 
 namespace ProductAPI {
-  type useGetProductForUserRes = IProduct[];
+  type useGetProductForUserRes = {
+    products: IProduct[];
+    pagination: {
+      total: number;
+      page: number;
+      limit: number;
+      totalPages: number;
+    };
+  };
   type useGetProductForUserReq = void;
 
-  type useGetProductByIdRes = IProduct;
+  type useGetProductByIdRes = IProduct; // ✅ Просто продукт, не обёрнутый
   type useGetProductByIdReq = { id: number };
-
-  type useGetBrandByIdRes = {
-    id: number;
-    name: string;
-    logoUrl?: string;
-    createdAt: string;
-    updatedAt: string;
-  };
-  type useGetBrandByIdReq = {
-    id: number;
-  };
 }

@@ -4,10 +4,8 @@ import { useParams } from "next/navigation";
 import { useGetProductById } from "@/api/product";
 import scss from "./Detail.module.scss";
 import Loader from "@/utils/loader/Loader";
-import { Btn, CartBtn } from "@/utils/ui/GlobalBtn/Btn";
+import { CartBtn } from "@/utils/ui/GlobalBtn/Btn";
 import { useGetMe } from "@/api/user";
-import { Package, Store, Tag, Calendar } from "lucide-react";
-import { span } from "framer-motion/client";
 
 const Detail: FC = () => {
   const { id } = useParams();
@@ -31,8 +29,6 @@ const Detail: FC = () => {
         ((product.oldPrice! - product.price) / product.oldPrice!) * 100,
       )
     : 0;
-
-  // ... imports и начало компонента остаются без изменений
 
   return (
     <section className={scss.detail}>
@@ -95,18 +91,20 @@ const Detail: FC = () => {
             {product.brandName && (
               <div className={scss.keyRow}>
                 <span className={scss.keyLabel}>Бренд</span>
-                <span className={scss.keyValue}>{product.brandName}</span>
+                <span className={scss.keyValue}>
+                  {product.brandName || "Не указан"}
+                </span>
               </div>
             )}
 
             <div className={scss.keyRow}>
               <span className={scss.keyLabel}>Категория</span>
-              <span className={scss.keyValue}>{product.category.name}</span>
+              <span className={scss.keyValue}>{product.category.name} </span>
             </div>
 
             <div className={scss.keyRow}>
               <span className={scss.keyLabel}>Артикул</span>
-              <span className={scss.keyValue}>{Date.now() || "—"}</span>
+              <span className={scss.keyValue}>{!Date.now() || "—"}</span>
             </div>
 
             <div className={scss.keyRow}>
@@ -115,7 +113,7 @@ const Detail: FC = () => {
                 className={`${scss.keyValue} ${product.stockCount > 0 ? scss.inStock : scss.outOfStock}`}
               >
                 {product.stockCount > 0
-                  ? `В наличии: ${product.stockCount} шт`
+                  ? `${product.stockCount} шт`
                   : "Нет в наличии"}
               </span>
             </div>
@@ -145,31 +143,36 @@ const Detail: FC = () => {
           </div>
 
           {/* Информация о продавце — в карточке */}
-          {product.store && (
-            <div className={scss.sellerCard}>
-              <div className={scss.sellerHeader}>
-                <Store size={18} />
-                <span>Магазин</span>
+          <div className={scss.description}>
+            <h3>Информация магазина</h3>
+            {product.store && (
+              <div className={scss.sellerCard}>
+                <div className={scss.header}>
+                  {product.store.logo ? (
+                    <img src={product.store.logo!} alt={product.store.name} />
+                  ) : (
+                    ""
+                  )}
+                  <span className={scss.storeName}>
+                    {!product.store.name || "Nest Shop"}
+                  </span>
+                </div>
+                <div className={scss.sellerStats}>
+                  {product.store.isVerified && (
+                    <span className={scss.verified}>✓ Проверен</span>
+                  )}
+                  {product.store.rating && (
+                    <span className={scss.rating}>
+                      ★ {product.store.rating}
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className={scss.sellerName}>
-                <strong>Название магазина:</strong> {product.store.name || "Магазин"}
-              </div>
-              <div className={scss.sellerStats}>
-                {product.store.isVerified && (
-                  <span className={scss.verified}>✓ Проверен</span>
-                )}
-                {product.store.rating && (
-                  <span className={scss.rating}>★ {product.store.rating}</span>
-                )}
-              </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          {/* Кнопки — делаем крупнее и добавляем вторую опцию */}
           <div className={scss.actions}>
             <CartBtn title="Добавить в корзину" />
-            {/* Можно добавить позже: */}
-            {/* <Btn title="Купить сразу" variant="accent" /> */}
           </div>
         </div>
       </div>

@@ -9,7 +9,9 @@
   flex-direction: column;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 4px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 
   &:hover {
     transform: translateY(-1px);
@@ -51,7 +53,9 @@
       font-size: 0.85rem;
       font-weight: 600;
       opacity: 0;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
       cursor: pointer;
       &:active {
         background: #ebebebef;

@@ -1,7 +1,8 @@
-import React from "react";
+import OrderPage from "@/components/pages/OrderPage";
+import { type FC } from "react";
 
-const page = () => {
-  return <div>shops</div>;
+const page: FC = () => {
+  return <OrderPage />;
 };
 
 export default page;

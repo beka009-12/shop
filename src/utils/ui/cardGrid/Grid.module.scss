@@ -2,7 +2,6 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1.1rem;
-  padding-inline: 15px;
   justify-content: center;
 
   @media (max-width: 1400px) {

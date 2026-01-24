@@ -1,3 +1,9 @@
 .Welcome {
   padding-block: 70px;
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
 }

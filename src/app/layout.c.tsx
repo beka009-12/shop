@@ -11,7 +11,7 @@ const LayoutClient: FC<ILay> = ({ children }) => {
   return (
     <Provider>
       <Suspense>{children}</Suspense>
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="bottom-left" reverseOrder={false} />
     </Provider>
   );
 };

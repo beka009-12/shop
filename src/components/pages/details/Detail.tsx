@@ -6,14 +6,16 @@ import scss from "./Detail.module.scss";
 import Loader from "@/utils/loader/Loader";
 import { CartBtn } from "@/utils/ui/GlobalBtn/Btn";
 import { useGetMe } from "@/api/user";
+import { useOrderCreate } from "@/api/order";
+import toast from "react-hot-toast";
 
 const Detail: FC = () => {
   const { id } = useParams();
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   const { data: product, isPending } = useGetProductById(Number(id));
   const { data: me } = useGetMe();
-
-  const [activeImage, setActiveImage] = useState<string | null>(null);
+  const { mutateAsync: createOrder } = useOrderCreate();
 
   useEffect(() => {
     if (!product || !me) return;
@@ -29,6 +31,33 @@ const Detail: FC = () => {
         ((product.oldPrice! - product.price) / product.oldPrice!) * 100,
       )
     : 0;
+
+  const handleAddToCart = async () => {
+    try {
+      await createOrder({
+        userId: me?.user.id!,
+        items: [
+          {
+            productId: product.id,
+            quantity: 1,
+          },
+        ],
+        deliveryName: me?.user.name || "Покупатель",
+        deliveryPhone: me?.user.phone || "Не указан",
+        deliveryAddress: "Не указан",
+      });
+
+      toast.success("Товар успешно добавлен в корзину");
+    } catch (err: any) {
+      if (err?.response?.status === 409) {
+        toast.error("Товар уже добавлен в корзину");
+        return;
+      }
+
+      console.error(err);
+      toast.error("Ошибка при добавлении товара в корзину");
+    }
+  };
 
   return (
     <section className={scss.detail}>
@@ -172,7 +201,7 @@ const Detail: FC = () => {
           </div>
 
           <div className={scss.actions}>
-            <CartBtn title="Добавить в корзину" />
+            <CartBtn title="Добавить в корзину" onClick={handleAddToCart} />
           </div>
         </div>
       </div>

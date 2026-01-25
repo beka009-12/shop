@@ -1,21 +1,23 @@
 "use client";
 import { useState, useEffect, type FC } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useGetProductById } from "@/api/product";
 import scss from "./Detail.module.scss";
 import Loader from "@/utils/loader/Loader";
 import { CartBtn } from "@/utils/ui/GlobalBtn/Btn";
 import { useGetMe } from "@/api/user";
-import { useOrderCreate } from "@/api/order";
+import { useGetOrders, useOrderCreate } from "@/api/order";
 import toast from "react-hot-toast";
 
 const Detail: FC = () => {
   const { id } = useParams();
   const [activeImage, setActiveImage] = useState<string | null>(null);
+  const router = useRouter();
 
   const { data: product, isPending } = useGetProductById(Number(id));
   const { data: me } = useGetMe();
   const { mutateAsync: createOrder } = useOrderCreate();
+  const { data: order } = useGetOrders(me?.user.id!);
 
   useEffect(() => {
     if (!product || !me) return;
@@ -201,7 +203,18 @@ const Detail: FC = () => {
           </div>
 
           <div className={scss.actions}>
-            <CartBtn title="Добавить в корзину" onClick={handleAddToCart} />
+            {order?.some((item) => item.product.id === product.id) ? (
+              <button
+                className={scss.addedBtn}
+                onClick={() => router.push("/cart")}
+              >
+                Добавлено в корзину
+              </button>
+            ) : (
+              <button className={scss.addBtn} onClick={() => handleAddToCart()}>
+                Добавить в корзину
+              </button>
+            )}
           </div>
         </div>
       </div>

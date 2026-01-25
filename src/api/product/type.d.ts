@@ -52,4 +52,7 @@ namespace ProductAPI {
 
   type useGetProductByIdRes = IProduct; // ✅ Просто продукт, не обёрнутый
   type useGetProductByIdReq = { id: number };
+
+  type useGetSimilarProductsRes = IProduct[];
+  type useGetSimilarProductsReq = { categoryId: number };
 }

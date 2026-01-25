@@ -18,10 +18,23 @@ const useGetProductById = (id: number) => {
     queryKey: ["productById", id],
     queryFn: async () => {
       const response = await api.get(`/commodity/product-for-user/${id}`); // ✅ Изменили эндпоинт
-      return response.data.product; // ✅ Вернули product из ответа
+      return response.data.product;
     },
     enabled: !!id,
   });
 };
 
-export { useGetProduct, useGetProductById };
+const useGetSimilarProducts = (categoryId: number) => {
+  return useQuery<ProductAPI.useGetSimilarProductsRes, Error>({
+    queryKey: ["similarProducts", categoryId],
+    queryFn: async () => {
+      const response = await api.get(
+        `/commodity/similar-products/${categoryId}`,
+      );
+      return response.data;
+    },
+    enabled: !!categoryId,
+  });
+};
+
+export { useGetProduct, useGetProductById, useGetSimilarProducts };

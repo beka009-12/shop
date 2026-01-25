@@ -1,14 +1,15 @@
+interface OrderItem {
+  productId: number;
+  quantity?: number;
+  price?: number;
+}
 namespace ORDER {
   type CreateOrderRes = {
     id: number;
     userId: number;
     total: number;
     status: "PENDING" | "PAID" | "SHIPPED" | "COMPLETED" | "CANCELED";
-    items: {
-      productId: number;
-      quantity?: number;
-      price: number;
-    }[];
+    items: OrderItem[];
     deliveryName: string;
     deliveryPhone: string;
     deliveryAddress: string;
@@ -18,10 +19,7 @@ namespace ORDER {
 
   type CreateOrderReq = {
     userId: number;
-    items: {
-      productId: number;
-      quantity?: number;
-    }[];
+    items: OrderItem[];
     deliveryName: string;
     deliveryPhone: string;
     deliveryAddress: string;
@@ -48,5 +46,14 @@ namespace ORDER {
 
   type DeleteAllOrderReq = {
     userId: number;
+  };
+
+  type DeleteByIdReq = {
+    productId: number;
+  };
+
+  type DeleteByIdRes = {
+    message: string;
+    deletedCount: number;
   };
 }

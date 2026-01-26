@@ -1,9 +1,154 @@
 .Welcome {
   padding-block: 70px;
+
   .content {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    align-items: center;
+    justify-content: center;
+
+    .filters {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      gap: 10px;
+
+      .form {
+        --input-text-color: #000000;
+        --focus-input-bg-color: transparent;
+        --text-color: #949faa;
+        --active-color: #fb4517;
+        --width-of-input: 400px;
+        --inline-padding-of-input: 1.2em;
+        --gap: 0.9rem;
+      }
+      .form {
+        font-size: 0.9rem;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        width: var(--width-of-input);
+        position: relative;
+        isolation: isolate;
+      }
+      .fancy_bg {
+        position: absolute;
+        width: 100%;
+        inset: 0;
+        background: var(--input-bg-color);
+        border-radius: 30px;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      }
+      label {
+        width: 100%;
+        padding: 0.8em;
+        height: 40px;
+        padding-inline: var(--inline-padding-of-input);
+        display: flex;
+        align-items: center;
+      }
+
+      .search,
+      .close_btn {
+        position: absolute;
+      }
+      .search {
+        left: var(--inline-padding-of-input);
+      }
+      svg {
+        width: 17px;
+        display: block;
+      }
+      .close_btn {
+        border: none;
+        right: var(--inline-padding-of-input);
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        padding: 0.1em;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        opacity: 0;
+        background: #e9e9e970;
+        visibility: hidden;
+      }
+      .input {
+        width: 100%;
+        margin-inline: min(
+          2em,
+          calc(var(--inline-padding-of-input) + var(--gap))
+        );
+        background: none;
+        border: none;
+      }
+
+      .input:focus {
+        outline: none;
+      }
+
+      .input::placeholder {
+        color: var(--text-color);
+      }
+      .input:focus ~ .fancy_bg {
+        border: 1px solid var(--active-color);
+        background: var(--focus-input-bg-color);
+      }
+      .input:focus ~ .search {
+        fill: var(--active-color);
+      }
+      .input:valid ~ .close_btn {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .tabs {
+        position: relative;
+        display: flex;
+        border-bottom: 1px solid #e8e8e8;
+
+        .tab {
+          width: 200px;
+          padding: 14px 24px;
+          font-size: 15px;
+          color: #555;
+          background: none;
+          border: none;
+          cursor: pointer;
+          transition: 0.8s ease;
+
+          &:hover {
+            color: #111;
+          }
+
+          &.active {
+            color: #000;
+            font-weight: 600;
+            transition: 0.8s ease;
+          }
+        }
+
+        .underline {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 3px;
+          width: 0;
+          background: #000;
+          border-radius: 2px;
+
+          /* GPU-ускорение */
+          transition:
+            transform 0.35s ease,
+            width 0.35s ease;
+          will-change: transform, width;
+        }
+      }
+    }
   }
 }

@@ -59,7 +59,6 @@ const Grid: FC<GridProps> = ({ products, isLoading = false }) => {
     );
   }
 
-  // 3️⃣ Есть товары
   return (
     <div className={scss.Grid}>
       {products.map((card) => (

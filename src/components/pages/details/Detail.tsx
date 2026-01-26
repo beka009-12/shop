@@ -1,27 +1,23 @@
 "use client";
-import { useState, useEffect, type FC } from "react";
+import { useState, type FC } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useGetProductById } from "@/api/product";
 import scss from "./Detail.module.scss";
 import Loader from "@/utils/loader/Loader";
-import { CartBtn } from "@/utils/ui/GlobalBtn/Btn";
 import { useGetMe } from "@/api/user";
-import { useGetOrders, useOrderCreate } from "@/api/order";
-import toast from "react-hot-toast";
+import { useGetOrders } from "@/api/order";
+import { useCartAddAction } from "@/hooks/useCartActions";
 
 const Detail: FC = () => {
   const { id } = useParams();
-  const [activeImage, setActiveImage] = useState<string | null>(null);
   const router = useRouter();
+
+  const { addToCart } = useCartAddAction();
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   const { data: product, isPending } = useGetProductById(Number(id));
   const { data: me } = useGetMe();
-  const { mutateAsync: createOrder } = useOrderCreate();
   const { data: order } = useGetOrders(me?.user.id!);
-
-  useEffect(() => {
-    if (!product || !me) return;
-  }, [product, me]);
 
   if (isPending) return <Loader />;
   if (!product) return <div className={scss.notFound}>Продукт не найден</div>;
@@ -34,35 +30,27 @@ const Detail: FC = () => {
       )
     : 0;
 
-  const handleAddToCart = async () => {
-    try {
-      await createOrder({
-        userId: me?.user.id!,
-        items: [
-          {
-            productId: product.id,
-            quantity: 1,
-          },
-        ],
-        deliveryName: me?.user.name || "Покупатель",
-        deliveryPhone: me?.user.phone || "Не указан",
-        deliveryAddress: "Не указан",
-      });
-
-      toast.success("Товар успешно добавлен в корзину");
-    } catch (err: any) {
-      if (err?.response?.status === 409) {
-        toast.error("Товар уже добавлен в корзину");
-        return;
-      }
-
-      console.error(err);
-      toast.error("Ошибка при добавлении товара в корзину");
-    }
-  };
+  const isInCart = order?.some((item) => item.product.id === product.id);
 
   return (
     <section className={scss.detail}>
+      <button onClick={() => router.back()} className={scss.btnBack}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className={scss.backIcon}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+          />
+        </svg>
+        Назад
+      </button>
       <div className={scss.container}>
         <div className={scss.gallery}>
           <div className={scss.thumbnails}>
@@ -203,15 +191,18 @@ const Detail: FC = () => {
           </div>
 
           <div className={scss.actions}>
-            {order?.some((item) => item.product.id === product.id) ? (
+            {isInCart ? (
               <button
                 className={scss.addedBtn}
                 onClick={() => router.push("/cart")}
               >
-                Добавлено в корзину
+                Посмотреть в корзине
               </button>
             ) : (
-              <button className={scss.addBtn} onClick={() => handleAddToCart()}>
+              <button
+                className={scss.addBtn}
+                onClick={() => addToCart(product.id)}
+              >
                 Добавить в корзину
               </button>
             )}

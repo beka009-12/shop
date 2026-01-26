@@ -102,16 +102,15 @@
       font-size: 14px;
       font-weight: 700;
       color: #111827;
+      .defaultPrice {
+        color: #fb4517;
+        font-weight: 700;
+        margin-right: 0.5rem;
+      }
 
       .oldPrice {
         text-decoration: line-through;
         color: #999;
-      }
-
-      .newPrice {
-        color: #fb4517;
-        font-weight: 700;
-        margin-right: 0.5rem;
       }
 
       .defaultPrice {

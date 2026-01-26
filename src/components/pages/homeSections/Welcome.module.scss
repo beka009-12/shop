@@ -48,6 +48,7 @@
         height: 40px;
         padding-inline: var(--inline-padding-of-input);
         display: flex;
+        font-size: 20px;
         align-items: center;
       }
 
@@ -86,6 +87,7 @@
         );
         background: none;
         border: none;
+        font-size: 16px;
       }
 
       .input:focus {

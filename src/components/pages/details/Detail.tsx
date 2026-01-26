@@ -24,11 +24,10 @@ const Detail: FC = () => {
 
   const mainImage = activeImage || product.images?.[0];
   const hasDiscount = product.oldPrice && product.oldPrice > product.price;
-  const discountPercent = hasDiscount
-    ? Math.round(
-        ((product.oldPrice! - product.price) / product.oldPrice!) * 100,
-      )
-    : 0;
+  const discountPercent =
+    product.oldPrice && product.oldPrice > product.price
+      ? Math.ceil(((product.oldPrice - product.price) / product.oldPrice) * 100)
+      : 0;
 
   const isInCart = order?.some((item) => item.product.id === product.id);
 
@@ -96,9 +95,6 @@ const Detail: FC = () => {
                 <>
                   <span className={scss.oldPrice}>
                     {Number(product.oldPrice).toLocaleString()} сом
-                  </span>
-                  <span className={scss.discountPercent}>
-                    -{discountPercent}%
                   </span>
                 </>
               )}

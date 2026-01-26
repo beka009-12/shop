@@ -88,8 +88,8 @@ const Cards: FC<IBaseCard> = ({
           <p className={scss.price}>
             {oldPrice ? (
               <>
-                <span className={scss.oldPrice}>{oldPrice} сом</span>
                 <span className={scss.defaultPrice}>{price} сом</span>
+                <span className={scss.oldPrice}>{oldPrice} сом</span>
               </>
             ) : (
               <span className={scss.defaultPrice}>{price} сом</span>

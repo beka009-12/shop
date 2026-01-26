@@ -2,7 +2,9 @@ import { useCallback } from "react";
 import { useOrderCreate } from "@/api/order";
 import { useGetMe } from "@/api/user";
 import toast from "react-hot-toast";
+import { useAddFavorite } from "@/api/favorite";
 
+// ! TODO: add to cart
 export const useCartAddAction = () => {
   const { data: me } = useGetMe();
   const { mutateAsync: createOrder } = useOrderCreate();
@@ -44,5 +46,41 @@ export const useCartAddAction = () => {
 
   return {
     addToCart: handleAddToCart,
+  };
+};
+
+// ! TODO : delete from cart
+export const useFavoriteFun = () => {
+  const { data: me } = useGetMe();
+  const { mutateAsync: addFavorite } = useAddFavorite();
+
+  const handleAddFavorite = useCallback(
+    async (productId: number) => {
+      if (!me?.user?.id) {
+        toast.error("Вы не авторизованы");
+        return;
+      }
+
+      try {
+        await addFavorite({
+          userId: me.user.id,
+          productId,
+        });
+
+        if (!me?.user?.id) {
+          toast.error("Вы не авторизованы");
+          return;
+        }
+
+        toast.success("Товар успешно добавлен в избранное");
+      } catch (error) {
+        console.log(error);
+        toast.error("Ошибка при добавлении товара в избранное");
+      }
+    },
+    [me?.user, addFavorite],
+  );
+  return {
+    addToFavorite: handleAddFavorite,
   };
 };

@@ -19,8 +19,6 @@ const Order: FC = () => {
 
   const [cartItems, setCartItems] = useState(cartData || []);
 
-  console.log(cartItems);
-
   useEffect(() => {
     if (cartData) setCartItems(cartData);
   }, [cartData]);

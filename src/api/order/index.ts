@@ -19,7 +19,6 @@ const useOrderCreate = () => {
 };
 
 const useGetOrders = (userId: number) => {
-  const queryClient = useQueryClient();
   return useQuery<ORDER.CartItemRes[], Error>({
     queryKey: ["cart", userId],
     queryFn: async () => {

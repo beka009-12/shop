@@ -1,0 +1,22 @@
+.Favorite {
+  padding: 2rem 0;
+
+  .title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .loader,
+  .empty {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 2rem 0;
+  }
+}

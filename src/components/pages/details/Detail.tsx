@@ -30,7 +30,9 @@ const Detail: FC = () => {
   const hasDiscount = product.oldPrice && product.oldPrice > product.price;
   const discountPercent =
     product.oldPrice && product.oldPrice > product.price
-      ? Math.ceil(((product.oldPrice - product.price) / product.oldPrice) * 100)
+      ? Math.round(
+          ((product.oldPrice - product.price) / product.oldPrice) * 100,
+        )
       : 0;
 
   const isInCart = order?.some((item) => item.product.id === product.id);

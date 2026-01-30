@@ -39,6 +39,18 @@ interface IProduct {
 }
 
 namespace ProductAPI {
+  type useGetProductForUserReq = {
+    page?: number;
+    limit?: number;
+    categoryId?: number;
+    brandName?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    search?: string;
+    sort?: string;
+    order?: "asc" | "desc";
+  };
+
   type useGetProductForUserRes = {
     products: IProduct[];
     pagination: {
@@ -48,7 +60,6 @@ namespace ProductAPI {
       totalPages: number;
     };
   };
-  type useGetProductForUserReq = void;
 
   type useGetProductByIdRes = IProduct; // ✅ Просто продукт, не обёрнутый
   type useGetProductByIdReq = { id: number };

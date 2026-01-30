@@ -1,23 +1,28 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "..";
 
 const useAddFavorite = () => {
+  const queryClient = useQueryClient();
   return useMutation<FavoriteAPI.FavoriteRes, Error, FavoriteAPI.FavoriteReq>({
     mutationFn: async (data) => {
       const response = await api.post("/favorite/favorite-add", data);
       return response.data;
     },
-  });
-};
-
-const useGetFavorites = () => {
-  return useQuery<FavoriteAPI.getFavoritesRes, Error>({
-    queryKey: ["favorites"],
-    queryFn: async () => {
-      const response = await api.get("/favorite/get-favorite");
-      return response.data;
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["favorites"] });
     },
   });
 };
 
-export { useAddFavorite };
+const useGetFavorites = (userId: number) => {
+  return useQuery<FavoriteAPI.GetFavoritesRes, Error>({
+    queryKey: ["favorites", userId],
+    queryFn: async () => {
+      const response = await api.get(`/favorite/favorite/${userId}`);
+      return response.data;
+    },
+    enabled: !!userId,
+  });
+};
+
+export { useAddFavorite, useGetFavorites };

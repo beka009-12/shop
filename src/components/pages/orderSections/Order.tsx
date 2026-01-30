@@ -2,11 +2,12 @@
 import { type FC, useState, useEffect } from "react";
 import scss from "./Order.module.scss";
 import { CartBtn } from "@/utils/ui/GlobalBtn/Btn";
-import { useDeleteAllOrder, useDeleteById, useGetOrders } from "@/api/order";
+import { useDeleteById, useGetOrders } from "@/api/order";
 import { useGetMe } from "@/api/user";
 import toast from "react-hot-toast";
 import NotFound from "../../../../public/notFound.png";
 import { useRouter } from "next/navigation";
+import { useCartDeleteAction } from "@/hooks/useCartActions";
 
 const Order: FC = () => {
   const { data: getMe } = useGetMe();
@@ -14,8 +15,11 @@ const Order: FC = () => {
   const router = useRouter();
 
   const { data: cartData, isLoading } = useGetOrders(userId!);
-  const { mutateAsync: deleteAllOrderAsync, isPending } = useDeleteAllOrder();
   const { mutateAsync: deleteByIdAsync } = useDeleteById();
+
+  // ? HOOKS
+  const { deleteAllFromCart } = useCartDeleteAction();
+  // ? HOOKS
 
   const [cartItems, setCartItems] = useState(cartData || []);
 
@@ -29,23 +33,6 @@ const Order: FC = () => {
     (acc, item) => acc + Number(item.product.price) * item.quantity!,
     0,
   );
-
-  const handleDeleteAllOrder = async () => {
-    if (!userId) {
-      toast.error("Не найден userId");
-      return;
-    }
-    if (!cartItems.length) {
-      toast.error("Корзина пуста");
-      return;
-    }
-    try {
-      await deleteAllOrderAsync({ userId });
-      toast.success("Корзина очищена");
-    } catch (error) {
-      toast.error("Ошибка при очистке корзины");
-    }
-  };
 
   const deleteItemById = async (productId: number) => {
     try {
@@ -77,21 +64,14 @@ const Order: FC = () => {
     );
   };
 
-  const removeItem = (id: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
   return (
     <section className={scss.Order}>
       <div className="container">
         <div className={scss.content}>
           <div className={scss.header}>
             <h2 className={scss.title}>Корзина</h2>
-            <button
-              className={scss.button}
-              onClick={() => handleDeleteAllOrder()}
-            >
-              {isPending ? "Удаление..." : "Очистить корзину"}
+            <button className={scss.button} onClick={() => deleteAllFromCart()}>
+              Удалить все
             </button>
           </div>
 
@@ -160,7 +140,7 @@ const Order: FC = () => {
 
               <div className={scss.summary}>
                 <div className={scss.total}>
-                  Итого: <span>{total.toLocaleString()} ₽</span>
+                  Итого: <span>{total.toLocaleString()}</span>
                 </div>
                 <CartBtn title="Оформить заказ" />
               </div>

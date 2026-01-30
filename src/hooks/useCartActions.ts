@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useOrderCreate } from "@/api/order";
+import { useDeleteAllOrder, useGetOrders, useOrderCreate } from "@/api/order";
 import { useGetMe } from "@/api/user";
 import toast from "react-hot-toast";
 import { useAddFavorite } from "@/api/favorite";
@@ -10,38 +10,39 @@ export const useCartAddAction = () => {
   const { mutateAsync: createOrder } = useOrderCreate();
 
   const handleAddToCart = useCallback(
-    async (productId: number) => {
+    (productId: number) => {
       if (!me?.user?.id) {
         toast.error("Вы не авторизованы");
         return;
       }
 
-      try {
-        await createOrder({
-          userId: me.user.id,
-          items: [
-            {
-              productId,
-              quantity: 1,
-            },
-          ],
-          deliveryName: me.user.name || "Покупатель",
-          deliveryPhone: me.user.phone || "Не указан",
-          deliveryAddress: "Не указан",
-        });
+      const promise = createOrder({
+        userId: me.user.id,
+        items: [
+          {
+            productId,
+            quantity: 1,
+          },
+        ],
+        deliveryName: me.user.name || "Покупатель",
+        deliveryPhone: me.user.phone || "Не указан",
+        deliveryAddress: "Не указан",
+      });
 
-        toast.success("Товар успешно добавлен в корзину");
-      } catch (err: any) {
-        if (err?.response?.status === 409) {
-          toast.error("Товар уже добавлен в корзину");
-          return;
-        }
+      toast.promise(promise, {
+        loading: "Добавляем в корзину...",
+        success: "Товар добавлен в корзину 🛒",
+        error: (err: any) => {
+          if (err?.response?.status === 409) {
+            return "Товар уже в корзине";
+          }
+          return "Ошибка при добавлении товара в корзину";
+        },
+      });
 
-        console.error(err);
-        toast.error("Ошибка при добавлении товара в корзину");
-      }
+      return promise;
     },
-    [createOrder, me?.user],
+    [createOrder, me?.user?.id],
   );
 
   return {
@@ -49,37 +50,72 @@ export const useCartAddAction = () => {
   };
 };
 
-// ! TODO : delete from cart
+// ! TODO: delete from cart
+export const useCartDeleteAction = () => {
+  const { data: me } = useGetMe();
+  const { mutateAsync: deleteAllOrder } = useDeleteAllOrder();
+  const { data: orders } = useGetOrders(me?.user?.id!); // получаем корзину
+
+  const handleDeleteFromCart = useCallback(() => {
+    if (!me?.user?.id) {
+      toast.error("Вы не авторизованы");
+      return;
+    }
+
+    if (!orders || orders.length === 0) {
+      toast("Корзина уже пуста ⚠️");
+      return;
+    }
+
+    const promise = deleteAllOrder({ userId: me.user.id });
+
+    toast.promise(promise, {
+      loading: "Удаление...",
+      success: "Корзина очищена 🛒",
+      error: "Ошибка при очистке корзины",
+    });
+
+    return promise;
+  }, [deleteAllOrder, me?.user?.id, orders]);
+
+  return {
+    deleteAllFromCart: handleDeleteFromCart,
+  };
+};
+
+//  TODO : add to favoritet
 export const useFavoriteFun = () => {
   const { data: me } = useGetMe();
   const { mutateAsync: addFavorite } = useAddFavorite();
 
   const handleAddFavorite = useCallback(
-    async (productId: number) => {
+    (productId: number) => {
       if (!me?.user?.id) {
         toast.error("Вы не авторизованы");
         return;
       }
 
-      try {
-        await addFavorite({
-          userId: me.user.id,
-          productId,
-        });
+      const promise = addFavorite({
+        userId: me.user.id,
+        productId,
+      });
 
-        if (!me?.user?.id) {
-          toast.error("Вы не авторизованы");
-          return;
-        }
+      toast.promise(promise, {
+        loading: "Добавляем в избранное...",
+        success: "Товар добавлен в избранное ❤️",
+        error: (error: number | any) => {
+          if (error?.response?.status === 409) {
+            return "Товар уже в избранном";
+          }
+          return "Ошибка при добавлении в избранное";
+        },
+      });
 
-        toast.success("Товар успешно добавлен в избранное");
-      } catch (error) {
-        console.log(error);
-        toast.error("Ошибка при добавлении товара в избранное");
-      }
+      return promise;
     },
-    [me?.user, addFavorite],
+    [me?.user?.id, addFavorite],
   );
+
   return {
     addToFavorite: handleAddFavorite,
   };

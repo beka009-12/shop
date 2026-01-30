@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "..";
 
-// Получить все продукты для пользователей (публичный эндпоинт)
-const useGetProduct = () => {
+const useGetProduct = (params?: ProductAPI.useGetProductForUserReq) => {
   return useQuery<ProductAPI.useGetProductForUserRes, Error>({
-    queryKey: ["products"],
+    queryKey: ["products", params],
     queryFn: async () => {
-      const response = await api.get("/commodity/products-for-user"); // ✅ Изменили эндпоинт
+      const response = await api.get("/commodity/products-for-user", {
+        params,
+      });
       return response.data;
     },
+    placeholderData: (previousData) => previousData,
   });
 };
 

@@ -8,6 +8,7 @@ import { links } from "@/utils/constant/Link";
 import Profile from "@/components/profile/Profile";
 import { Btn } from "@/utils/ui/GlobalBtn/Btn";
 import { useGetOrders } from "@/api/order";
+import { useGetFavorites } from "@/api/favorite";
 
 const Header: FC = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const Header: FC = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { data: cartItems } = useGetOrders(getMe?.user.id || 0);
+  const { data: favorite } = useGetFavorites(getMe?.user.id || 0);
 
   const isAuthenticated = !!getMe?.user?.id || !!getMe?.user?.email || !!getMe;
 
@@ -113,7 +115,9 @@ const Header: FC = () => {
                         d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
                       />
                     </svg>
-                    <span className={scss.cartCount}>0</span>
+                    <span className={scss.cartCount}>
+                      {favorite?.favorites.length || 0}
+                    </span>
                   </div>
                 </>
               ) : (

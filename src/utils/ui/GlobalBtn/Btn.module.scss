@@ -1,22 +1,20 @@
 .btn {
   padding: 0.5rem 1.25rem;
-  border-radius: 99px;
+  border-radius: 5px;
   cursor: pointer;
-  border: 3px solid #fb4517;
-  color: #000000;
+  border: 3px solid #000000;
+  color: #ffffff;
   font-weight: 500;
   font-size: clamp(14px, 2vw, 16px);
   transition: 0.2s ease;
 
   &:hover {
-    transform: scale(1.02);
-    background: #fb4517;
-    color: #ffffff;
+    background: #333333;
   }
 
   &:active {
     transform: translateY(2px);
-    box-shadow: 0 3px 10px rgba(178, 34, 34, 0.3);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   }
 
   // планшеты
@@ -43,23 +41,22 @@
 .cartBtn {
   flex: 1;
   min-width: 160px;
-  background: #fb4517;
+  background: #000000;
   color: #fff;
   font-weight: 600;
-  font-size: 16px;
-  padding: 14px 10px;
+  font-size: 15px;
+  padding: 10px 6px;
   border: none;
-  border-radius: 12px;
+  border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(251, 69, 23, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    transform: scale(1.01);
+    background: #333333;
   }
-
   &:active {
     transform: translateY(2px);
-    box-shadow: 0 3px 10px rgba(178, 34, 34, 0.3);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
   }
 }

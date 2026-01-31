@@ -8,13 +8,20 @@
   --gap: 0.9rem;
 }
 .form {
+  width: 100%;
   font-size: 0.9rem;
   display: flex;
   gap: 0.5rem;
   align-items: center;
   width: var(--width-of-input);
+  max-width: var(--max-width);
   position: relative;
   isolation: isolate;
+
+  @media (max-width: 1024px) {
+    max-width: 100%;
+    margin-top: 10px;
+  }
 }
 .fancy_bg {
   position: absolute;
@@ -66,10 +73,14 @@
 }
 .input {
   width: 100%;
-  margin-inline: min(2em, calc(var(--inline-padding-of-input) + var(--gap)));
+  margin-inline: calc(var(--inline-padding-of-input) + 1.5rem);
   background: none;
   border: none;
   font-size: 16px;
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
 }
 
 .input:focus {

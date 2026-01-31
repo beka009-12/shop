@@ -1,5 +1,5 @@
 "use client";
-import { type FC, useState, useEffect } from "react";
+import React, { type FC, useState, useEffect } from "react";
 import scss from "./Order.module.scss";
 import { CartBtn } from "@/utils/ui/GlobalBtn/Btn";
 import { useDeleteById, useGetOrders } from "@/api/order";
@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import NotFound from "../../../../public/notFound.png";
 import { useRouter } from "next/navigation";
 import { useCartDeleteAction } from "@/hooks/useCartActions";
+import CheckoutModal from "./CheckoutModal";
 
 const Order: FC = () => {
   const { data: getMe } = useGetMe();
@@ -22,6 +23,7 @@ const Order: FC = () => {
   // ? HOOKS
 
   const [cartItems, setCartItems] = useState(cartData || []);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (cartData) setCartItems(cartData);
@@ -65,102 +67,109 @@ const Order: FC = () => {
   };
 
   return (
-    <section className={scss.Order}>
-      <div className="container">
-        <div className={scss.content}>
-          <div className={scss.header}>
-            <h2 className={scss.title}>Корзина</h2>
-            <button className={scss.button} onClick={() => deleteAllFromCart()}>
-              Удалить все
-            </button>
-          </div>
-
-          {cartItems.length > 0 ? (
-            <div className={scss.orderBox}>
-              <div className={scss.box}>
-                {cartItems.map((item) => (
-                  <div key={item.id} className={scss.orderCard}>
-                    <div className={scss.imageWrapper}>
-                      <img
-                        className={scss.image}
-                        src={item.product.images[0]}
-                        alt={item.product.title}
-                      />
-                    </div>
-
-                    <div className={scss.cardInfo}>
-                      <div className={scss.top}>
-                        <h3 className={scss.name}>{item.product.title}</h3>
-                        <div className={scss.price}>
-                          {(
-                            item.product.price * item.quantity!
-                          ).toLocaleString()}{" "}
-                          ₽
-                        </div>
-                      </div>
-
-                      <div className={scss.props}>
-                        {item.product.brandName && (
-                          <div className={scss.prop}>
-                            Бренд: <span>{item.product.brandName}</span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className={scss.actions}>
-                        <div className={scss.counter}>
-                          <button
-                            className={scss.btn}
-                            type="button"
-                            onClick={() => decrement(item.id)}
-                          >
-                            −
-                          </button>
-                          <span className={scss.count}>{item.quantity}</span>
-                          <button
-                            className={scss.btn}
-                            type="button"
-                            onClick={() => increment(item.id)}
-                          >
-                            +
-                          </button>
-                        </div>
-
-                        <button
-                          className={scss.remove}
-                          onClick={() => deleteItemById(item.product.id)}
-                        >
-                          Удалить
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className={scss.summary}>
-                <div className={scss.total}>
-                  Итого: <span>{total.toLocaleString()}</span>
-                </div>
-                <CartBtn title="Оформить заказ" />
-              </div>
-            </div>
-          ) : (
-            <div className={scss.notFound}>
-              <img src={NotFound?.src} alt="not found" />
-              <h2>Корзина пуста</h2>
-              <p>Добавьте товары в корзину</p>
+    <>
+      <section className={scss.Order}>
+        <div className="container">
+          <div className={scss.content}>
+            <div className={scss.header}>
+              <h2 className={scss.title}>Корзина</h2>
               <button
-                className={scss.btnNotFound}
-                onClick={() => router.push("/")}
+                className={scss.button}
+                onClick={() => deleteAllFromCart()}
               >
-                Перейти в главную
+                Удалить все
               </button>
             </div>
-          )}
+
+            {cartItems.length > 0 ? (
+              <div className={scss.orderBox}>
+                <div className={scss.box}>
+                  {cartItems.map((item) => (
+                    <div key={item.id} className={scss.orderCard}>
+                      <div className={scss.imageWrapper}>
+                        <img
+                          className={scss.image}
+                          src={item.product.images[0]}
+                          alt={item.product.title}
+                        />
+                      </div>
+
+                      <div className={scss.cardInfo}>
+                        <div className={scss.top}>
+                          <h3 className={scss.name}>{item.product.title}</h3>
+                          <div className={scss.price}>
+                            {item.product.price.toLocaleString()}
+                            сом
+                          </div>
+                        </div>
+
+                        <div className={scss.props}>
+                          {item.product.brandName && (
+                            <div className={scss.prop}>
+                              Бренд: <span>{item.product.brandName}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className={scss.actions}>
+                          <div className={scss.counter}>
+                            <button
+                              className={scss.btn}
+                              type="button"
+                              onClick={() => decrement(item.id)}
+                            >
+                              −
+                            </button>
+                            <span className={scss.count}>{item.quantity}</span>
+                            <button
+                              className={scss.btn}
+                              type="button"
+                              onClick={() => increment(item.id)}
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          <button
+                            className={scss.remove}
+                            onClick={() => deleteItemById(item.product.id)}
+                          >
+                            Удалить
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className={scss.summary}>
+                  <div className={scss.total}>
+                    Итого: <span>{total.toLocaleString()}</span>
+                  </div>
+                  <CartBtn
+                    title="Оформить заказ"
+                    onClick={() => setOpenModal(true)}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className={scss.notFound}>
+                <img src={NotFound?.src} alt="not found" />
+                <h2>Корзина пуста</h2>
+                <p>Добавьте товары в корзину</p>
+                <button
+                  className={scss.btnNotFound}
+                  onClick={() => router.push("/")}
+                >
+                  Перейти в главную
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <CheckoutModal isOpen={openModal} onClose={() => setOpenModal(false)} />
+    </>
   );
 };
 

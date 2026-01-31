@@ -1,23 +1,32 @@
+$accent-orange: #fb4a1e;
+$black: #000000;
+$white: #ffffff;
+$text-secondary: #6e6e73;
+$gray-border: rgba(0, 0, 0, 0.08);
+
 .Header {
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  padding-block: 20px;
+  padding-block: 15px; // Чуть компактнее — это стильнее
   z-index: 1000;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s ease;
+  background-color: rgba($white, 0.8);
+  backdrop-filter: blur(20px); // Эффект дорогого стекла
+  border-bottom: 1px solid $gray-border;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &.hidden {
     transform: translateY(-100%);
   }
 
   .content {
+    max-width: 1400px; // Ограничил ширину для больших мониторов
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 20px;
   }
 
   .logo {
@@ -25,117 +34,141 @@
     display: flex;
     flex-direction: column;
     user-select: none;
-    line-height: 16px;
 
     h1 {
-      font-size: 24px;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: $black;
+      margin: 0;
+
       span {
+        color: $accent-orange; // Только одна буква или часть лого
         font-weight: 900;
-        color: #fb4517;
       }
     }
+
     .online {
-      font-size: 14px;
-      color: #676161;
-      margin-top: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: $text-secondary;
+      margin-top: -2px;
     }
   }
 
   .navigation nav {
     display: flex;
-    gap: 35px;
+    gap: 40px;
 
     p {
       cursor: pointer;
-      text-decoration: none;
+      font-size: 15px;
       font-weight: 500;
-      transition: color 0.2s;
+      color: #3a3a3a;
+      transition: all 0.2s ease;
+      position: relative;
 
       &:hover {
-        color: #fb4517;
+        color: $black;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        width: 41px;
+        height: 2px;
+        background: $accent-orange;
+        opacity: 0;
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+      }
+
+      &:hover::after {
+        opacity: 1;
+        transform: translateX(-50%) scaleX(0.8);
+      }
+
+      &.active {
+        color: $accent-orange;
+
+        &::after {
+          opacity: 1;
+          transform: translateX(-50%) scaleX(1);
+        }
       }
     }
-  }
-
-  .authLinks {
-    display: flex;
-    align-items: center;
-    gap: 10px;
   }
 
   .cart {
     display: flex;
     align-items: center;
-    gap: 30px;
-    position: relative;
+    gap: 20px;
 
     .cartLink {
       position: relative;
       cursor: pointer;
-      width: 32px;
-      height: 32px;
+      width: 40px;
+      height: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 50%;
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
+      transition: background 0.2s ease;
+      border-radius: 12px;
 
-      &:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(255, 122, 0, 0.5);
+      &:hover {
+        background: rgba($black, 0.04);
       }
 
       .cartIcon {
         width: 24px;
         height: 24px;
-        object-fit: cover;
+        stroke: $black;
       }
 
       .cartCount {
-        background: #fb4517;
-        color: white;
-        font-size: 12px;
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
+        position: absolute;
+        top: 2px;
+        right: 2px;
         display: flex;
+        text-align: center;
         align-items: center;
         justify-content: center;
-        position: absolute;
-        font-family: monospace;
-        top: -4px;
-        right: -6.6px;
-      }
-      @media (max-width: 768px) {
-        display: none;
+        background: $accent-orange; // Черный кружок с оранжевым числом или наоборот
+        color: $white;
+        font-size: 10px;
+        font-weight: 700;
+        min-width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        border: 2px solid $white;
       }
     }
   }
 
   @media (max-width: 768px) {
-    padding: 10px 10px;
-    .navigation nav {
-      display: none;
-    }
-    .authLinks {
-      display: none;
-    }
+    padding-block: 12px;
+
+    .navigation,
+    .authLinks,
     .cartLink {
-      display: none;
+      display: none !important; // На мобилках всё в BottomHeader
+    }
+
+    .logo h1 {
+      font-size: 22px;
     }
   }
 }
 
-.active svg {
-  stroke: #fb4517;
-  stroke-dasharray: 7 3;
-}
-
-.active img {
-  border: 2px solid #fb4517;
+// Глобальные стили для активных иконок
+.active {
+  svg {
+    stroke: $accent-orange !important;
+  }
 }

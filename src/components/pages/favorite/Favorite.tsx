@@ -13,8 +13,6 @@ const Favorite: FC = () => {
     return <div className={scss.empty}>У вас нет избранных товаров</div>;
   }
 
-  console.log(favoriteData.favorites[0].product.categoryId);
-
   return (
     <section className={scss.Favorite}>
       <div className="container">

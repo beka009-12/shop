@@ -1,145 +1,129 @@
+$black: #000000;
+$white: #ffffff;
+$accent-orange: #fb4a1e;
+$gray-light: #f5f5f7;
+$gray-border: #eeeeee;
+$text-secondary: #232323;
+
 .Order {
-  padding: 80px 0 100px;
-  min-height: 70vh;
+  padding: 60px 0 100px;
+  min-height: 80vh;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 40px;
 }
 
 .header {
   display: flex;
-  align-items: start;
+  align-items: flex-end;
   justify-content: space-between;
+  border-bottom: 1px solid $gray-border;
+  padding-bottom: 20px;
+}
+
+.title {
+  font-size: 42px;
+  letter-spacing: -0.03em;
+  color: $black;
+  margin: 0;
 }
 
 .button {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  border-radius: 10px;
-  justify-content: space-between;
-  padding: 7px 16px;
-  font-size: 16px;
+  background: transparent;
+  color: $text-secondary;
+  border: 1px solid $gray-border;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 14px;
   font-weight: 500;
-  border: none;
-  color: #fff;
-  transition: ease 0.1s;
-  background: red;
-  .svg {
-    stroke: #fff;
-    width: 23px;
-    height: 23px;
-  }
+  cursor: pointer;
+  transition: all 0.2s ease;
 
   &:hover {
-    background: #e50101;
-    transform: scale(0.99);
-    transition: ease 0.1s;
+    background: #fff0f0;
+    color: red;
+    border-color: red;
   }
-}
-.title {
-  font-size: 36px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin: 0 0 8px 0;
 }
 
 .orderBox {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: 1fr 350px; // Четкая сетка: контент и сайдбар
+  gap: 40px;
+  align-items: start;
 }
 
 .box {
-  flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 .orderCard {
   display: flex;
-  gap: 20px;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  transition: all 0.22s ease;
+  gap: 24px;
+  padding: 0 0 24px 0;
+  border-bottom: 1px solid $gray-border;
+  transition: opacity 0.3s ease;
 
-  &:hover {
-    box-shadow: 0 8px 28px rgba(53, 53, 53, 0.09);
+  &:last-child {
+    border-bottom: none;
   }
 }
 
 .imageWrapper {
   flex-shrink: 0;
-  width: 200px;
-  height: 200px;
-  border-radius: 10px;
+  width: 160px;
+  height: 180px;
+  border-radius: 12px;
   overflow: hidden;
-  background: #f8f9fa;
+  background: $gray-light;
 }
 
 .image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.orderCard:hover .image {
-  transform: scale(1.06);
+  object-fit: contain; // Чтобы товар был виден полностью
+  mix-blend-mode: multiply; // Для белых фонов картинок
 }
 
 .cardInfo {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
+  margin-bottom: 8px;
 }
 
 .name {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
-  line-height: 1.3;
-  margin: 0;
+  color: $black;
+  max-width: 80%;
 }
 
 .price {
   font-size: 22px;
   font-weight: 700;
-  color: #fb4517;
-  white-space: nowrap;
+  color: $black; // Цена черная — это стильно
 }
 
 .props {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px 24px;
-  font-size: 15px;
-  color: #555;
+  font-size: 14px;
+  color: $text-secondary;
+  margin-bottom: 20px;
 
   span {
-    color: #111;
-    font-weight: 600;
+    color: $black;
+    font-weight: 500;
   }
-}
-
-.prop {
-  display: flex;
-  gap: 6px;
 }
 
 .actions {
@@ -147,185 +131,148 @@
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
-  padding-top: 12px;
 }
 
 .counter {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: #f8f9fa;
+  gap: 12px;
+  border: 1px solid $gray-border;
+  padding: 4px;
   border-radius: 10px;
-  padding: 6px;
-  border: 1px solid #eee;
 }
 
 .btn {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 20px;
-  font-weight: 500;
-  color: #333;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  font-size: 18px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s;
 
   &:hover {
-    background: #f0f0f0;
-    border-color: #ccc;
-  }
-
-  &:active {
-    transform: scale(0.94);
+    background: $gray-light;
   }
 }
 
 .count {
-  min-width: 28px;
-  text-align: center;
-  font-size: 17px;
-  font-weight: 600;
-  color: #222;
+  font-weight: 700;
+  font-size: 16px;
 }
 
 .remove {
-  color: #e63946;
-  font-size: 14px;
-  font-weight: 500;
   background: none;
   border: none;
+  color: $text-secondary;
+  text-decoration: underline;
+  font-size: 13px;
   cursor: pointer;
-  padding: 0;
-  transition: color 0.2s;
-
   &:hover {
-    color: #d00000;
+    color: $black;
   }
 }
 
 .summary {
-  width: 100%;
-  max-width: 340px;
-  height: fit-content;
-  padding: 28px;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  background: $gray-light;
+  padding: 32px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 24px;
+  position: sticky;
+  top: 20px;
 }
 
 .total {
-  font-size: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
   font-weight: 600;
 
   span {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 700;
-    color: #fb4517;
+    color: $accent-orange;
   }
 }
 
-.count {
-  font-size: 22px;
-  font-weight: 600;
-  span {
-    font-size: 26px;
-    font-weight: 700;
-    color: #fb4517;
+:global(.CartBtn) {
+  background: $black !important;
+  color: $white !important;
+  height: 56px !important;
+  border-radius: 5px !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  transition: transform 0.2s ease !important;
+
+  &:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
   }
 }
 
 .notFound {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(125, 125, 125, 0.06);
-  transition: all 0.22s ease;
+  text-align: center;
+  padding: 100px 0;
+
   img {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    margin-bottom: 24px;
   }
   h2 {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
+    font-size: 24px;
+    margin-bottom: 8px;
   }
-
   p {
-    font-size: 16px;
-    color: #4d4d4d;
-    font-weight: 600;
+    color: $text-secondary;
+    margin-bottom: 32px;
   }
-  .btnNotFound {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    border-radius: 10px;
-    justify-content: space-between;
-    padding: 7px 16px;
-    font-size: 16px;
-    font-weight: 500;
-    border: none;
-    color: #fff;
-    transition: ease 0.1s;
-    background: #fb4517;
 
-    &:hover {
-      background: #fb4517;
-      transform: scale(0.99);
-      transition: ease 0.1s;
-    }
+  .btnNotFound {
+    background: $black;
+    color: white;
+    padding: 10px 32px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .orderBox {
-    flex-direction: column;
-    gap: 32px;
+    grid-template-columns: 1fr; // Сайдбар уходит вниз
   }
-
   .summary {
     max-width: 100%;
-    width: 100%;
   }
 }
 
-@media (max-width: 480px) {
-  .Order {
-    padding: 40px 0 60px;
-  }
-
+@media (max-width: 600px) {
   .title {
-    font-size: 28px;
-  }
-
-  .imageWrapper {
-    width: 140px;
-    height: 140px;
+    font-size: 32px;
   }
 
   .orderCard {
+    flex-direction: column; // На мобилках картинка сверху
     gap: 16px;
-    padding: 16px;
+  }
+
+  .imageWrapper {
+    width: 100%;
+    height: 250px;
   }
 
   .name {
     font-size: 18px;
+    max-width: 100%;
   }
 
-  .price {
-    font-size: 20px;
+  .top {
+    flex-direction: column;
+    gap: 4px;
   }
 }

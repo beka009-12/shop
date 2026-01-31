@@ -46,17 +46,16 @@
       border: none;
       width: 100%;
       border-radius: 12px;
-      background: linear-gradient(135deg, #fb4517, #e6370b);
+      background: #000000;
       color: #fff;
       font-weight: 700;
       font-size: clamp(0.813rem, 0.792rem + 0.09vw, 0.875rem);
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 6px 16px rgba(251, 69, 23, 0.3);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 
       &:hover {
-        box-shadow: 0 8px 20px rgba(251, 69, 23, 0.4);
-        background: linear-gradient(135deg, #fa5227, #c42b08);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
       }
 
       &:disabled {

@@ -11,22 +11,46 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 28px;
-      gap: 10px;
+      gap: 20px;
+
+      @media (max-width: 1024px) {
+        flex-direction: column;
+        align-items: stretch;
+      }
 
       .tabs {
         position: relative;
         display: flex;
         border-bottom: 1px solid #e8e8e8;
 
+        @media (max-width: 768px) {
+          overflow-x: auto;
+          white-space: nowrap;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+
         .tab {
-          width: 200px;
-          padding: 14px 24px;
+          min-width: 150px;
+          flex: 1;
+          padding: 14px 20px;
           font-size: 15px;
           color: #555;
           background: none;
           border: none;
           cursor: pointer;
-          transition: 0.8s ease;
+          transition: color 0.3s ease;
+          white-space: nowrap; // Текст не переносится
+
+          @media (max-width: 480px) {
+            min-width: auto; // На самых маленьких экранах пусть контент определяет ширину
+            padding: 12px 16px;
+            font-size: 14px;
+          }
 
           &:hover {
             color: #111;
@@ -34,25 +58,55 @@
 
           &.active {
             color: #000;
-            font-weight: 600;
-            transition: 0.8s ease;
           }
         }
 
-        .underline {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          height: 3px;
-          width: 0;
-          background: #000;
-          border-radius: 2px;
+        .tabs {
+          position: relative;
+          display: flex;
+          border-bottom: 1px solid #e8e8e8;
+          gap: 8px;
 
-          /* GPU-ускорение */
-          transition:
-            transform 0.35s ease,
-            width 0.35s ease;
-          will-change: transform, width;
+          @media (max-width: 768px) {
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            &::-webkit-scrollbar {
+              display: none;
+            } // Скрываем скроллбар
+            scrollbar-width: none;
+          }
+
+          .tab {
+            padding: 12px 20px;
+            font-size: 15px;
+            white-space: nowrap;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #777;
+            transition: color 0.3s ease;
+
+            &.active {
+              color: #000;
+              font-weight: 600;
+            }
+          }
+
+          .underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: #fb4517;
+            border-radius: 2px;
+
+            // Плавность
+            transition:
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.3s ease;
+            will-change: transform, width;
+          }
         }
       }
     }

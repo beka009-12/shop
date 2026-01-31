@@ -3,13 +3,17 @@ import { FC, useState } from "react";
 import scss from "./Mobile.module.scss";
 import { useRouter, usePathname } from "next/navigation";
 import { useGetMe } from "@/api/user";
-import Profile from "@/components/profile/Profile";
+import Profile from "@/components/pages/profile/Profile";
+import { useGetFavorites } from "@/api/favorite";
+import { useGetOrders } from "@/api/order";
 
 const Mobile: FC = () => {
   const router = useRouter();
   const pathname = usePathname();
 
   const { data: getMe, isLoading } = useGetMe();
+  const { data: favorite } = useGetFavorites(getMe?.user.id || 0);
+  const { data: cartItems } = useGetOrders(getMe?.user.id || 0);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const isAuthenticated = Boolean(getMe?.user.id && getMe?.user.email);
@@ -73,9 +77,7 @@ const Mobile: FC = () => {
                 d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
               />
             </svg>
-            <span className={scss.cartCount}>
-              {getMe?.user?.cart?.length || 0}
-            </span>
+            <span className={scss.cartCount}>{cartItems?.length || 0}</span>
           </div>
 
           {/* Кнопка по роли */}
@@ -145,7 +147,7 @@ const Mobile: FC = () => {
               />
             </svg>
             <span className={scss.cartCount}>
-              {getMe?.user?.favorites?.length || 0}
+              {favorite?.favorites.length || 0}
             </span>
           </div>
 

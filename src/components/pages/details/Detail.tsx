@@ -6,7 +6,7 @@ import scss from "./Detail.module.scss";
 import Loader from "@/utils/loader/Loader";
 import { useGetMe } from "@/api/user";
 import { useGetOrders } from "@/api/order";
-import { useCartAddAction, useFavoriteFun } from "@/hooks/useCartActions";
+import { useCartAddAction } from "@/hooks/useCartActions";
 
 const Detail: FC = () => {
   const { id } = useParams();
@@ -14,7 +14,6 @@ const Detail: FC = () => {
 
   // ? HOOKS
   const { addToCart } = useCartAddAction();
-  const { addToFavorite } = useFavoriteFun();
   // ? HOOKS
 
   const [activeImage, setActiveImage] = useState<string | null>(null);
@@ -56,7 +55,6 @@ const Detail: FC = () => {
         </svg>
         Назад
       </button>
-      <button onClick={() => addToFavorite(product.id)}>asdasdas</button>
 
       <div className={scss.container}>
         <div className={scss.gallery}>

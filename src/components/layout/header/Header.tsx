@@ -5,10 +5,9 @@ import { usePathname, useRouter } from "next/navigation";
 import Mobile from "../mobileNavigation/Mobile";
 import { useGetMe } from "@/api/user";
 import { links } from "@/utils/constant/Link";
-import Profile from "@/components/profile/Profile";
-import { Btn } from "@/utils/ui/GlobalBtn/Btn";
 import { useGetOrders } from "@/api/order";
 import { useGetFavorites } from "@/api/favorite";
+import Profile from "@/components/pages/profile/Profile";
 
 const Header: FC = () => {
   const router = useRouter();
@@ -60,7 +59,11 @@ const Header: FC = () => {
             <div className={scss.navigation}>
               <nav>
                 {links.map((link, index) => (
-                  <p key={index} onClick={() => handleNavigation(link.path)}>
+                  <p
+                    className={`${isActive(link.path) ? scss.active : ""}`}
+                    key={index}
+                    onClick={() => handleNavigation(link.path)}
+                  >
                     {link.name}
                   </p>
                 ))}

@@ -484,7 +484,7 @@
     .logoutBtn {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, #fb4517, #fb4517);
+      background: #000000;
       border: none;
       border-radius: 12px;
       color: white;
@@ -492,7 +492,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
       @media (max-height: 600px) {
         padding: 12px;
@@ -506,9 +506,9 @@
       }
 
       &:hover {
-        background: linear-gradient(135deg, #fa5227, #fa5025);
+        background: #000000;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
       }
 
       &:active {
@@ -626,13 +626,12 @@
       }
 
       .confirmBtn {
-        background: linear-gradient(135deg, #fb4517, #fb4517);
+        background: #000000;
         color: white;
-        box-shadow: 0 4px 12px rgba(251, 69, 23, 0.3);
 
         &:hover {
-          background: linear-gradient(135deg, #fa5227, #fa5025);
-          box-shadow: 0 6px 20px rgba(251, 69, 23, 0.4);
+          background: #000000;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
           transform: translateY(-1px);
         }
       }
@@ -766,12 +765,12 @@
       }
 
       .confirmBtn {
-        background: linear-gradient(135deg, #fb4517, #fb4517);
+        background: #000000;
         color: white;
-        box-shadow: 0 4px 12px rgba(251, 69, 23, 0.3);
+        box-shadow: 0 4px 12px #000000;
 
         &:hover {
-          background: linear-gradient(135deg, #fa5227, #fa5025);
+          background: #000000;
           box-shadow: 0 6px 20px rgba(251, 69, 23, 0.4);
           transform: translateY(-1px);
         }

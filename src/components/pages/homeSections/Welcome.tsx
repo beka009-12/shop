@@ -32,16 +32,22 @@ const Welcome: FC = () => {
     const underlineEl = underlineRef.current;
     if (!tabsEl || !underlineEl) return;
 
-    const activeButton = tabsEl.querySelector(
-      `.${scss.tab}.${scss.active}`,
-    ) as HTMLElement | null;
+    const updateLine = () => {
+      const activeButton = tabsEl.querySelector(
+        `.${scss.active}`,
+      ) as HTMLElement;
+      if (activeButton) {
+        underlineEl.style.width = `${activeButton.offsetWidth}px`;
+        underlineEl.style.transform = `translateX(${activeButton.offsetLeft}px)`;
+      }
+    };
 
-    if (!activeButton) return;
+    updateLine();
 
-    requestAnimationFrame(() => {
-      underlineEl.style.width = `${activeButton.offsetWidth}px`;
-      underlineEl.style.transform = `translateX(${activeButton.offsetLeft}px)`;
-    });
+    const resizeObserver = new ResizeObserver(() => updateLine());
+    resizeObserver.observe(tabsEl);
+
+    return () => resizeObserver.disconnect();
   }, [activeTab]);
 
   return (

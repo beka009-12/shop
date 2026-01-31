@@ -170,7 +170,11 @@ const Detail: FC = () => {
               <div className={scss.sellerCard}>
                 <div className={scss.header}>
                   {product.store.logo ? (
-                    <img src={product.store.logo!} alt={product.store.name} />
+                    <img
+                      className={scss.storeLogo}
+                      src={product.store.logo!}
+                      alt={product.store.name}
+                    />
                   ) : (
                     ""
                   )}

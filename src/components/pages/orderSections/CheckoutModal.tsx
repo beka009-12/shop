@@ -31,13 +31,11 @@ const CheckoutModal: FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
         const lon = coords.longitude;
 
         setCoords({ lat, lon });
-
         try {
           const res = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
           );
           const data = await res.json();
-
           setAddress(data.display_name || "");
         } catch (e) {
           alert("Не удалось определить адрес");
@@ -60,7 +58,6 @@ const CheckoutModal: FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   // 🔹 Открыть карту
   const openMap = () => {
     if (!coords) return;
-
     const url = `https://www.google.com/maps?q=${coords.lat},${coords.lon}`;
     window.open(url, "_blank");
   };
@@ -122,7 +119,6 @@ const CheckoutModal: FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
           <div className={scss.paymentMethods}>
             <label>Способ оплаты</label>
             <div className={scss.customSelectWrapper}>
-              {/* Кнопка-заголовок селекта */}
               <div
                 className={`${scss.selectHeader} ${isSelectOpen ? scss.open : ""}`}
                 onClick={() => setIsSelectOpen(!isSelectOpen)}

@@ -25,4 +25,24 @@ const useGetFavorites = (userId: number) => {
   });
 };
 
-export { useAddFavorite, useGetFavorites };
+const useDeleteFavorite = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    FavoriteAPI.useDeleteFavoriteRes,
+    Error,
+    FavoriteAPI.useDeleteFavoriteReq
+  >({
+    mutationFn: async ({ productId }) => {
+      const response = await api.delete(
+        `/favorite/favorite-delete/${productId}`,
+      );
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["favorites"] });
+    },
+  });
+};
+
+export { useAddFavorite, useGetFavorites, useDeleteFavorite };

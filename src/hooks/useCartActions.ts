@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useDeleteAllOrder, useGetOrders, useOrderCreate } from "@/api/order";
 import { useGetMe } from "@/api/user";
 import toast from "react-hot-toast";
-import { useAddFavorite } from "@/api/favorite";
+import { useAddFavorite, useDeleteFavorite } from "@/api/favorite";
 
 // ! TODO: add to cart
 export const useCartAddAction = () => {
@@ -118,5 +118,42 @@ export const useFavoriteFun = () => {
 
   return {
     addToFavorite: handleAddFavorite,
+  };
+};
+
+export const useDelFavorite = () => {
+  const { data: me } = useGetMe();
+  const { mutateAsync: deleteFavorite, isPending } = useDeleteFavorite();
+
+  const handleRemove = useCallback(
+    (productId: number) => {
+      if (!me?.user?.id) {
+        toast.error("Вы не авторизованы");
+        return;
+      }
+
+      const promise = deleteFavorite({
+        productId: productId,
+      });
+
+      toast.promise(promise, {
+        loading: "Удаляем из избранного...",
+        success: "Товар удален из избранного 🗑️",
+        error: (error: any) => {
+          if (error?.response?.status === 404) {
+            return "Товар уже удален";
+          }
+          return "Ошибка при удалении";
+        },
+      });
+
+      return promise;
+    },
+    [me?.user?.id, deleteFavorite],
+  );
+
+  return {
+    handleRemove,
+    isDeleting: isPending,
   };
 };

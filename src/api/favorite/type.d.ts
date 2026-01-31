@@ -66,4 +66,13 @@ namespace FavoriteAPI {
     message: string;
     favorites: FavoriteRes[];
   };
+
+  type useDeleteFavoriteRes = {
+    message: string;
+    favorite: FavoriteRes;
+  };
+
+  type useDeleteFavoriteReq = {
+    productId: number;
+  };
 }

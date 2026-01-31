@@ -316,6 +316,12 @@
       font-size: clamp(0.9rem, 1.5vw, 1rem);
     }
 
+    .storeLogo {
+      width: 80px;
+      height: 40px;
+      object-fit: cover;
+    }
+
     .storeName {
       font-size: clamp(1.05rem, 2vw, 1.2rem);
       font-weight: 700;

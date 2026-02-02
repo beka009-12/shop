@@ -1,5 +1,5 @@
 "use client";
-import { type FC, useState, useRef, useLayoutEffect } from "react";
+import { type FC, useState, useRef, useMemo } from "react";
 import scss from "./Welcome.module.scss";
 import { useGetProduct } from "@/api/product";
 import Grid from "@/utils/ui/cards/Grid";
@@ -9,11 +9,13 @@ const TABS = [
   { id: "all", label: "Все товары" },
   { id: "sale", label: "Акции и скидки" },
   { id: "new", label: "Новинки" },
-  { id: "popular", label: "Хиты продаж" },
+  { id: "popular", label: "Популярные" },
 ];
 
 const Welcome: FC = () => {
   const [search, setSearch] = useState("");
+  const [activeTab, setActiveTab] = useState<string>("all");
+
   const { data, isLoading } = useGetProduct({
     search: search,
   });
@@ -22,33 +24,45 @@ const Welcome: FC = () => {
     setSearch(value);
   };
 
-  const [activeTab, setActiveTab] = useState<string>("all");
-
   const tabsRef = useRef<HTMLDivElement>(null);
-  const underlineRef = useRef<HTMLSpanElement>(null);
 
-  useLayoutEffect(() => {
-    const tabsEl = tabsRef.current;
-    const underlineEl = underlineRef.current;
-    if (!tabsEl || !underlineEl) return;
+  const filteredProducts = useMemo(() => {
+    if (!data?.products) return [];
 
-    const updateLine = () => {
-      const activeButton = tabsEl.querySelector(
-        `.${scss.active}`,
-      ) as HTMLElement;
-      if (activeButton) {
-        underlineEl.style.width = `${activeButton.offsetWidth}px`;
-        underlineEl.style.transform = `translateX(${activeButton.offsetLeft}px)`;
-      }
-    };
+    const products = data.products;
 
-    updateLine();
+    switch (activeTab) {
+      case "sale":
+        return products.filter(
+          (product) => product.oldPrice && product.oldPrice < product.price,
+        );
 
-    const resizeObserver = new ResizeObserver(() => updateLine());
-    resizeObserver.observe(tabsEl);
+      case "new":
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        return products.filter(
+          (product) => new Date(product.createdAt) >= thirtyDaysAgo,
+        );
 
-    return () => resizeObserver.disconnect();
-  }, [activeTab]);
+      case "popular":
+        return products
+          .filter(
+            (product) =>
+              product.store &&
+              product.store.rating &&
+              product.store.rating >= 4.5,
+          )
+          .sort((a, b) => {
+            const ratingA = a.store?.rating || 0;
+            const ratingB = b.store?.rating || 0;
+            return ratingB - ratingA;
+          });
+
+      case "all":
+      default:
+        return products;
+    }
+  }, [data?.products, activeTab]);
 
   return (
     <section className={scss.Welcome}>
@@ -67,13 +81,11 @@ const Welcome: FC = () => {
                   {tab.label}
                 </button>
               ))}
-
-              <span className={scss.underline} ref={underlineRef} />
             </div>
             <Search onSearch={handleSearch} />
           </div>
 
-          <Grid products={data?.products || []} isLoading={isLoading} />
+          <Grid products={filteredProducts} isLoading={isLoading} />
         </div>
       </div>
     </section>

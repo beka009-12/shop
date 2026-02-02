@@ -2,7 +2,6 @@
 import { type FC } from "react";
 import scss from "./Shop.module.scss";
 import { useGetAllStores } from "@/api/store";
-import Image from "next/image"; // Рекомендую использовать для оптимизации
 
 const Shop: FC = () => {
   const { data: stores, isLoading } = useGetAllStores();

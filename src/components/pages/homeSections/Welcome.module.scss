@@ -35,29 +35,48 @@
         }
 
         .tab {
+          position: relative;
           min-width: 150px;
           flex: 1;
           padding: 14px 20px;
           font-size: 15px;
-          color: #555;
           background: none;
           border: none;
           cursor: pointer;
           transition: color 0.3s ease;
           white-space: nowrap; // Текст не переносится
+          color: #777;
+
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%; // Начинаем из центра
+            width: 0;
+            height: 2px;
+            background-color: #fb4517;
+            transition:
+              width 0.3s ease,
+              left 0.3s ease;
+          }
+
+          &.active {
+            color: #000;
+
+            &::after {
+              width: 100%;
+              left: 0;
+            }
+          }
 
           @media (max-width: 480px) {
-            min-width: auto; // На самых маленьких экранах пусть контент определяет ширину
+            min-width: auto;
             padding: 12px 16px;
             font-size: 14px;
           }
 
           &:hover {
             color: #111;
-          }
-
-          &.active {
-            color: #000;
           }
         }
 
@@ -86,26 +105,6 @@
             cursor: pointer;
             color: #777;
             transition: color 0.3s ease;
-
-            &.active {
-              color: #000;
-              font-weight: 600;
-            }
-          }
-
-          .underline {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 3px;
-            background: #fb4517;
-            border-radius: 2px;
-
-            // Плавность
-            transition:
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              width 0.3s ease;
-            will-change: transform, width;
           }
         }
       }

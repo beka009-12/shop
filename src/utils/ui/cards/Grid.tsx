@@ -18,7 +18,7 @@ interface GridProps {
   isLoading?: boolean;
 }
 
-const SKELETON_COUNT = 10;
+const SKELETON_COUNT = 12;
 
 const Grid: FC<GridProps> = ({ products, isLoading = false }) => {
   if (isLoading) {

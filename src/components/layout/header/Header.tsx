@@ -8,6 +8,7 @@ import { links } from "@/utils/constant/Link";
 import { useGetOrders } from "@/api/order";
 import { useGetFavorites } from "@/api/favorite";
 import Profile from "@/components/pages/profile/Profile";
+import Catalog from "@/components/pages/catalog/Catalog";
 
 const Header: FC = () => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const Header: FC = () => {
   const [hidden, setHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const { data: cartItems } = useGetOrders(getMe?.user.id || 0);
   const { data: favorite } = useGetFavorites(getMe?.user.id || 0);
 
@@ -67,6 +69,7 @@ const Header: FC = () => {
                     {link.name}
                   </p>
                 ))}
+                <p onClick={() => setIsCatalogOpen(true)}>Каталог</p>
               </nav>
             </div>
 
@@ -218,7 +221,7 @@ const Header: FC = () => {
 
       {isProfileOpen && <Profile onClose={() => setIsProfileOpen(false)} />}
 
-      <Mobile />
+      <Catalog isOpen={isCatalogOpen} onClose={() => setIsCatalogOpen(false)} />
     </>
   );
 };

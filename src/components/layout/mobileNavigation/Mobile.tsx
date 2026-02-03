@@ -6,6 +6,7 @@ import { useGetMe } from "@/api/user";
 import Profile from "@/components/pages/profile/Profile";
 import { useGetFavorites } from "@/api/favorite";
 import { useGetOrders } from "@/api/order";
+import Catalog from "@/components/pages/catalog/Catalog";
 
 const Mobile: FC = () => {
   const router = useRouter();
@@ -15,9 +16,9 @@ const Mobile: FC = () => {
   const { data: favorite } = useGetFavorites(getMe?.user.id || 0);
   const { data: cartItems } = useGetOrders(getMe?.user.id || 0);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
   const isAuthenticated = Boolean(getMe?.user.id && getMe?.user.email);
-  const role = getMe?.user.role;
 
   const isActive = (path: string) => pathname === path;
 
@@ -80,50 +81,25 @@ const Mobile: FC = () => {
             <span className={scss.cartCount}>{cartItems?.length || 0}</span>
           </div>
 
-          {/* Кнопка по роли */}
-          {role === "OWNER" ? (
-            <button
-              onClick={() => handleNavigation("/createProduct")}
-              className={scss.addBtn}
+          <button
+            onClick={() => setIsCatalogOpen(true)}
+            className={scss.addCategory}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className={scss.categoryIcon}
             >
-              {/* плюсик для OWNER */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className={scss.iconPlus}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
-            </button>
-          ) : (
-            <button
-              onClick={() => handleNavigation("/category")}
-              className={scss.addCategory}
-            >
-              {/* категории для USER */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className={scss.categoryIcon}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
-                />
-              </svg>
-            </button>
-          )}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+              />
+            </svg>
+          </button>
 
           {/* Избранное */}
           <div
@@ -182,6 +158,12 @@ const Mobile: FC = () => {
         </div>
       </div>
       {isProfileOpen && <Profile onClose={() => setIsProfileOpen(false)} />}
+      {isCatalogOpen && (
+        <Catalog
+          isOpen={isCatalogOpen}
+          onClose={() => setIsCatalogOpen(false)}
+        />
+      )}
     </>
   );
 };

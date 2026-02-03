@@ -3,7 +3,7 @@ import scss from "./Footer.module.scss";
 
 const Footer: FC = () => {
   return (
-    <footer id={scss.Footer}>
+    <footer className={scss.Footer}>
       <div className="container">
         <div className={scss.content}>Footer</div>
       </div>

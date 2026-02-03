@@ -15,7 +15,6 @@ const TABS = [
 const Welcome: FC = () => {
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState<string>("all");
-
   const { data, isLoading } = useGetProduct({
     search: search,
   });

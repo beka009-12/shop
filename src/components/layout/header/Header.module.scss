@@ -10,7 +10,7 @@ $gray-border: rgba(0, 0, 0, 0.08);
   left: 0;
   right: 0;
   padding-block: 15px; // Чуть компактнее — это стильнее
-  z-index: 1000;
+  z-index: 10;
   background-color: rgba($white, 0.8);
   backdrop-filter: blur(20px); // Эффект дорогого стекла
   border-bottom: 1px solid $gray-border;
@@ -163,7 +163,61 @@ $gray-border: rgba(0, 0, 0, 0.08);
   }
 }
 
-// Глобальные стили для активных иконок
+.catalogButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-right: 20px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Responsive для кнопки каталога
+@media (max-width: 768px) {
+  .catalogButton {
+    padding: 8px 12px;
+    font-size: 14px;
+    margin-right: 15px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .catalogButton {
+    padding: 6px 10px;
+    gap: 6px;
+
+    span {
+      display: none;
+    }
+  }
+}
 .active {
   svg {
     stroke: $accent-orange !important;

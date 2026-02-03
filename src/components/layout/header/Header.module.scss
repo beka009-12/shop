@@ -21,12 +21,9 @@ $gray-border: rgba(0, 0, 0, 0.08);
   }
 
   .content {
-    max-width: 1400px; // Ограничил ширину для больших мониторов
-    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
   }
 
   .logo {

@@ -6,29 +6,11 @@ import CardSceleton from "../cards/CardSceleton";
 
 interface ProductCard {
   id: number;
-  storeId: number;
-  categoryId: number;
-  brandName?: string | null;
   title: string;
   description: string;
   images: string[];
   price: number;
   oldPrice?: number | null;
-  stockCount: number;
-  tags: string[];
-  isActive: boolean;
-  createdAt: string;
-  category?: {
-    id: number;
-    name: string;
-  };
-  store?: {
-    id: number;
-    name: string;
-    logo?: string | null;
-    isVerified: boolean;
-    rating?: number | null;
-  };
 }
 
 interface GridProps {

@@ -1,3 +1,4 @@
+"use client";
 import { type FC } from "react";
 import Shop from "./shop/Shop";
 

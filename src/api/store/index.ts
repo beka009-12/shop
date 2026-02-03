@@ -11,4 +11,15 @@ const useGetAllStores = (params?: StoreAPI.GetStoresRequest) => {
   });
 };
 
-export { useGetAllStores };
+const useGetDetailStore = (id: number) => {
+  return useQuery<StoreAPI.GetStoreDetailResponse>({
+    queryKey: ["store", id],
+    queryFn: async () => {
+      const response = await api.get(`/saller/detail-store/${id}`);
+      return response.data;
+    },
+    enabled: !!id,
+  });
+};
+
+export { useGetAllStores, useGetDetailStore };

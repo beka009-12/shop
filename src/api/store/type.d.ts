@@ -13,13 +13,29 @@ interface Store {
   updatedAt: string;
 }
 
+interface Product {
+  id: number;
+  storeId: number;
+  title: string;
+  description: string;
+  images: string[];
+  price: number;
+  oldPrice?: number | null;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface StoreListItem extends Store {
   _count: {
     products: number;
   };
 }
 
-// ? NAMESPACE
+interface StoreDetail extends Store {
+  products: Product[];
+}
+
 namespace StoreAPI {
   type GetStoresResponse = {
     stores: StoreListItem[];
@@ -36,5 +52,9 @@ namespace StoreAPI {
     order?: "asc" | "desc";
     page?: number;
     limit?: number;
+  };
+
+  type GetStoreDetailResponse = {
+    store: StoreDetail;
   };
 }

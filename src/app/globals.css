@@ -24,12 +24,14 @@
   max-width: 1440px;
   width: 100%;
   margin: 0 auto;
-  padding-inline: 10px;
   box-sizing: border-box;
+  @media (max-width: 1450px) {
+    padding: 0 10px;
+  }
 }
 
 body {
-  background-color: #ffffff;
+  background-color: #fcfcfc;
 }
 
 button,

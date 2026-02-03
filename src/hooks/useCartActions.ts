@@ -54,7 +54,7 @@ export const useCartAddAction = () => {
 export const useCartDeleteAction = () => {
   const { data: me } = useGetMe();
   const { mutateAsync: deleteAllOrder } = useDeleteAllOrder();
-  const { data: orders } = useGetOrders(me?.user?.id!); // получаем корзину
+  const { data: orders } = useGetOrders(me?.user?.id!);
 
   const handleDeleteFromCart = useCallback(() => {
     if (!me?.user?.id) {

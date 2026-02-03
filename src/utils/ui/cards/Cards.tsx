@@ -16,7 +16,7 @@ interface IBaseCard {
   title: string;
   description: string;
   images: string[];
-  price: number; // обычная цена
+  price: number;
   oldPrice?: number | null;
 }
 

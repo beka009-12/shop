@@ -9,6 +9,7 @@ import NotFound from "../../../../public/notFound.png";
 import { useRouter } from "next/navigation";
 import { useCartDeleteAction } from "@/hooks/useCartActions";
 import CheckoutModal from "./CheckoutModal";
+import OrderSkeleton from "@/utils/ui/sceletons/OrderSceleton";
 
 const Order: FC = () => {
   const { data: getMe } = useGetMe();
@@ -17,10 +18,7 @@ const Order: FC = () => {
 
   const { data: cartData, isLoading } = useGetOrders(userId!);
   const { mutateAsync: deleteByIdAsync } = useDeleteById();
-
-  // ? HOOKS
   const { deleteAllFromCart } = useCartDeleteAction();
-  // ? HOOKS
 
   const [cartItems, setCartItems] = useState(cartData || []);
   const [openModal, setOpenModal] = useState(false);
@@ -28,8 +26,6 @@ const Order: FC = () => {
   useEffect(() => {
     if (cartData) setCartItems(cartData);
   }, [cartData]);
-
-  if (isLoading) return <div>Загрузка корзины...</div>;
 
   const total = cartItems.reduce(
     (acc, item) => acc + Number(item.product.price) * item.quantity!,
@@ -44,7 +40,7 @@ const Order: FC = () => {
       );
       toast.success("Товар удалён из корзины");
     } catch {
-      toast.error("Ошибка при удалении товара");
+      toast.error("Ошибка при удалении товара из корзины");
     }
   };
 
@@ -73,15 +69,19 @@ const Order: FC = () => {
           <div className={scss.content}>
             <div className={scss.header}>
               <h2 className={scss.title}>Корзина</h2>
-              <button
-                className={scss.button}
-                onClick={() => deleteAllFromCart()}
-              >
-                Удалить все
-              </button>
+              {!isLoading && cartItems.length > 0 && (
+                <button
+                  className={scss.button}
+                  onClick={() => deleteAllFromCart()}
+                >
+                  Удалить все
+                </button>
+              )}
             </div>
 
-            {cartItems.length > 0 ? (
+            {isLoading ? (
+              <OrderSkeleton />
+            ) : cartItems.length > 0 ? (
               <div className={scss.orderBox}>
                 <div className={scss.box}>
                   {cartItems.map((item) => (
@@ -98,8 +98,7 @@ const Order: FC = () => {
                         <div className={scss.top}>
                           <h3 className={scss.name}>{item.product.title}</h3>
                           <div className={scss.price}>
-                            {item.product.price.toLocaleString()}
-                            сом
+                            {item.product.price.toLocaleString()} сом
                           </div>
                         </div>
 
@@ -161,7 +160,7 @@ const Order: FC = () => {
                   className={scss.btnNotFound}
                   onClick={() => router.push("/")}
                 >
-                  Перейти в главную
+                  Перейти в главную
                 </button>
               </div>
             )}

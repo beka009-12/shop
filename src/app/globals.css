@@ -4,7 +4,8 @@
   box-sizing: border-box;
   text-decoration: none;
   color: #000000;
-
+  outline: none;
+  user-select: none;
   border: none;
   font-family:
     system-ui,

@@ -1,10 +1,10 @@
 "use client";
-import { type FC, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import scss from "./Profile.module.scss";
 import { Logaut, useGetMe } from "@/api/user";
 import toast from "react-hot-toast";
 import UpdateProfile from "./update/UpdateProfile";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface ProfileProps {
   onClose: () => void;
@@ -16,12 +16,21 @@ const Profile: FC<ProfileProps> = ({ onClose }) => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleEditClick = () => setShowEditModal(true);
 
   const handleMenuClick = (type: "favorites" | "cart" | "orders") => {
     router.push(`/${type}`);
     onClose();
+  };
+
+  const handleClose = () => {
+    useEffect(() => {
+      onClose();
+      setShowLogoutModal(false);
+      setShowEditModal(false);
+    }, [pathname]);
   };
 
   const handleLogoutClick = () => setShowLogoutModal(true);
@@ -42,7 +51,8 @@ const Profile: FC<ProfileProps> = ({ onClose }) => {
 
   return (
     <>
-      <section className={scss.Profile}>
+      <div className={scss.overlay} onClick={handleClose} />
+      <div className={scss.Profile}>
         <div className="container">
           <div className={scss.wrapper}>
             <div className={scss.card}>
@@ -127,7 +137,7 @@ const Profile: FC<ProfileProps> = ({ onClose }) => {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {showEditModal && (
         <div className={scss.editModal}>

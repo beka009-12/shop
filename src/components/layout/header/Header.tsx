@@ -2,13 +2,12 @@
 import { useEffect, useState, type FC } from "react";
 import scss from "./Header.module.scss";
 import { usePathname, useRouter } from "next/navigation";
-import Mobile from "../mobileNavigation/Mobile";
 import { useGetMe } from "@/api/user";
 import { links } from "@/utils/constant/Link";
 import { useGetOrders } from "@/api/order";
 import { useGetFavorites } from "@/api/favorite";
-import Profile from "@/components/pages/profile/Profile";
 import Catalog from "@/components/pages/catalog/Catalog";
+import Profile from "@/components/pages/profile/Profile";
 
 const Header: FC = () => {
   const router = useRouter();

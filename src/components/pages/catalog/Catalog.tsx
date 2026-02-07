@@ -14,9 +14,10 @@ interface Category {
 interface CatalogProps {
   isOpen: boolean;
   onClose: () => void;
+  onSelectCategory?: (categoryId: number | null) => void;
 }
 
-const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
+const Catalog: FC<CatalogProps> = ({ isOpen, onClose, onSelectCategory }) => {
   const { data: categories } = useGetCategoriesTree();
   const [breadcrumbs, setBreadcrumbs] = useState<Category[]>([]);
   const [currentCategories, setCurrentCategories] = useState<Category[]>([]);
@@ -28,14 +29,13 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
   }, [categories]);
 
   const handleCategoryClick = (category: Category) => {
+    onSelectCategory?.(category.id);
+
     if (category.children && category.children.length > 0) {
       setBreadcrumbs([...breadcrumbs, category]);
-      // Показываем подкатегории
       setCurrentCategories(category.children);
     } else {
-      // Если нет подкатегорий, можно перейти на страницу категории
-      console.log("Navigate to category:", category.id);
-      // router.push(`/catalog/${category.id}`);
+      handleClose();
     }
   };
 
@@ -47,10 +47,8 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
     setBreadcrumbs(newBreadcrumbs);
 
     if (newBreadcrumbs.length === 0) {
-      // Возвращаемся к корневым категориям
       setCurrentCategories(categories?.categories || []);
     } else {
-      // Показываем подкатегории предыдущей категории
       const previousCategory = newBreadcrumbs[newBreadcrumbs.length - 1];
       setCurrentCategories(previousCategory.children || []);
     }

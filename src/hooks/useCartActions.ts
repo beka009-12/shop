@@ -50,7 +50,6 @@ export const useCartAddAction = () => {
   };
 };
 
-// ! TODO: delete from cart
 export const useCartDeleteAction = () => {
   const { data: me } = useGetMe();
   const { mutateAsync: deleteAllOrder } = useDeleteAllOrder();

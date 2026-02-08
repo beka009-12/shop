@@ -26,12 +26,13 @@ const Profile: FC<ProfileProps> = ({ onClose }) => {
   };
 
   const handleClose = () => {
-    useEffect(() => {
-      onClose();
-      setShowLogoutModal(false);
-      setShowEditModal(false);
-    }, [pathname]);
+    onClose();
   };
+
+  useEffect(() => {
+    setShowLogoutModal(false);
+    setShowEditModal(false);
+  }, [pathname]);
 
   const handleLogoutClick = () => setShowLogoutModal(true);
   const handleConfirmLogout = async () => {

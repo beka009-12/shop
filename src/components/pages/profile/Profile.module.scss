@@ -536,7 +536,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.173);
+
     backdrop-filter: blur(4px);
   }
 
@@ -677,7 +678,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.173);
     backdrop-filter: blur(4px);
   }
 
@@ -799,7 +800,6 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.173);
   height: 100%;
   z-index: 888;
   animation: fadeIn 0.3s ease-in-out;

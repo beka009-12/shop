@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: `https://express-production-2192.up.railway.app/nest-shop`,
+  baseURL: `${process.env.NEXT_PUBLIC_API}/nest-shop`,
 });
 
 api.interceptors.request.use((config) => {

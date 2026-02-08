@@ -2,12 +2,13 @@ $black: #000000;
 $white: #ffffff;
 $accent-orange: #fb4a1e;
 $gray-light: #f5f5f7;
-$gray-border: #eeeeee;
+$gray-border: #cdcdcd;
 $text-secondary: #232323;
 
 .Order {
   padding: 60px 0 100px;
   min-height: 80vh;
+  position: relative;
 }
 
 .content {
@@ -43,15 +44,14 @@ $text-secondary: #232323;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #fff0f0;
-    color: red;
-    border-color: red;
+    background: red;
+    color: $white;
   }
 }
 
 .orderBox {
   display: grid;
-  grid-template-columns: 1fr 350px; // Четкая сетка: контент и сайдбар
+  grid-template-columns: 1fr 350px;
   gap: 40px;
   align-items: start;
 }
@@ -86,8 +86,8 @@ $text-secondary: #232323;
 .image {
   width: 100%;
   height: 100%;
-  object-fit: contain; // Чтобы товар был виден полностью
-  mix-blend-mode: multiply; // Для белых фонов картинок
+  object-fit: contain;
+  mix-blend-mode: multiply;
 }
 
 .cardInfo {
@@ -112,7 +112,7 @@ $text-secondary: #232323;
 .price {
   font-size: 22px;
   font-weight: 700;
-  color: $black; // Цена черная — это стильно
+  color: $black;
 }
 
 .props {
@@ -165,9 +165,10 @@ $text-secondary: #232323;
 .remove {
   background: none;
   border: none;
+  font-weight: 500;
   color: $text-secondary;
   text-decoration: underline;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   &:hover {
     color: $black;
@@ -227,22 +228,74 @@ $text-secondary: #232323;
   }
 }
 
+.floatingPrice {
+  position: fixed;
+  bottom: 65px;
+  left: 0;
+  right: 0;
+  background: $white;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px 20px;
+  z-index: 100;
+  animation: slideUp 0.3s ease-out;
+  display: none;
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+}
+
+.floatingPriceContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.floatingPriceLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: $text-secondary;
+}
+
+.floatingPriceValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: $accent-orange;
+}
+
 @media (max-width: 1024px) {
   .orderBox {
-    grid-template-columns: 1fr; // Сайдбар уходит вниз
+    grid-template-columns: 1fr;
   }
   .summary {
     max-width: 100%;
+    position: relative;
+    top: 0;
+  }
+
+  .floatingPrice {
+    display: block;
   }
 }
 
 @media (max-width: 600px) {
+  .Order {
+    padding: 40px 0 80px;
+  }
+
   .title {
     font-size: 32px;
   }
 
   .orderCard {
-    flex-direction: column; // На мобилках картинка сверху
+    flex-direction: column;
     gap: 16px;
   }
 
@@ -259,5 +312,13 @@ $text-secondary: #232323;
   .top {
     flex-direction: column;
     gap: 4px;
+  }
+
+  .floatingPriceLabel {
+    font-size: 14px;
+  }
+
+  .floatingPriceValue {
+    font-size: 20px;
   }
 }

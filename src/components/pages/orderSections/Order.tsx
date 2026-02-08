@@ -1,5 +1,5 @@
 "use client";
-import React, { type FC, useState, useEffect } from "react";
+import React, { type FC, useState, useEffect, useRef } from "react";
 import scss from "./Order.module.scss";
 import { CartBtn } from "@/utils/ui/GlobalBtn/Btn";
 import { useDeleteById, useGetOrders } from "@/api/order";
@@ -22,10 +22,33 @@ const Order: FC = () => {
 
   const [cartItems, setCartItems] = useState(cartData || []);
   const [openModal, setOpenModal] = useState(false);
+  const [showFloatingPrice, setShowFloatingPrice] = useState(false);
+
+  const summaryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (cartData) setCartItems(cartData);
   }, [cartData]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (summaryRef.current) {
+        const summaryRect = summaryRef.current.getBoundingClientRect();
+        const isVisible =
+          summaryRect.top < window.innerHeight && summaryRect.bottom > 0;
+        setShowFloatingPrice(!isVisible && window.innerWidth <= 1024);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [cartItems]);
 
   const total = cartItems.reduce(
     (acc, item) => acc + Number(item.product.price) * item.quantity!,
@@ -74,7 +97,7 @@ const Order: FC = () => {
                   className={scss.button}
                   onClick={() => deleteAllFromCart()}
                 >
-                  Удалить все
+                  Очистить корзину
                 </button>
               )}
             </div>
@@ -141,7 +164,7 @@ const Order: FC = () => {
                   ))}
                 </div>
 
-                <div className={scss.summary}>
+                <div className={scss.summary} ref={summaryRef}>
                   <div className={scss.total}>
                     Итого: <span>{total.toLocaleString()}</span>
                   </div>
@@ -166,6 +189,17 @@ const Order: FC = () => {
             )}
           </div>
         </div>
+
+        {showFloatingPrice && cartItems.length > 0 && (
+          <div className={scss.floatingPrice}>
+            <div className={scss.floatingPriceContent}>
+              <span className={scss.floatingPriceLabel}>Итого:</span>
+              <span className={scss.floatingPriceValue}>
+                {total.toLocaleString()} сом
+              </span>
+            </div>
+          </div>
+        )}
       </section>
       <CheckoutModal isOpen={openModal} onClose={() => setOpenModal(false)} />
     </>

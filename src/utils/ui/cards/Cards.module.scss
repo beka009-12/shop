@@ -26,6 +26,7 @@
     overflow: hidden;
     border-bottom: 1px solid #eee;
     position: relative;
+    user-select: none;
 
     img {
       flex-shrink: 2;

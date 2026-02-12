@@ -254,8 +254,6 @@ $text-secondary: #232323;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 .floatingPriceLabel {
@@ -321,4 +319,20 @@ $text-secondary: #232323;
   .floatingPriceValue {
     font-size: 20px;
   }
+}
+// ─── SKELETON — добавь в конец Order.module.scss ─────────────────────────────
+
+@keyframes shimmer {
+  0% {
+    background-position: -700px 0;
+  }
+  100% {
+    background-position: 700px 0;
+  }
+}
+
+.skeletonBox {
+  background: linear-gradient(90deg, #ebebeb 25%, #d6d6d6 50%, #ebebeb 75%);
+  background-size: 700px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
 }

@@ -1,20 +1,26 @@
+// Основные цвета (оставил твои)
 $accent-orange: #fb4a1e;
 $black: #000000;
 $white: #ffffff;
 $text-secondary: #6e6e73;
 $gray-border: rgba(0, 0, 0, 0.08);
+$bg-blur: rgba($white, 0.96); // чуть плотнее для лучшей читаемости
+
+$header-padding-desktop: 10px 32px;
+$header-padding-tablet: 10px 24px;
+$header-padding-mobile: 8px 16px;
+
+$nav-gap-desktop: 40px;
+$nav-gap-tablet: 28px;
+$nav-gap-mobile: 20px;
 
 .Header {
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  padding-block: 15px; // Чуть компактнее — это стильнее
-  z-index: 10;
-  background-color: rgba($white, 0.8);
-  backdrop-filter: blur(20px); // Эффект дорогого стекла
-  border-bottom: 1px solid $gray-border;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 888;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 
   &.hidden {
     transform: translateY(-100%);
@@ -24,202 +30,253 @@ $gray-border: rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: $bg-blur;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); // для Safari
+    padding: $header-padding-desktop;
+    margin: 8px 16px 0;
+    border-radius: 29px; // очень скруглённый, современный вид
+    border: 1px solid $gray-border;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   }
 
   .logo {
     cursor: pointer;
+    user-select: none;
     display: flex;
     flex-direction: column;
-    user-select: none;
+    line-height: 1;
 
     h1 {
+      margin: 0;
       font-size: 26px;
       font-weight: 800;
-      letter-spacing: -0.04em;
-      color: $black;
-      margin: 0;
+      letter-spacing: -0.5px;
+      color: $accent-orange;
 
       span {
-        color: $accent-orange; // Только одна буква или часть лого
-        font-weight: 900;
+        color: $black;
       }
     }
 
     .online {
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 10px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       color: $text-secondary;
-      margin-top: -2px;
+      margin-top: 2px;
     }
   }
 
-  .navigation nav {
-    display: flex;
-    gap: 40px;
+  // ─── Навигация ────────────────────────────────────────
+  .navigation {
+    nav {
+      display: flex;
+      gap: $nav-gap-desktop;
+      align-items: center;
 
-    p {
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: 500;
-      color: #3a3a3a;
-      transition: all 0.2s ease;
-      position: relative;
+      a,
+      p {
+        position: relative;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 500;
+        color: #2c2c2e;
+        white-space: nowrap;
+        transition: color 0.2s ease;
 
-      &:hover {
-        color: $black;
-      }
-
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -6px;
-        left: 50%;
-        transform: translateX(-50%) scaleX(0);
-        width: 41px;
-        height: 2px;
-        background: $accent-orange;
-        opacity: 0;
-        transition:
-          transform 0.3s ease,
-          opacity 0.3s ease;
-      }
-
-      &:hover::after {
-        opacity: 1;
-        transform: translateX(-50%) scaleX(0.8);
-      }
-
-      &.active {
-        color: $accent-orange;
+        &:hover {
+          color: $black;
+        }
 
         &::after {
+          content: "";
+          position: absolute;
+          bottom: -7px;
+          left: 50%;
+          transform: translateX(-50%) scaleX(0);
+          width: 100%;
+          height: 2px;
+          background: $accent-orange;
+          border-radius: 2px;
+          transition: transform 0.28s cubic-bezier(0.65, 0.05, 0.36, 1);
+          opacity: 0;
+        }
+
+        &:hover::after,
+        &.active::after {
           opacity: 1;
           transform: translateX(-50%) scaleX(1);
+        }
+
+        &.active {
+          color: $accent-orange;
+          font-weight: 600;
         }
       }
     }
   }
 
+  // ─── Корзина + иконки ─────────────────────────────────
   .cart {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
 
     .cartLink {
       position: relative;
+      width: 44px;
+      height: 44px;
       cursor: pointer;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: background 0.2s ease;
+      display: grid;
+      place-items: center;
       border-radius: 12px;
+      transition: background 0.18s ease;
 
       &:hover {
-        background: rgba($black, 0.04);
+        background: rgba($black, 0.05);
       }
 
       .cartIcon {
         width: 24px;
         height: 24px;
         stroke: $black;
+        stroke-width: 1.8;
       }
 
       .cartCount {
         position: absolute;
-        top: 2px;
-        right: 2px;
-        display: flex;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-        background: $accent-orange; // Черный кружок с оранжевым числом или наоборот
-        color: $white;
+        top: 4px;
+        right: 4px;
+        min-width: 18px;
+        height: 18px;
+        display: grid;
+        place-items: center;
+        background: $accent-orange;
+        color: white;
         font-size: 10px;
-        font-weight: 700;
-        min-width: 17px;
-        height: 17px;
+        font-weight: 800;
         border-radius: 50%;
         border: 2px solid $white;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
       }
     }
   }
 
+  // ─── Медиа-запросы ───────────────────────────────────────
+  @media (max-width: 1024px) {
+    .content {
+      margin: 6px 12px 0;
+      padding: $header-padding-tablet;
+      border-radius: 24px;
+    }
+
+    .navigation nav {
+      gap: $nav-gap-tablet;
+    }
+
+    .logo h1 {
+      font-size: 24px;
+    }
+  }
+
   @media (max-width: 768px) {
-    padding-block: 12px;
+    .content {
+      border-bottom: 1px solid $gray-border;
+      padding: $header-padding-mobile;
+      box-shadow: none;
+      backdrop-filter: blur(16px);
+    }
 
     .navigation,
-    .authLinks,
-    .cartLink {
-      display: none !important; // На мобилках всё в BottomHeader
+    .cart {
+      display: none !important;
     }
 
     .logo h1 {
       font-size: 22px;
     }
+
+    .logo .online {
+      font-size: 9px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .content {
+      padding: 8px 14px;
+    }
+
+    .logo h1 {
+      font-size: 20px;
+    }
+
+    .logo .online {
+      font-size: 8.5px;
+      margin-top: -2px;
+    }
   }
 }
 
+// ───────────────────────────────────────────────
+// Кнопка «Каталог» (отдельный блок)
 .catalogButton {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 16px;
-  background: #007bff;
-  color: #fff;
+  padding: 10px 18px;
+  background: #0066ff;
+  color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
-  margin-right: 20px;
+  transition: all 0.22s ease;
+  white-space: nowrap;
 
   svg {
     width: 20px;
     height: 20px;
+    stroke-width: 2.2;
   }
 
   &:hover {
-    background: #0056b3;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    background: #0055dd;
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 20px rgba(0, 102, 255, 0.28);
   }
 
   &:active {
     transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 102, 255, 0.2);
   }
-}
 
-// Responsive для кнопки каталога
-@media (max-width: 768px) {
-  .catalogButton {
-    padding: 8px 12px;
+  @media (max-width: 768px) {
+    padding: 9px 14px;
     font-size: 14px;
-    margin-right: 15px;
 
     svg {
       width: 18px;
       height: 18px;
     }
   }
-}
 
-@media (max-width: 480px) {
-  .catalogButton {
-    padding: 6px 10px;
+  @media (max-width: 480px) {
+    padding: 8px 12px;
     gap: 6px;
+    font-size: 13.5px;
 
-    span {
+    span:not(.icon) {
       display: none;
     }
   }
 }
+
+// ─── Активная иконка (если нужно) ────────────────
 .active {
-  svg {
+  .cartIcon {
     stroke: $accent-orange !important;
   }
 }

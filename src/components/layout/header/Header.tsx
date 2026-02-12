@@ -52,7 +52,7 @@ const Header: FC = () => {
           <div className={scss.content}>
             <div onClick={() => handleNavigation("/")} className={scss.logo}>
               <h1>
-                <span>Shop</span>Nest
+                <span>Shop</span>Ix
               </h1>
               <span className={scss.online}>online store</span>
             </div>

@@ -1,5 +1,6 @@
 "use client";
 import { FC, useState } from "react";
+import clsx from "clsx";
 import scss from "./Mobile.module.scss";
 import { useRouter, usePathname } from "next/navigation";
 import { useGetMe } from "@/api/user";
@@ -15,6 +16,7 @@ const Mobile: FC = () => {
   const { data: getMe, isLoading } = useGetMe();
   const { data: favorite } = useGetFavorites(getMe?.user.id || 0);
   const { data: cartItems } = useGetOrders(getMe?.user.id || 0);
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
@@ -32,14 +34,19 @@ const Mobile: FC = () => {
     }
   };
 
+  const navigateAndCloseProfile = (path: string) => {
+    setIsProfileOpen(false);
+    handleNavigation(path);
+  };
+
   return (
     <>
       <div className="container">
         <div className={scss.bottomHeader}>
           {/* Дом */}
           <div
-            onClick={() => handleNavigation("/")}
-            className={`${scss.cartLink} ${isActive("/") ? scss.active : ""}`}
+            onClick={() => navigateAndCloseProfile("/")}
+            className={clsx(scss.cartLink, isActive("/") && scss.active)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -59,10 +66,8 @@ const Mobile: FC = () => {
 
           {/* Корзина */}
           <div
-            onClick={() => handleNavigation("/cart")}
-            className={`${scss.cartLink} ${
-              isActive("/cart") ? scss.active : ""
-            }`}
+            onClick={() => navigateAndCloseProfile("/cart")}
+            className={clsx(scss.cartLink, isActive("/cart") && scss.active)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -81,8 +86,12 @@ const Mobile: FC = () => {
             <span className={scss.cartCount}>{cartItems?.length || 0}</span>
           </div>
 
+          {/* Каталог (центральная кнопка) */}
           <button
-            onClick={() => setIsCatalogOpen(true)}
+            onClick={() => {
+              setIsProfileOpen(false);
+              setIsCatalogOpen(true);
+            }}
             className={scss.addCategory}
           >
             <svg
@@ -103,10 +112,11 @@ const Mobile: FC = () => {
 
           {/* Избранное */}
           <div
-            onClick={() => handleNavigation("/favorites")}
-            className={`${scss.cartLink} ${
-              isActive("/favorites") ? scss.active : ""
-            }`}
+            onClick={() => navigateAndCloseProfile("/favorites")}
+            className={clsx(
+              scss.cartLink,
+              isActive("/favorites") && scss.active,
+            )}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -130,15 +140,9 @@ const Mobile: FC = () => {
           {/* Профиль или авторизация */}
           <div
             onClick={() => {
-              if (!isAuthenticated) {
-                router.push("/auth?mode=register");
-                return;
-              }
               setIsProfileOpen((prev) => !prev);
             }}
-            className={`${scss.cartLink} ${
-              isActive("/profile") ? scss.active : ""
-            }`}
+            className={clsx(scss.cartLink, isActive("/profile") && scss.active)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -157,6 +161,7 @@ const Mobile: FC = () => {
           </div>
         </div>
       </div>
+
       {isProfileOpen && <Profile onClose={() => setIsProfileOpen(false)} />}
       {isCatalogOpen && (
         <Catalog

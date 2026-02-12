@@ -1,5 +1,6 @@
 "use client";
 import React, { type FC, useState, useEffect, useRef } from "react";
+import clsx from "clsx";
 import scss from "./Order.module.scss";
 import { CartBtn } from "@/utils/ui/GlobalBtn/Btn";
 import { useDeleteById, useGetOrders } from "@/api/order";
@@ -12,11 +13,11 @@ import CheckoutModal from "./CheckoutModal";
 import OrderSkeleton from "@/utils/ui/sceletons/OrderSceleton";
 
 const Order: FC = () => {
-  const { data: getMe } = useGetMe();
-  const userId = getMe?.user.id;
   const router = useRouter();
+  const { data: user } = useGetMe();
+  const userId = user?.user?.id;
 
-  const { data: cartData, isLoading } = useGetOrders(userId!);
+  const { data: cartData, isLoading } = useGetOrders(Number(userId));
   const { mutateAsync: deleteByIdAsync } = useDeleteById();
   const { deleteAllFromCart } = useCartDeleteAction();
 
@@ -27,17 +28,18 @@ const Order: FC = () => {
   const summaryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (cartData) setCartItems(cartData);
+    if (cartData) {
+      setCartItems(cartData);
+    }
   }, [cartData]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (summaryRef.current) {
-        const summaryRect = summaryRef.current.getBoundingClientRect();
-        const isVisible =
-          summaryRect.top < window.innerHeight && summaryRect.bottom > 0;
-        setShowFloatingPrice(!isVisible && window.innerWidth <= 1024);
-      }
+      if (!summaryRef.current) return;
+
+      const rect = summaryRef.current.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      setShowFloatingPrice(!isVisible && window.innerWidth <= 1024);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -48,12 +50,13 @@ const Order: FC = () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
     };
-  }, [cartItems]);
+  }, [cartItems.length]);
 
-  const total = cartItems.reduce(
-    (acc, item) => acc + Number(item.product.price) * item.quantity!,
-    0,
-  );
+  const total = cartItems.reduce((acc, item) => {
+    const price = Number(item?.product?.price || 0);
+    const qty = item?.quantity || 1;
+    return acc + price * qty;
+  }, 0);
 
   const deleteItemById = async (productId: number) => {
     try {
@@ -62,15 +65,16 @@ const Order: FC = () => {
         prev.filter((item) => item.product.id !== productId),
       );
       toast.success("Товар удалён из корзины");
-    } catch {
-      toast.error("Ошибка при удалении товара из корзины");
+    } catch (err) {
+      toast.error("Не удалось удалить товар");
+      console.error(err);
     }
   };
 
   const increment = (id: number) => {
     setCartItems((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity! + 1 } : item,
+        item.id === id ? { ...item, quantity: (item.quantity || 1) + 1 } : item,
       ),
     );
   };
@@ -78,12 +82,16 @@ const Order: FC = () => {
   const decrement = (id: number) => {
     setCartItems((prev) =>
       prev.map((item) =>
-        item.id === id && item.quantity! > 1
-          ? { ...item, quantity: item.quantity! - 1 }
+        item.id === id && (item.quantity || 1) > 1
+          ? { ...item, quantity: (item.quantity || 1) - 1 }
           : item,
       ),
     );
   };
+
+  if (isLoading) {
+    return <OrderSkeleton count={2} />;
+  }
 
   return (
     <>
@@ -92,19 +100,27 @@ const Order: FC = () => {
           <div className={scss.content}>
             <div className={scss.header}>
               <h2 className={scss.title}>Корзина</h2>
-              {!isLoading && cartItems.length > 0 && (
-                <button
-                  className={scss.button}
-                  onClick={() => deleteAllFromCart()}
-                >
+
+              {cartItems.length > 0 && (
+                <button className={scss.button} onClick={deleteAllFromCart}>
                   Очистить корзину
                 </button>
               )}
             </div>
 
-            {isLoading ? (
-              <OrderSkeleton />
-            ) : cartItems.length > 0 ? (
+            {cartItems.length === 0 ? (
+              <div className={scss.notFound}>
+                <img src={NotFound.src} alt="Корзина пуста" />
+                <h2>Корзина пуста</h2>
+                <p>Добавьте товары, чтобы оформить заказ</p>
+                <button
+                  className={scss.btnNotFound}
+                  onClick={() => router.push("/")}
+                >
+                  Перейти в магазин
+                </button>
+              </div>
+            ) : (
               <div className={scss.orderBox}>
                 <div className={scss.box}>
                   {cartItems.map((item) => (
@@ -112,21 +128,29 @@ const Order: FC = () => {
                       <div className={scss.imageWrapper}>
                         <img
                           className={scss.image}
-                          src={item.product.images[0]}
-                          alt={item.product.title}
+                          src={
+                            item.product?.images?.[0] ||
+                            "/placeholder-product.jpg"
+                          }
+                          alt={item.product?.title || "Товар"}
                         />
                       </div>
 
                       <div className={scss.cardInfo}>
                         <div className={scss.top}>
-                          <h3 className={scss.name}>{item.product.title}</h3>
+                          <h3 className={scss.name}>
+                            {item.product?.title || "—"}
+                          </h3>
                           <div className={scss.price}>
-                            {item.product.price.toLocaleString()} сом
+                            {(
+                              Number(item.product?.price) || 0
+                            ).toLocaleString()}{" "}
+                            сом
                           </div>
                         </div>
 
                         <div className={scss.props}>
-                          {item.product.brandName && (
+                          {item.product?.brandName && (
                             <div className={scss.prop}>
                               Бренд: <span>{item.product.brandName}</span>
                             </div>
@@ -142,7 +166,9 @@ const Order: FC = () => {
                             >
                               −
                             </button>
-                            <span className={scss.count}>{item.quantity}</span>
+                            <span className={scss.count}>
+                              {item.quantity || 1}
+                            </span>
                             <button
                               className={scss.btn}
                               type="button"
@@ -166,7 +192,7 @@ const Order: FC = () => {
 
                 <div className={scss.summary} ref={summaryRef}>
                   <div className={scss.total}>
-                    Итого: <span>{total.toLocaleString()}</span>
+                    Итого: <span>{total.toLocaleString()} сом</span>
                   </div>
                   <CartBtn
                     title="Оформить заказ"
@@ -174,24 +200,12 @@ const Order: FC = () => {
                   />
                 </div>
               </div>
-            ) : (
-              <div className={scss.notFound}>
-                <img src={NotFound?.src} alt="not found" />
-                <h2>Корзина пуста</h2>
-                <p>Добавьте товары в корзину</p>
-                <button
-                  className={scss.btnNotFound}
-                  onClick={() => router.push("/")}
-                >
-                  Перейти в главную
-                </button>
-              </div>
             )}
           </div>
         </div>
 
         {showFloatingPrice && cartItems.length > 0 && (
-          <div className={scss.floatingPrice}>
+          <div className={clsx(scss.floatingPrice, scss.visible)}>
             <div className={scss.floatingPriceContent}>
               <span className={scss.floatingPriceLabel}>Итого:</span>
               <span className={scss.floatingPriceValue}>
@@ -201,6 +215,7 @@ const Order: FC = () => {
           </div>
         )}
       </section>
+
       <CheckoutModal isOpen={openModal} onClose={() => setOpenModal(false)} />
     </>
   );

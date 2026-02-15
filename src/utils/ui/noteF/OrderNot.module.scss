@@ -1,0 +1,30 @@
+.notFound {
+  text-align: center;
+  padding: 100px 0;
+
+  img {
+    width: 120px;
+    margin-bottom: 24px;
+  }
+  h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  p {
+    color: #525252;
+    margin-bottom: 32px;
+  }
+
+  .btnNotFound {
+    padding: 10px 20px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 3px;
+    &:hover {
+      background: #333;
+    }
+  }
+}

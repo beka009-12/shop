@@ -3,22 +3,26 @@ import { type FC } from "react";
 import scss from "./DetailShop.module.scss";
 import { useParams } from "next/navigation";
 import { useGetDetailStore } from "@/api/store";
-import Grid from "@/utils/ui/cards/Grid";
-
+import DetailShopSkeleton from "@/utils/ui/sceletons/DetailShopSceleton";
+import { MapPin } from "lucide-react";
 const DetailShop: FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetDetailStore(Number(id));
 
   const store = data?.store;
 
-  if (isLoading) return <div className={scss.loading}>Загрузка...</div>;
-  if (!store) return <div className={scss.notFound}>Магазин не найден</div>;
+  if (isLoading) {
+    return <DetailShopSkeleton />;
+  }
+
+  if (!store) {
+    return <div className={scss.notFound}>Магазин не найден</div>;
+  }
 
   return (
     <section className={scss.DetailShop}>
       <div className="container">
         <div className={scss.wrapper}>
-          {/* Левая колонка — данные магазина */}
           <aside className={scss.sidebar}>
             {store.isVerified && (
               <div className={scss.verifiedBadge}>
@@ -41,7 +45,7 @@ const DetailShop: FC = () => {
             )}
 
             <div className={scss.logoWrapper}>
-              <img src={store.logo || ""} alt={store.name} />
+              <img src={store.logo!} alt={store.name} />
             </div>
 
             <h1 className={scss.storeName}>{store.name}</h1>
@@ -52,24 +56,7 @@ const DetailShop: FC = () => {
 
             <div className={scss.infoGrid}>
               <div className={scss.infoItem}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                  />
-                </svg>
+                <MapPin />
                 <span>{store.region}</span>
               </div>
 
@@ -106,10 +93,10 @@ const DetailShop: FC = () => {
                     )}&output=embed`}
                     allowFullScreen
                     width="100%"
-                    height="200"
+                    height="180"
                     loading="lazy"
                     className={scss.mapIframe}
-                  ></iframe>
+                  />
                 </div>
               </>
             )}
@@ -125,7 +112,39 @@ const DetailShop: FC = () => {
                 </span>
               )}
             </h2>
-            <Grid products={store.products} isLoading={isLoading} />
+
+            {store.products?.length === 0 ? (
+              <div className={scss.noProducts}>В магазине пока нет товаров</div>
+            ) : (
+              <div className={scss.productsGrid}>
+                {store.products.map((product) => (
+                  <div key={product.id} className={scss.productCard}>
+                    <div className={scss.productImageWrapper}>
+                      <img
+                        src={product.images?.[0] || "/placeholder-product.jpg"}
+                        alt={product.title}
+                        className={scss.productImage}
+                      />
+                    </div>
+
+                    <div className={scss.productInfo}>
+                      <h3 className={scss.productName}>{product.title}</h3>
+
+                      <div className={scss.productPriceRow}>
+                        <span className={scss.productPrice}>
+                          {product.price} сом
+                        </span>
+                        {product.oldPrice && (
+                          <span className={scss.oldPrice}>
+                            {product.oldPrice} сом
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useCartDeleteAction } from "@/hooks/useCartActions";
 import CheckoutModal from "./CheckoutModal";
 import OrderSkeleton from "@/utils/ui/sceletons/OrderSceleton";
+import OrderNot from "@/utils/ui/noteF/OrderNot";
 
 const Order: FC = () => {
   const router = useRouter();
@@ -109,17 +110,7 @@ const Order: FC = () => {
             </div>
 
             {cartItems.length === 0 ? (
-              <div className={scss.notFound}>
-                <img src={NotFound.src} alt="Корзина пуста" />
-                <h2>Корзина пуста</h2>
-                <p>Добавьте товары, чтобы оформить заказ</p>
-                <button
-                  className={scss.btnNotFound}
-                  onClick={() => router.push("/")}
-                >
-                  Перейти в магазин
-                </button>
-              </div>
+              <OrderNot />
             ) : (
               <div className={scss.orderBox}>
                 <div className={scss.box}>

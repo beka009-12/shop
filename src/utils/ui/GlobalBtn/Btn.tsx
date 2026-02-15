@@ -8,7 +8,7 @@ interface BtnProps {
 
 const Btn: FC<BtnProps> = ({ title, onClick }) => {
   return (
-    <button className={scss.btn} onClick={onClick}>
+    <button className={scss.NoteBtn} onClick={onClick}>
       {title}
     </button>
   );

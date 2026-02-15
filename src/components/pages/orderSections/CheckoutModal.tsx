@@ -15,8 +15,8 @@ const CheckoutModal: FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
     null,
   );
   const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("cash");
   const [loadingAddress, setLoadingAddress] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("cash");
 
   if (!isOpen) return null;
 

@@ -1,0 +1,202 @@
+.DetailShopSkeleton {
+  padding: 2.5rem 0 4rem;
+  background: #f9fafb;
+  min-height: 100vh;
+}
+
+.wrapper {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+}
+
+.sidebar {
+  flex: 0 0 320px;
+  background: white;
+  padding: 1.75rem;
+  border-radius: 12px;
+  border: 1px solid #f1f3f5;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  position: sticky;
+  top: 1.5rem;
+
+  @media (max-width: 1024px) {
+    position: static;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+
+.verifiedPlaceholder,
+.logoSkeleton,
+.titleSkeleton,
+.sectionTitleSkeleton,
+.titleLine,
+.countLine,
+.line,
+.textLine,
+.iconPlaceholder,
+.mapSkeleton,
+.productImage,
+.productTitle,
+.productPrice,
+.productRating {
+  background: #e5e7eb;
+  border-radius: 6px;
+  animation: pulse 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.verifiedPlaceholder {
+  width: 110px;
+  height: 28px;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.logoSkeleton {
+  width: 100%;
+  height: 140px;
+}
+
+.titleSkeleton {
+  width: 65%;
+  height: 32px;
+}
+
+.descriptionSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .line {
+    height: 14px;
+    width: 100%;
+  }
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.125rem;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+
+  .iconPlaceholder {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+  }
+
+  .textLine {
+    height: 16px;
+  }
+}
+
+.addressSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sectionTitleSkeleton {
+  width: 90px;
+  height: 18px;
+}
+
+.mapSkeleton {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+}
+
+/* ─────── Товары ─────── */
+
+.productsSection {
+  flex: 1;
+}
+
+.productsTitleSkeleton {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+
+  .titleLine {
+    width: 180px;
+    height: 28px;
+  }
+
+  .countLine {
+    width: 60px;
+    height: 18px;
+  }
+}
+
+.gridSkeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem 1.25rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.productCardSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.productImage {
+  width: 100%;
+  aspect-ratio: 1 / 1.1;
+  border-radius: 10px;
+}
+
+.productTitle {
+  width: 80%;
+  height: 18px;
+}
+
+.productPrice {
+  width: 50%;
+  height: 18px;
+}
+
+.productRating {
+  width: 70px;
+  height: 14px;
+  border-radius: 999px;
+}

@@ -15,7 +15,7 @@ const TABS = [
 const Welcome: FC = () => {
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState<string>("all");
-  const { data, isLoading } = useGetProduct({
+  const { data, isLoading, isError } = useGetProduct({
     search: search,
   });
 
@@ -84,7 +84,11 @@ const Welcome: FC = () => {
             <Search onSearch={handleSearch} />
           </div>
 
-          <Grid products={filteredProducts} isLoading={isLoading} />
+          <Grid
+            products={filteredProducts}
+            isLoading={isLoading}
+            isError={isError}
+          />
         </div>
       </div>
     </section>

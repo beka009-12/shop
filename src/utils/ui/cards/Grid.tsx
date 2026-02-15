@@ -3,6 +3,7 @@ import { type FC, memo } from "react";
 import scss from "./Grid.module.scss";
 import Cards from "../cards/Cards";
 import CardSceleton from "../cards/CardSceleton";
+import ProductsNot from "../noteF/productsNot";
 
 interface ProductCard {
   id: number;
@@ -16,11 +17,16 @@ interface ProductCard {
 interface GridProps {
   products?: ProductCard[];
   isLoading?: boolean;
+  isError?: boolean;
 }
 
-const SKELETON_COUNT = 12;
+const SKELETON_COUNT = 10;
 
-const Grid: FC<GridProps> = ({ products, isLoading = false }) => {
+const Grid: FC<GridProps> = ({
+  products,
+  isLoading = false,
+  isError = false,
+}) => {
   if (isLoading) {
     return (
       <div className={scss.Grid} aria-busy="true">
@@ -33,10 +39,8 @@ const Grid: FC<GridProps> = ({ products, isLoading = false }) => {
 
   if (!products || products.length === 0) {
     return (
-      <div className={scss.Grid}>
-        <p className={scss.emptyState}>
-          Товары не найдены. Попробуйте изменить фильтры.
-        </p>
+      <div className={scss.gridNot}>
+        <ProductsNot type="empty" />
       </div>
     );
   }

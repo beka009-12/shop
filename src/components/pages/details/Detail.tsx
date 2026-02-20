@@ -119,16 +119,6 @@ const Detail: FC = () => {
             )}
 
             <div className={scss.keyRow}>
-              <span className={scss.keyLabel}>Категория</span>
-              <span className={scss.keyValue}>{product.category.name} </span>
-            </div>
-
-            <div className={scss.keyRow}>
-              <span className={scss.keyLabel}>Артикул</span>
-              <span className={scss.keyValue}>{!Date.now() || "—"}</span>
-            </div>
-
-            <div className={scss.keyRow}>
               <span className={scss.keyLabel}>Наличие</span>
               <span
                 className={`${scss.keyValue} ${product.stockCount > 0 ? scss.inStock : scss.outOfStock}`}
@@ -137,6 +127,11 @@ const Detail: FC = () => {
                   ? `${product.stockCount} шт`
                   : "Нет в наличии"}
               </span>
+            </div>
+
+            <div className={scss.keyRow}>
+              <span className={scss.keyLabel}>Цвет</span>
+              <span className={scss.keyValue}></span>
             </div>
 
             <div className={scss.keyRow}>

@@ -1,5 +1,5 @@
 .detail {
-  padding: 10px;
+  padding-block: 60px;
   min-height: 80vh;
 
   .btnBack {
@@ -44,6 +44,7 @@
     @media (max-width: 968px) {
       grid-template-columns: 1fr;
       gap: clamp(1.5rem, 3vw, 2rem);
+      padding-inline: 10px;
     }
   }
 
@@ -60,7 +61,7 @@
         width: clamp(70px, 10vw, 85px);
         height: clamp(70px, 10vw, 85px);
         border: 2px solid transparent;
-        border-radius: clamp(8px, 1.5vw, 12px);
+        border-radius: clamp(7px, 2vw, 10px);
         overflow: hidden;
         cursor: pointer;
         transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -87,7 +88,7 @@
     .mainImageWrapper {
       flex: 1;
       position: relative;
-      border-radius: clamp(12px, 2vw, 16px);
+      border-radius: clamp(7px, 2vw, 10px);
       overflow: hidden;
       background: #fff;
       max-height: 650px;
@@ -179,9 +180,9 @@
   .info {
     display: flex;
     flex-direction: column;
-    gap: clamp(0.5rem, 2vw, 1.4rem);
+    gap: 10px;
     .title {
-      font-size: clamp(1.5rem, 1.214rem + 1.43vw, 2.5rem);
+      font-size: 30px;
     }
   }
 

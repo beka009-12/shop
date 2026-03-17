@@ -27,7 +27,7 @@ interface IProduct {
   description: string;
   images: string[];
   price: number;
-  oldPrice?: number | null;
+  newPrice?: number | null;
   stockCount: number;
   tags: string[];
   isActive: boolean;

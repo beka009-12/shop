@@ -20,7 +20,7 @@ interface Product {
   description: string;
   images: string[];
   price: number;
-  oldPrice?: number | null;
+  newPrice?: number | null;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;

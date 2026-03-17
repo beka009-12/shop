@@ -26,11 +26,11 @@ const Detail: FC = () => {
   if (!product) return <div className={scss.notFound}>Продукт не найден</div>;
 
   const mainImage = activeImage || product.images?.[0];
-  const hasDiscount = product.oldPrice && product.oldPrice > product.price;
+  const hasDiscount = product.newPrice && product.newPrice > product.price;
   const discountPercent =
-    product.oldPrice && product.oldPrice > product.price
+    product.newPrice && product.newPrice > product.price
       ? Math.round(
-          ((product.oldPrice - product.price) / product.oldPrice) * 100,
+          ((product.newPrice - product.price) / product.newPrice) * 100,
         )
       : 0;
 
@@ -99,8 +99,8 @@ const Detail: FC = () => {
               </strong>
               {hasDiscount && (
                 <>
-                  <span className={scss.oldPrice}>
-                    {Number(product.oldPrice).toLocaleString()} сом
+                  <span className={scss.newPrice}>
+                    {Number(product.newPrice).toLocaleString()} сом
                   </span>
                 </>
               )}

@@ -134,9 +134,9 @@ const DetailShop: FC = () => {
                         <span className={scss.productPrice}>
                           {product.price} сом
                         </span>
-                        {product.oldPrice && (
-                          <span className={scss.oldPrice}>
-                            {product.oldPrice} сом
+                        {product.newPrice && (
+                          <span className={scss.newPrice}>
+                            {product.newPrice} сом
                           </span>
                         )}
                       </div>

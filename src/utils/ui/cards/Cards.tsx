@@ -17,7 +17,7 @@ interface IBaseCard {
   description: string;
   images: string[];
   price: number;
-  oldPrice?: number | null;
+  newPrice?: number | null;
 }
 
 const Cards: FC<IBaseCard> = ({
@@ -26,7 +26,7 @@ const Cards: FC<IBaseCard> = ({
   description,
   images = [],
   price,
-  oldPrice,
+  newPrice,
 }) => {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -59,8 +59,8 @@ const Cards: FC<IBaseCard> = ({
 
   // ✅ правильный расчёт скидки
   const discountPercent =
-    oldPrice && price > oldPrice
-      ? Math.round(((price - oldPrice) / price) * 100)
+    newPrice && price > newPrice
+      ? Math.round(((price - newPrice) / price) * 100)
       : 0;
 
   const handleClick = () => router.push(`/detail/${id}`);
@@ -165,10 +165,10 @@ const Cards: FC<IBaseCard> = ({
 
         {/* 💰 цены */}
         <p className={scss.price}>
-          {oldPrice ? (
+          {newPrice ? (
             <>
-              <span className={scss.defaultPrice}>{oldPrice} сом</span>
-              <span className={scss.oldPrice}>{price} сом</span>
+              <span className={scss.defaultPrice}>{newPrice} сом</span>
+              <span className={scss.newPrice}>{price} сом</span>
             </>
           ) : (
             <span className={scss.defaultPrice}>{price} сом</span>

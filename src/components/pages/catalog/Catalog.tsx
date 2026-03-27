@@ -2,6 +2,7 @@
 import { type FC, useState, useEffect } from "react";
 import scss from "./Catalog.module.scss";
 import { useGetCategoriesTree } from "@/api/catalog";
+import { useRouter } from "next/navigation";
 
 interface Category {
   id: number;
@@ -14,27 +15,26 @@ interface Category {
 interface CatalogProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectCategory?: (categoryId: number | null) => void;
 }
 
-const Catalog: FC<CatalogProps> = ({ isOpen, onClose, onSelectCategory }) => {
+const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
   const { data: categories } = useGetCategoriesTree();
   const [breadcrumbs, setBreadcrumbs] = useState<Category[]>([]);
   const [currentCategories, setCurrentCategories] = useState<Category[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
-    if (categories && categories.categories.length > 0) {
+    if (categories && categories.categories && categories.categories.length > 0) {
       setCurrentCategories(categories.categories);
     }
   }, [categories]);
 
   const handleCategoryClick = (category: Category) => {
-    onSelectCategory?.(category.id);
-
     if (category.children && category.children.length > 0) {
-      setBreadcrumbs([...breadcrumbs, category]);
+      setBreadcrumbs((prev) => [...prev, category]);
       setCurrentCategories(category.children);
     } else {
+      router.push(`/catalog/${category.id}`);
       handleClose();
     }
   };
@@ -42,8 +42,7 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose, onSelectCategory }) => {
   const handleBack = () => {
     if (breadcrumbs.length === 0) return;
 
-    const newBreadcrumbs = [...breadcrumbs];
-    newBreadcrumbs.pop();
+    const newBreadcrumbs = breadcrumbs.slice(0, -1);
     setBreadcrumbs(newBreadcrumbs);
 
     if (newBreadcrumbs.length === 0) {
@@ -60,11 +59,10 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose, onSelectCategory }) => {
     onClose();
   };
 
-  if (!isOpen) return null;
-
+  // Не делаем early return — нужно чтобы transition анимация работала
   return (
     <>
-      <div className={scss.overlay} onClick={handleClose} />
+      {isOpen && <div className={scss.overlay} onClick={handleClose} />}
       <div className={`${scss.Catalog} ${isOpen ? scss.open : ""}`}>
         <div className={scss.content}>
           <div className={scss.header}>
@@ -139,7 +137,7 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose, onSelectCategory }) => {
           {breadcrumbs.length > 0 && (
             <div className={scss.breadcrumbsPath}>
               <span>Главная</span>
-              {breadcrumbs.map((crumb, index) => (
+              {breadcrumbs.map((crumb) => (
                 <span key={crumb.id}>
                   {" > "}
                   {crumb.name}

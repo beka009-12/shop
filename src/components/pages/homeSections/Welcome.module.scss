@@ -1,113 +1,112 @@
 .Welcome {
-  padding-block: 70px;
+  padding-block: 60px;
+  background-color: #fcfcfc;
+  min-height: 100vh;
 
   .content {
     display: flex;
     flex-direction: column;
+  }
+
+  .filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    gap: 24px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #fcfcfc;
+    padding-block: 10px;
+
+    @media (max-width: 1024px) {
+      flex-direction: column-reverse;
+      align-items: stretch;
+      gap: 16px;
+    }
+  }
+
+  .tabsWrapper {
+    position: relative;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; // Firefox
+
+    &::-webkit-scrollbar {
+      display: none; // Chrome/Safari
+    }
+
+    .tab {
+      position: relative;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 500;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      border-radius: 8px 8px 0 0;
+
+      &:hover {
+        color: #000;
+        background: rgba(0, 0, 0, 0.02);
+      }
+
+      &.active {
+        color: #fb4a1e;
+      }
+    }
+
+    // Линия-индикатор
+    .indicator {
+      position: absolute;
+      bottom: 0;
+      height: 2px;
+      background-color: #fb4a1e;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  .emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    padding: 100px 20px;
+    text-align: center;
 
-    .filters {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 28px;
-      gap: 20px;
+    h3 {
+      font-size: 20px;
+      margin-top: 16px;
+      color: #333;
+    }
 
-      @media (max-width: 1024px) {
-        flex-direction: column;
-        align-items: stretch;
-      }
+    p {
+      color: #888;
+      margin-top: 8px;
+    }
 
-      .tabs {
-        position: relative;
-        display: flex;
-        border-bottom: 1px solid #e8e8e8;
-
-        @media (max-width: 768px) {
-          overflow-x: auto;
-          white-space: nowrap;
-
-          &::-webkit-scrollbar {
-            display: none;
-          }
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-
-        .tab {
-          position: relative;
-          min-width: 150px;
-          flex: 1;
-          padding: 14px 20px;
-          font-size: 15px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          transition: color 0.3s ease;
-          white-space: nowrap; // Текст не переносится
-          color: #777;
-
-          &::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%; // Начинаем из центра
-            width: 0;
-            height: 2px;
-            background-color: #fb4a1e;
-            transition:
-              width 0.3s ease,
-              left 0.3s ease;
-          }
-
-          &.active {
-            color: #000;
-
-            &::after {
-              width: 100%;
-              left: 0;
-            }
-          }
-
-          @media (max-width: 480px) {
-            min-width: auto;
-            padding: 12px 16px;
-            font-size: 14px;
-          }
-
-          &:hover {
-            color: #111;
-          }
-        }
-
-        .tabs {
-          position: relative;
-          display: flex;
-          border-bottom: 1px solid #e8e8e8;
-          gap: 8px;
-
-          @media (max-width: 768px) {
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            &::-webkit-scrollbar {
-              display: none;
-            } // Скрываем скроллбар
-            scrollbar-width: none;
-          }
-
-          .tab {
-            padding: 12px 20px;
-            font-size: 15px;
-            white-space: nowrap;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #777;
-            transition: color 0.3s ease;
-          }
-        }
-      }
+    .resetBtn {
+      margin-top: 24px;
+      padding: 10px 24px;
+      background: #000;
+      color: #fff;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
     }
   }
 }

@@ -22,11 +22,7 @@ interface GridProps {
 
 const SKELETON_COUNT = 10;
 
-const Grid: FC<GridProps> = ({
-  products,
-  isLoading = false,
-  isError = false,
-}) => {
+const Grid: FC<GridProps> = ({ products, isLoading = false }) => {
   if (isLoading) {
     return (
       <div className={scss.Grid} aria-busy="true">

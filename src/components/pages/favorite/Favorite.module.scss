@@ -1,22 +1,310 @@
-.Favorite {
-  padding: 2rem 0;
+.favorite {
+  padding: 40px 0 80px;
+  min-height: 60vh;
+}
 
-  .title {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+// ─── Header ──────────────────────────────────────────────────
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.09);
+  margin-bottom: 28px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.title {
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 500;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.count {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+// ─── Grid ─────────────────────────────────────────────────────
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+// ─── Card ────────────────────────────────────────────────────
+.card {
+  background: #fff;
+  border-radius: 12px;
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.imgWrap {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #f5f5f3;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+
+  .card:hover & {
+    transform: scale(1.04);
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #e24b4a;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 5px;
+  z-index: 2;
+  letter-spacing: 0.02em;
+}
+
+.favBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+
+  svg {
+    width: 14px;
+    height: 14px;
   }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.5rem;
+  &:hover {
+    transform: scale(1.12);
+    background: #fcebeb;
+  }
+}
+
+// ─── Info ─────────────────────────────────────────────────────
+.info {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: color 0.15s;
+
+  &:hover {
+    color: #4b5563;
+  }
+}
+
+.brand {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 500;
+  color: #e24b4a;
+}
+
+.priceOld {
+  font-size: 11px;
+  color: #c4c4c4;
+  text-decoration: line-through;
+}
+
+.addBtn {
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px;
+  border-radius: 7px;
+  background: #111827;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: background 0.15s ease;
+
+  svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
   }
 
-  .loader,
-  .empty {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #666;
-    padding: 2rem 0;
+  &:hover:not(:disabled) {
+    background: #1f2937;
   }
+}
+
+.addBtnInCart {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: default;
+
+  svg {
+    stroke: #3b6d11;
+  }
+
+  &:hover {
+    background: #f3f4f6;
+  }
+}
+
+// ─── Empty state ──────────────────────────────────────────────
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 12px;
+  text-align: center;
+}
+
+.emptyIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: #d1d5db;
+  }
+}
+
+.emptyTitle {
+  font-size: 17px;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+}
+
+.emptySub {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.emptyBtn {
+  margin-top: 8px;
+  padding: 10px 24px;
+  border-radius: 8px;
+  background: #111827;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: #1f2937;
+  }
+}
+
+// ─── Skeleton ─────────────────────────────────────────────────
+.skeleton {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+}
+
+.skeletonImg {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+}
+
+.skeletonInfo {
+  padding: 10px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeletonLine {
+  height: 12px;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -700px 0;
+  }
+  100% {
+    background-position: 700px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #ebebeb 25%, #d6d6d6 50%, #ebebeb 75%);
+  background-size: 700px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
 }

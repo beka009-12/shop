@@ -25,7 +25,7 @@ interface IProduct {
   description: string;
   images: string[];
   price: number;
-  oldPrice?: number | null;
+  newPrice?: number | null;
   stockCount: number;
   tags: string[];
   isActive: boolean;
@@ -42,7 +42,7 @@ namespace FavoriteAPI {
     title: string;
     description: string;
     price: number;
-    oldPrice?: number | null;
+    newPrice?: number | null;
     images: string[];
     brandName?: string | null;
     createdAt: string;

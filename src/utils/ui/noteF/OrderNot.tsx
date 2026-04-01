@@ -14,7 +14,13 @@ const OrderNot: FC = () => {
   };
   return (
     <div className={scss.notFound}>
-      <Image src={NotFound.src} alt="Корзина пуста" width={300} height={300} />
+      <Image
+        className={scss.notFoundImg}
+        src={NotFound.src}
+        alt="Корзина пуста"
+        width={300}
+        height={300}
+      />
       <h2>Корзина пуста</h2>
       <p>Добавьте товары, чтобы оформить заказ</p>
       <Btn onClick={handleHomeRedirect} title="Перейти в главное" />

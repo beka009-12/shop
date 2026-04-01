@@ -4,7 +4,6 @@
   position: relative;
 }
 
-// ─── Header ──────────────────────────────────────────────────
 .header {
   display: flex;
   align-items: baseline;
@@ -48,7 +47,6 @@
   }
 }
 
-// ─── Main grid ───────────────────────────────────────────────
 .grid {
   display: grid;
   grid-template-columns: 1fr 300px;
@@ -60,7 +58,6 @@
   }
 }
 
-// ─── Items list ──────────────────────────────────────────────
 .items {
   display: flex;
   flex-direction: column;
@@ -71,7 +68,6 @@
   gap: 16px;
   padding: 16px 0;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
-  transition: opacity 0.2s ease;
 
   &:last-child {
     border-bottom: none;
@@ -79,9 +75,9 @@
 }
 
 .imgWrap {
-  width: 120px;
+  width: 110px;
   height: 130px;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
   background: #f5f5f3;
   flex-shrink: 0;
@@ -108,7 +104,6 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
   min-width: 0;
 }
 
@@ -117,6 +112,14 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
+  flex: 1;
+}
+
+.cardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
 }
 
 .cardName {
@@ -137,28 +140,49 @@
   }
 }
 
-.cardPrice {
-  font-size: 17px;
-  font-weight: 500;
-  color: #e24b4a;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
 .cardBrand {
   font-size: 12px;
   color: #9ca3af;
+}
+
+.cardSize {
+  font-size: 11px;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.cardPrices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.cardPrice {
+  font-size: 15px;
+  font-weight: 500;
+  color: #e24b4a;
+  white-space: nowrap;
+}
+
+.cardUnit {
+  font-size: 11px;
+  color: #9ca3af;
+  white-space: nowrap;
 }
 
 .cardFoot {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-top: 10px;
   margin-top: auto;
-  padding-top: 8px;
 }
 
-// ─── Counter ─────────────────────────────────────────────────
 .counter {
   display: inline-flex;
   align-items: center;
@@ -180,8 +204,13 @@
   justify-content: center;
   transition: background 0.15s;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: #f3f4f6;
+  }
+
+  &:disabled {
+    color: #d1d5db;
+    cursor: default;
   }
 }
 
@@ -193,13 +222,12 @@
   color: #111827;
 }
 
-// ─── Delete button ───────────────────────────────────────────
 .delBtn {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 6px;
+  padding: 7px;
+  border-radius: 7px;
   color: #9ca3af;
   display: flex;
   align-items: center;
@@ -208,8 +236,8 @@
     background 0.15s;
 
   svg {
-    width: 17px;
-    height: 17px;
+    width: 16px;
+    height: 16px;
   }
 
   &:hover {
@@ -218,7 +246,6 @@
   }
 }
 
-// ─── Summary sidebar ─────────────────────────────────────────
 .summary {
   background: #fff;
   border: 0.5px solid rgba(0, 0, 0, 0.08);
@@ -226,7 +253,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   position: sticky;
   top: 20px;
 
@@ -239,18 +266,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.sumLabel {
   font-size: 13px;
   color: #6b7280;
+}
 
-  span {
-    font-weight: 500;
-    color: #111827;
-  }
+.sumVal {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
 }
 
 .free {
-  color: #3b6d11 !important;
+  font-size: 13px;
   font-weight: 500;
+  color: #3b6d11;
+}
+
+.discount {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e24b4a;
 }
 
 .promoRow {
@@ -275,6 +313,7 @@
 
   &:focus {
     border-color: rgba(0, 0, 0, 0.3);
+    background: #fff;
   }
 }
 
@@ -292,6 +331,25 @@
 
   &:hover {
     background: #f3f4f6;
+  }
+}
+
+.promoSuccess {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3b6d11;
+  background: #eaf3de;
+  padding: 8px 12px;
+  border-radius: 7px;
+  width: 100%;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
   }
 }
 
@@ -320,7 +378,7 @@
 
 .checkoutBtn {
   width: 100%;
-  padding: 12px;
+  padding: 13px;
   border-radius: 9px;
   background: #111827;
   color: #fff;
@@ -341,7 +399,21 @@
   }
 }
 
-// ─── Floating bar (mobile) ────────────────────────────────────
+.safeNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: -4px;
+
+  svg {
+    width: 13px;
+    height: 13px;
+  }
+}
+
 .floating {
   position: fixed;
   bottom: 0;
@@ -377,7 +449,7 @@
 }
 
 .floatingBtn {
-  padding: 10px 20px;
+  padding: 10px 24px;
   border-radius: 8px;
   background: #111827;
   color: #fff;
@@ -385,7 +457,6 @@
   font-weight: 500;
   border: none;
   cursor: pointer;
-  white-space: nowrap;
   transition: background 0.15s;
 
   &:hover {
@@ -402,7 +473,6 @@
   }
 }
 
-// ─── Responsive ──────────────────────────────────────────────
 @media (max-width: 600px) {
   .order {
     padding: 32px 0 80px;
@@ -413,7 +483,6 @@
   }
 }
 
-// ─── Shimmer skeleton ─────────────────────────────────────────
 @keyframes shimmer {
   0% {
     background-position: -700px 0;
@@ -423,8 +492,61 @@
   }
 }
 
-.skeletonBox {
-  background: linear-gradient(90deg, #ebebeb 25%, #d6d6d6 50%, #ebebeb 75%);
+.skEl {
+  background: linear-gradient(90deg, #ebebeb 25%, #f5f5f5 50%, #ebebeb 75%);
   background-size: 700px 100%;
   animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+.skTitle {
+  width: 120px;
+  height: 28px;
+  border-radius: 8px;
+}
+.skCount {
+  width: 60px;
+  height: 16px;
+  border-radius: 5px;
+  margin-left: 8px;
+}
+.skName {
+  width: 65%;
+  height: 14px;
+}
+.skPrice {
+  width: 80px;
+  height: 15px;
+  border-radius: 5px;
+}
+.skBrand {
+  width: 40%;
+  height: 12px;
+  margin-top: 4px;
+}
+.skCounter {
+  width: 96px;
+  height: 32px;
+  border-radius: 8px;
+}
+.skDel {
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+}
+.skSumRow {
+  height: 14px;
+  border-radius: 5px;
+}
+.skPromo {
+  height: 36px;
+  border-radius: 7px;
+}
+.skTotal {
+  height: 22px;
+  border-radius: 6px;
+}
+.skBtn {
+  height: 44px;
+  border-radius: 9px;
 }

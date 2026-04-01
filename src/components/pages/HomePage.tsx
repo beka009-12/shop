@@ -7,6 +7,7 @@ const HomePage = () => {
     <div>
       <Advertising />
       <Welcome />
+      ffffasfe
     </div>
   );
 };

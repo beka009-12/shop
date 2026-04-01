@@ -153,6 +153,7 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
                 <span key={crumb.id}>
                   {" > "}
                   {crumb.name}
+                  {" > "}
                 </span>
               ))}
             </div>

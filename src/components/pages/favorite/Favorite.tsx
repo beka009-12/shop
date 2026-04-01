@@ -80,7 +80,11 @@ const Favorite: FC = () => {
             <p className={scss.emptySub}>
               Добавляйте товары в избранное, чтобы не потерять
             </p>
-            <button className={scss.emptyBtn} onClick={() => router.push("/")}>
+            <button
+              className={scss.emptyBtn}
+              onClick={() => router.push("/")}
+              aria-label="Перейти в каталог"
+            >
               Перейти в каталог
             </button>
           </div>
@@ -173,6 +177,9 @@ const Favorite: FC = () => {
                       className={`${scss.addBtn} ${isInCart ? scss.addBtnInCart : ""}`}
                       disabled={isInCart}
                       onClick={() => addToCart(product.id)}
+                      aria-label={
+                        isInCart ? "Добавлено в корзину" : "Добавить в корзину"
+                      }
                     >
                       {isInCart ? (
                         <>

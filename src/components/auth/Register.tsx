@@ -81,7 +81,11 @@ const Auth: FC = () => {
                   placeholder="Пароль"
                   minLength={6}
                 />
-                <button className={scss.button} type="submit">
+                <button
+                  className={scss.button}
+                  type="submit"
+                  aria-label="Войти"
+                >
                   Войти
                 </button>
               </form>
@@ -123,7 +127,11 @@ const Auth: FC = () => {
                   type="text"
                   placeholder="Ваше имя"
                 />
-                <button className={scss.button} type="submit">
+                <button
+                  className={scss.button}
+                  type="submit"
+                  aria-label="Зарегистрироваться"
+                >
                   Зарегистрироваться
                 </button>
               </form>

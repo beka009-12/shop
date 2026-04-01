@@ -4,6 +4,7 @@ import scss from "./OrderNot.module.scss";
 import NotFound from "../../../../public/notFound.png";
 import { useRouter } from "next/navigation";
 import { Btn } from "../GlobalBtn/Btn";
+import Image from "next/image";
 
 const OrderNot: FC = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const OrderNot: FC = () => {
   };
   return (
     <div className={scss.notFound}>
-      <img src={NotFound.src} alt="Корзина пуста" />
+      <Image src={NotFound.src} alt="Корзина пуста" width={300} height={300} />
       <h2>Корзина пуста</h2>
       <p>Добавьте товары, чтобы оформить заказ</p>
       <Btn onClick={handleHomeRedirect} title="Перейти в главное" />

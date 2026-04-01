@@ -93,6 +93,7 @@ const Mobile: FC = () => {
               setIsCatalogOpen(true);
             }}
             className={scss.addCategory}
+            aria-label="Каталог"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

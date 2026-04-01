@@ -10,6 +10,7 @@ import {
   useFavoriteFun,
 } from "@/hooks/useCartActions";
 import { useGetFavorites } from "@/api/favorite";
+import Image from "next/image";
 
 interface IBaseCard {
   id: number;
@@ -82,13 +83,14 @@ const Cards: FC<IBaseCard> = ({
       >
         <div className={scss.imageScroller}>
           {images.map((src, i) => (
-            <img
-              loading="lazy"
+            <Image
               key={i}
               src={src}
               alt={title}
               onMouseEnter={handleHover}
               className={`${scss.image} ${i === currentIndex ? scss.active : ""}`}
+              width={300}
+              height={300}
             />
           ))}
         </div>
@@ -118,16 +120,18 @@ const Cards: FC<IBaseCard> = ({
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            strokeWidth="1.8"
+            viewBox="0 0 256 256"
             className={scss.favoriteIcon}
+            width="24"
+            height="24"
             fill={isFavorite ? "#E24B4A" : "none"}
             stroke={isFavorite ? "#E24B4A" : "currentColor"}
+            strokeWidth="16"
           >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+              d="M128,216S24,160,24,92A56,56,0,0,1,128,72a56,56,0,0,1,104,20C232,160,128,216,128,216Z"
             />
           </svg>
         </button>
@@ -157,6 +161,7 @@ const Cards: FC<IBaseCard> = ({
             addToCart(id);
             `${isInCart ? "Добавлено в корзину" : "Добавить в корзину"}`;
           }}
+          aria-label={isInCart ? "Добавлено в корзину" : "Добавить в корзину"}
         >
           {isInCart ? (
             <>

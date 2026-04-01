@@ -23,7 +23,6 @@ const Welcome: FC = () => {
 
   const { data, isLoading, isError } = useGetProduct({ search });
 
-  // Эффект для перемещения индикатора под активную вкладку
   useEffect(() => {
     if (activeTabRef.current && tabsRef.current) {
       const { offsetLeft, offsetWidth } = activeTabRef.current;
@@ -99,6 +98,7 @@ const Welcome: FC = () => {
                   setActiveTab("all");
                   setSearch("");
                 }}
+                aria-label="Сбросить фильтры и поиск"
               >
                 Сбросить всё
               </button>

@@ -88,7 +88,11 @@ const Order: FC = () => {
               )}
             </div>
             {cartItems.length > 0 && (
-              <button className={scss.clearBtn} onClick={deleteAllFromCart}>
+              <button
+                className={scss.clearBtn}
+                onClick={deleteAllFromCart}
+                aria-label="Очистить корзину"
+              >
                 Очистить всё
               </button>
             )}
@@ -142,15 +146,21 @@ const Order: FC = () => {
                           <button
                             className={scss.cBtn}
                             onClick={() => decrement(item.id)}
+                            disabled={(item.quantity || 1) <= 1}
+                            aria-label="Уменьшить количество"
                           >
                             −
                           </button>
-                          <span className={scss.cVal}>
+                          <span
+                            className={scss.cVal}
+                            aria-label={`Количество: ${item.quantity || 1}`}
+                          >
                             {item.quantity || 1}
                           </span>
                           <button
                             className={scss.cBtn}
                             onClick={() => increment(item.id)}
+                            aria-label="Увеличить количество"
                           >
                             +
                           </button>
@@ -197,7 +207,12 @@ const Order: FC = () => {
                     placeholder="Промокод"
                     type="text"
                   />
-                  <button className={scss.promoApply}>Применить</button>
+                  <button
+                    className={scss.promoApply}
+                    aria-label="Применить промокод"
+                  >
+                    Применить
+                  </button>
                 </div>
 
                 <div className={scss.sumDivider} />
@@ -212,6 +227,7 @@ const Order: FC = () => {
                 <button
                   className={scss.checkoutBtn}
                   onClick={() => setOpenModal(true)}
+                  aria-label="Оформить заказ"
                 >
                   Оформить заказ
                 </button>
@@ -230,6 +246,7 @@ const Order: FC = () => {
               <button
                 className={scss.floatingBtn}
                 onClick={() => setOpenModal(true)}
+                aria-label="Оформить заказ"
               >
                 Оформить
               </button>

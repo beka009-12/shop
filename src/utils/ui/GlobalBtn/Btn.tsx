@@ -8,7 +8,12 @@ interface BtnProps {
 
 const Btn: FC<BtnProps> = ({ title, onClick }) => {
   return (
-    <button className={scss.NoteBtn} onClick={onClick}>
+    <button
+      type="button"
+      className={scss.NoteBtn}
+      onClick={onClick}
+      aria-label={title}
+    >
       {title}
     </button>
   );
@@ -16,7 +21,12 @@ const Btn: FC<BtnProps> = ({ title, onClick }) => {
 
 const CartBtn: FC<BtnProps> = ({ title, onClick }) => {
   return (
-    <button className={scss.cartBtn} onClick={onClick}>
+    <button
+      type="button"
+      className={scss.cartBtn}
+      onClick={onClick}
+      aria-label={title}
+    >
       {title}
     </button>
   );

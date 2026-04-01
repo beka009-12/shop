@@ -1,282 +1,278 @@
-// Основные цвета (оставил твои)
-$accent-orange: #fb4a1e;
-$black: #000000;
-$white: #ffffff;
-$text-secondary: #6e6e73;
-$gray-border: rgba(0, 0, 0, 0.08);
-$bg-blur: rgba($white, 0.96); // чуть плотнее для лучшей читаемости
+$orange: #fb4a1e;
 
-$header-padding-desktop: 10px 32px;
-$header-padding-tablet: 10px 24px;
-$header-padding-mobile: 8px 16px;
-
-$nav-gap-desktop: 40px;
-$nav-gap-tablet: 28px;
-$nav-gap-mobile: 20px;
-
-.Header {
+.header {
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
   z-index: 888;
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 8px 0;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 
   &.hidden {
-    transform: translateY(-100%);
+    transform: translateY(-110%);
   }
+}
 
-  .content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: $bg-blur;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px); // для Safari
-    padding: $header-padding-desktop;
-    margin: 8px 16px 0;
-    border-radius: 29px; // очень скруглённый, современный вид
-    border: 1px solid $gray-border;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  }
+// ─── Pill container ──────────────────────────────────────────
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 0 16px;
+  height: 56px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 
-  .logo {
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-
-    h1 {
-      margin: 0;
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: $accent-orange;
-
-      span {
-        color: $black;
-      }
-    }
-
-    .online {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: $text-secondary;
-      margin-top: 2px;
-    }
-  }
-
-  // ─── Навигация ────────────────────────────────────────
-  .navigation {
-    nav {
-      display: flex;
-      gap: $nav-gap-desktop;
-      align-items: center;
-
-      a,
-      p {
-        position: relative;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: 500;
-        color: #2c2c2e;
-        white-space: nowrap;
-        transition: color 0.2s ease;
-
-        &:hover {
-          color: $black;
-        }
-
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: -7px;
-          left: 50%;
-          transform: translateX(-50%) scaleX(0);
-          width: 100%;
-          height: 2px;
-          background: $accent-orange;
-          border-radius: 2px;
-          transition: transform 0.28s cubic-bezier(0.65, 0.05, 0.36, 1);
-          opacity: 0;
-        }
-
-        &:hover::after,
-        &.active::after {
-          opacity: 1;
-          transform: translateX(-50%) scaleX(1);
-        }
-
-        &.active {
-          color: $accent-orange;
-          font-weight: 600;
-        }
-      }
-    }
-  }
-
-  // ─── Корзина + иконки ─────────────────────────────────
-  .cart {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    .cartLink {
-      position: relative;
-      width: 44px;
-      height: 44px;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      transition: background 0.18s ease;
-
-      &:hover {
-        background: rgba($black, 0.05);
-      }
-
-      .cartIcon {
-        width: 24px;
-        height: 24px;
-        stroke: $black;
-        stroke-width: 1.8;
-      }
-
-      .cartCount {
-        position: absolute;
-        top: 4px;
-        right: 4px;
-        min-width: 18px;
-        height: 18px;
-        display: grid;
-        place-items: center;
-        background: $accent-orange;
-        color: white;
-        font-size: 10px;
-        font-weight: 800;
-        border-radius: 50%;
-        border: 2px solid $white;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-      }
-    }
-  }
-
-  // ─── Медиа-запросы ───────────────────────────────────────
   @media (max-width: 1024px) {
-    .content {
-      margin: 6px 12px 0;
-      padding: $header-padding-tablet;
-      border-radius: 24px;
-    }
-
-    .navigation nav {
-      gap: $nav-gap-tablet;
-    }
-
-    .logo h1 {
-      font-size: 24px;
-    }
+    height: 52px;
+    border-radius: 14px;
   }
 
   @media (max-width: 768px) {
-    .content {
-      border-bottom: 1px solid $gray-border;
-      padding: $header-padding-mobile;
-      box-shadow: none;
-      backdrop-filter: blur(16px);
-    }
+    height: 48px;
+    border-radius: 12px;
+    padding: 0 14px;
+  }
+}
 
-    .navigation,
-    .cart {
-      display: none !important;
-    }
+// ─── Logo ────────────────────────────────────────────────────
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
 
-    .logo h1 {
-      font-size: 22px;
-    }
+.logoMain {
+  font-size: 20px;
+  font-weight: 700;
+  color: $orange;
+  letter-spacing: -0.03em;
+  line-height: 1;
 
-    .logo .online {
-      font-size: 9px;
-    }
+  span {
+    color: #111827;
   }
 
-  @media (max-width: 480px) {
-    .content {
-      padding: 8px 14px;
-    }
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
 
-    .logo h1 {
-      font-size: 20px;
-    }
+.logoSub {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #9ca3af;
+  text-transform: uppercase;
+  align-self: flex-end;
+  margin-bottom: 2px;
 
-    .logo .online {
-      font-size: 8.5px;
-      margin-top: -2px;
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+// ─── Navigation ──────────────────────────────────────────────
+.navigation {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.navLink {
+  position: relative;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #4b5563;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition:
+    color 0.15s,
+    background 0.15s;
+  white-space: nowrap;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 10px;
+    right: 10px;
+    height: 1.5px;
+    background: $orange;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+    transform-origin: left;
+  }
+
+  &:hover {
+    color: #111827;
+    background: rgba(0, 0, 0, 0.03);
+
+    &::after {
+      transform: scaleX(1);
     }
   }
 }
 
-// ───────────────────────────────────────────────
-// Кнопка «Каталог» (отдельный блок)
-.catalogButton {
+.navLinkActive {
+  color: #111827;
+  font-weight: 500;
+
+  &::after {
+    transform: scaleX(1);
+  }
+}
+
+// ─── Catalog button ──────────────────────────────────────────
+.catalogBtn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 18px;
-  background: #0066ff;
-  color: white;
+  gap: 6px;
+  padding: 7px 13px;
+  margin-left: 8px;
+  background: #111827;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
   border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 600;
+  border-radius: 9px;
   cursor: pointer;
-  transition: all 0.22s ease;
+  transition: background 0.15s;
   white-space: nowrap;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: #1f2937;
+  }
+
+  @media (max-width: 1024px) {
+    padding: 6px 11px;
+    font-size: 12px;
+  }
+}
+
+// ─── Icon area ───────────────────────────────────────────────
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.iconBtn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #4b5563;
+  transition:
+    background 0.15s,
+    color 0.15s;
 
   svg {
     width: 20px;
     height: 20px;
-    stroke-width: 2.2;
   }
 
   &:hover {
-    background: #0055dd;
-    transform: translateY(-1.5px);
-    box-shadow: 0 6px 20px rgba(0, 102, 255, 0.28);
-  }
-
-  &:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0, 102, 255, 0.2);
+    background: rgba(0, 0, 0, 0.05);
+    color: #111827;
   }
 
   @media (max-width: 768px) {
-    padding: 9px 14px;
-    font-size: 14px;
-
-    svg {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    padding: 8px 12px;
-    gap: 6px;
-    font-size: 13.5px;
-
-    span:not(.icon) {
-      display: none;
-    }
+    display: none;
   }
 }
 
-// ─── Активная иконка (если нужно) ────────────────
-.active {
-  .cartIcon {
-    stroke: $accent-orange !important;
+.iconBtnActive {
+  color: $orange;
+
+  &:hover {
+    color: $orange;
+  }
+}
+
+// ─── Badge ───────────────────────────────────────────────────
+.badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: $orange;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #fff;
+  line-height: 1;
+}
+
+// ─── Avatar ──────────────────────────────────────────────────
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #111827;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 10px;
   }
 }

@@ -65,7 +65,11 @@ const CheckoutModal: FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className={scss.overlay} onClick={onClose}>
       <div className={scss.content} onClick={(e) => e.stopPropagation()}>
-        <button className={scss.closeBtn} onClick={onClose}>
+        <button
+          className={scss.closeBtn}
+          onClick={onClose}
+          aria-label="Закрыть окно оформления заказа"
+        >
           ×
         </button>
 
@@ -104,12 +108,17 @@ const CheckoutModal: FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
                 type="button"
                 onClick={detectAddress}
                 disabled={loadingAddress}
+                aria-label="Определить адрес по геолокации"
               >
                 {loadingAddress ? "Определяем..." : "📍 Определить адрес"}
               </button>
 
               {coords && (
-                <button type="button" onClick={openMap}>
+                <button
+                  type="button"
+                  onClick={openMap}
+                  aria-label="Посмотреть адрес на карте"
+                >
                   🗺 Посмотреть на карте
                 </button>
               )}
@@ -245,7 +254,11 @@ const CheckoutModal: FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           <div className={scss.footer}>
-            <button type="submit" className={scss.submitBtn}>
+            <button
+              type="submit"
+              className={scss.submitBtn}
+              aria-label="Подтвердить заказ"
+            >
               Подтвердить заказ
             </button>
           </div>

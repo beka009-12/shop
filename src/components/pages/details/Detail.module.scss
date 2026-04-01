@@ -160,26 +160,6 @@
   flex-direction: column;
   gap: 16px;
 }
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 4px;
-}
-
-.tag {
-  font-size: 12px;
-  color: #185fa5;
-  background: #e6f1fb;
-  padding: 4px 10px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.15s;
-
-  &:hover {
-    background: #b5d4f4;
-  }
-}
 
 .titleBlock {
   display: flex;
@@ -208,6 +188,26 @@
   margin: 0;
 }
 
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 12px;
+  color: #185fa5;
+  background: #e6f1fb;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #b5d4f4;
+  }
+}
+
 // ─── Price ───────────────────────────────────────────────────
 .priceRow {
   display: flex;
@@ -227,7 +227,6 @@
   text-decoration: line-through;
 }
 
-// ─── Divider ─────────────────────────────────────────────────
 .divider {
   height: 0.5px;
   background: rgba(0, 0, 0, 0.08);
@@ -271,100 +270,106 @@
 .inStock {
   color: #3b6d11;
 }
-
 .outOfStock {
   color: #a32d2d;
 }
 
-// ─── Description ─────────────────────────────────────────────
-.descBlock {
-  background: #ebecec4e;
-  border-radius: 10px;
-  padding: 14px 16px;
-}
-
-.descHead {
-  font-size: 11px;
-  font-weight: 500;
-  color: #9ca3af;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.descText {
-  font-size: 14px;
-  color: #374151;
-  line-height: 1.65;
-}
-
-// ─── Store ───────────────────────────────────────────────────
-.storeBlock {
+// ─── Size selector ───────────────────────────────────────────
+.sizeSection {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff;
-  border: 0.5px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  padding: 12px 14px;
-}
-
-.storeLeft {
-  display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 10px;
 }
 
-.storeLogo {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  object-fit: cover;
+.sizeHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.storeLogoFallback {
-  width: 38px;
-  height: 38px;
+.sizeLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.sizeGuide {
+  font-size: 12px;
+  color: #185fa5;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+  }
+}
+
+.sizeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sizeBtn {
+  min-width: 46px;
+  height: 40px;
+  padding: 0 12px;
   border-radius: 8px;
-  background: #111827;
-  color: #fff;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: 500;
-  flex-shrink: 0;
+
+  &:hover {
+    border-color: #111827;
+    color: #111827;
+  }
 }
 
-.storeName {
-  font-size: 14px;
-  font-weight: 500;
-  color: #111827;
-  margin: 0;
+.sizeBtnActive {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+
+  &:hover {
+    background: #1f2937;
+    color: #fff;
+  }
 }
 
-.storeMeta {
+.sizeError {
   font-size: 12px;
-  color: #9ca3af;
-  margin: 0;
+  color: #a32d2d;
+  background: #fcebeb;
+  padding: 7px 11px;
+  border-radius: 7px;
   margin-top: 2px;
+  animation: shake 0.3s ease;
 }
 
-.verified {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 500;
-  color: #0f6e56;
-  background: #e1f5ee;
-  padding: 4px 9px;
-  border-radius: 6px;
-  white-space: nowrap;
-
-  svg {
-    width: 11px;
-    height: 11px;
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
   }
 }
 
@@ -380,7 +385,7 @@
   width: 100%;
   padding: 13px 16px;
   border-radius: 9px;
-  background: #000000;
+  background: #111827;
   color: #fff;
   font-size: 14px;
   font-weight: 500;
@@ -448,8 +453,119 @@
 }
 
 .btnFavActive {
-  background: #ffffff;
+  background: #fcebeb;
   border-color: rgba(226, 75, 74, 0.25);
+  color: #a32d2d;
+
+  &:hover {
+    background: #f7c1c1;
+  }
+}
+
+// ─── Bottom section ──────────────────────────────────────────
+.bottomSection {
+  max-width: 1300px;
+  margin: 40px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 28px;
+  }
+}
+
+.descBlock {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.descHead {
+  font-size: 11px;
+  font-weight: 500;
+  color: #9ca3af;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.descText {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.65;
+}
+
+.storeBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.storeLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.storeLogo {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.storeLogoFallback {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #111827;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.storeName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+}
+
+.storeMeta {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+  margin-top: 2px;
+}
+
+.verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #0f6e56;
+  background: #e1f5ee;
+  padding: 4px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+
+  svg {
+    width: 11px;
+    height: 11px;
+  }
 }
 
 // ─── Responsive ──────────────────────────────────────────────
@@ -463,5 +579,11 @@
   .thumb {
     width: 60px;
     height: 60px;
+  }
+
+  .sizeBtn {
+    min-width: 42px;
+    height: 38px;
+    font-size: 12px;
   }
 }

@@ -40,7 +40,7 @@
     overflow-x: auto;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; // Firefox
+    scrollbar-width: none;
 
     &::-webkit-scrollbar {
       display: none; // Chrome/Safari
@@ -66,6 +66,7 @@
 
       &.active {
         color: #fb4a1e;
+        background: rgba(0, 0, 0, 0.02);
       }
     }
 

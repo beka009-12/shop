@@ -24,7 +24,11 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (categories && categories.categories && categories.categories.length > 0) {
+    if (
+      categories &&
+      categories.categories &&
+      categories.categories.length > 0
+    ) {
       setCurrentCategories(categories.categories);
     }
   }, [categories]);
@@ -68,7 +72,11 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
           <div className={scss.header}>
             {breadcrumbs.length > 0 ? (
               <>
-                <button className={scss.backButton} onClick={handleBack}>
+                <button
+                  className={scss.backButton}
+                  onClick={handleBack}
+                  aria-label="Назад к категориям"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -89,7 +97,11 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
             ) : (
               <h3>Каталог</h3>
             )}
-            <button className={scss.closeButton} onClick={handleClose}>
+            <button
+              className={scss.closeButton}
+              onClick={handleClose}
+              aria-label="Закрыть каталог"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

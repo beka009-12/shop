@@ -1,32 +1,24 @@
 "use client";
-import { useEffect, useState, type FC } from "react";
+import { type FC } from "react";
 import scss from "./Search.module.scss";
 
 interface SearchProps {
+  value: string;
   onSearch: (value: string) => void;
 }
 
-const Search: FC<SearchProps> = ({ onSearch }) => {
-  const [value, setValue] = useState("");
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onSearch(value);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [value, onSearch]);
-
+const Search: FC<SearchProps> = ({ value, onSearch }) => {
   return (
-    <form className={scss.form}>
+    <form className={scss.form} onSubmit={(e) => e.preventDefault()}>
       <label className={scss.label} htmlFor="search">
         <input
           className={scss.input}
-          type="text"
-          required
+          type="search"
           placeholder="Поиск товаров"
           id="search"
-          onChange={(event) => setValue(event.target.value)}
+          value={value}
+          onChange={(e) => onSearch(e.target.value)}
+          autoComplete="off"
         />
         <div className={scss.fancy_bg} />
         <div className={scss.search}>

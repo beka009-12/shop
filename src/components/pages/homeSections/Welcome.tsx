@@ -1,10 +1,17 @@
 "use client";
-import { type FC, useState, useRef, useMemo, useEffect } from "react";
+import {
+  type FC,
+  useState,
+  useRef,
+  useMemo,
+  useEffect,
+  useCallback,
+} from "react";
 import scss from "./Welcome.module.scss";
-import { useGetProduct } from "@/api/product";
 import Grid from "@/utils/ui/cards/Grid";
 import Search from "@/utils/ui/search/Search";
-import { motion } from "framer-motion"; // Рекомендую для анимаций, но можно и без
+import useDebounce from "@/hooks/useDebounce";
+import useSearch from "@/api/search";
 
 const TABS = [
   { id: "all", label: "Все товары" },
@@ -15,20 +22,53 @@ const TABS = [
 
 const Welcome: FC = () => {
   const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState("all");
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
 
   const tabsRef = useRef<HTMLDivElement>(null);
   const activeTabRef = useRef<HTMLButtonElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null); // элемент-триггер внизу списка
 
-  const { data, isLoading, isError } = useGetProduct({ search });
+  const debouncedSearch = useDebounce(search, 400);
+
+  const {
+    data,
+    isLoading,
+    isError,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useSearch({
+    search: debouncedSearch,
+    limit: 20,
+  });
+
+  // IntersectionObserver — следит за sentinel-элементом внизу
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage],
+  );
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(handleObserver, {
+      rootMargin: "2px", // начинаем грузить за 200px до конца списка
+    });
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [handleObserver]);
 
   useEffect(() => {
     if (activeTabRef.current && tabsRef.current) {
       const { offsetLeft, offsetWidth } = activeTabRef.current;
       setIndicatorStyle({ left: offsetLeft, width: offsetWidth });
-
-      // Скроллим к активной вкладке на мобилках
       activeTabRef.current.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
@@ -37,25 +77,34 @@ const Welcome: FC = () => {
     }
   }, [activeTab]);
 
+  // Склеиваем все страницы в один массив, потом фильтруем по вкладке
   const filteredProducts = useMemo(() => {
-    if (!data?.products) return [];
-    let items = [...data.products];
+    const allProducts = data?.pages.flatMap((page) => page.products) ?? [];
 
     switch (activeTab) {
       case "sale":
-        items = items.filter((p) => p.newPrice && p.newPrice < p.price);
-        break;
-      case "new":
+        return allProducts.filter((p) => p.newPrice && p.newPrice < p.price);
+
+      case "new": {
         const monthAgo = new Date();
         monthAgo.setDate(monthAgo.getDate() - 30);
-        items = items.filter((p) => new Date(p.createdAt) >= monthAgo);
-        break;
+        return allProducts.filter((p) => new Date(p.createdAt) >= monthAgo);
+      }
+
       case "popular":
-        items = items.filter((p) => (p.store?.rating || 0) >= 4.5);
-        break;
+        return allProducts.filter((p) => Number(p.store?.rating ?? 0) >= 4.5);
+
+      default:
+        return allProducts;
     }
-    return items;
-  }, [data?.products, activeTab]);
+  }, [data?.pages, activeTab]);
+
+  const handleReset = () => {
+    setActiveTab("all");
+    setSearch("");
+  };
+
+  const isEmpty = filteredProducts.length === 0 && !isLoading;
 
   return (
     <section className={scss.Welcome}>
@@ -74,41 +123,42 @@ const Welcome: FC = () => {
                     {tab.label}
                   </button>
                 ))}
-                <div
-                  className={scss.indicator}
-                  style={{
-                    left: indicatorStyle.left,
-                    width: indicatorStyle.width,
-                  }}
-                />
+                <div className={scss.indicator} style={indicatorStyle} />
               </div>
             </div>
 
-            <Search onSearch={setSearch} />
+            <Search value={search} onSearch={setSearch} />
           </div>
 
-          {filteredProducts.length === 0 && !isLoading ? (
+          {isEmpty ? (
             <div className={scss.emptyState}>
               <div style={{ fontSize: "48px" }}>🔍</div>
               <h3>Ничего не найдено</h3>
               <p>Попробуйте изменить фильтр или параметры поиска</p>
               <button
                 className={scss.resetBtn}
-                onClick={() => {
-                  setActiveTab("all");
-                  setSearch("");
-                }}
+                onClick={handleReset}
                 aria-label="Сбросить фильтры и поиск"
               >
                 Сбросить всё
               </button>
             </div>
           ) : (
-            <Grid
-              products={filteredProducts}
-              isLoading={isLoading}
-              isError={isError}
-            />
+            <>
+              <Grid
+                products={filteredProducts}
+                isLoading={isLoading}
+                isError={isError}
+              />
+
+              {isFetchingNextPage && (
+                <div className={scss.skeletonGrid}>
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className={scss.skeletonCard} />
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

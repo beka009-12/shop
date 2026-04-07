@@ -259,7 +259,7 @@ const CheckoutModal: FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
               className={scss.submitBtn}
               aria-label="Подтвердить заказ"
             >
-              Подтвердить заказ
+              Подтвердить
             </button>
           </div>
         </form>

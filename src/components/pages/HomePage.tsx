@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import Welcome from "./homeSections/Welcome";
 import Advertising from "./homeSections/Advertising";
 

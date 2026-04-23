@@ -1,158 +1,153 @@
+import { getGetFavoriteFavoriteUserIdQueryKey } from "./../api/generated/endpoints/favorite/favorite";
 import { useCallback } from "react";
-import { useDeleteAllOrder, useGetOrders, useOrderCreate } from "@/api/order";
 import { useGetMe } from "@/api/user";
 import toast from "react-hot-toast";
-import { useAddFavorite, useDeleteFavorite } from "@/api/favorite";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  useDeleteOrderDeleteAllCartUserId,
+  useGetOrderCartUserId,
+  usePostOrderCreateOrder,
+  getGetOrderCartUserIdQueryKey,
+} from "@/api/generated/endpoints/order/order";
+import {
+  useDeleteFavoriteFavoriteDeleteProductId,
+  usePostFavoriteFavoriteAdd,
+} from "@/api/generated/endpoints/favorite/favorite";
 
-// ! TODO: add to cart
 export const useCartAddAction = () => {
   const { data: me } = useGetMe();
-  const { mutateAsync: createOrder } = useOrderCreate();
+  const userId = me?.user?.id;
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: createOrder } = usePostOrderCreateOrder({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetOrderCartUserIdQueryKey(Number(userId)),
+        });
+      },
+    },
+  });
 
   const handleAddToCart = useCallback(
     (productId: number) => {
-      if (!me?.user?.id) {
-        toast.error("Вы не авторизованы");
-        return;
-      }
-
-      const promise = createOrder({
-        userId: me.user.id,
-        items: [
-          {
-            productId,
-            quantity: 1,
-          },
-        ],
-        deliveryName: me.user.name || "Покупатель",
-        deliveryPhone: me.user.phone || "Не указан",
-        deliveryAddress: "Не указан",
-      });
-
+      const promise = createOrder({ data: { productId, quantity: 1 } });
       toast.promise(promise, {
         loading: "Добавляем в корзину...",
         success: "Товар добавлен в корзину 🛒",
         error: (err: any) => {
-          if (err?.response?.status === 409) {
-            return "Товар уже в корзине";
-          }
-          return "Ошибка при добавлении товара в корзину";
+          if (err?.response?.status === 409) return "Товар уже в корзине";
+          return "Ошибка при добавлении";
         },
       });
-
       return promise;
     },
-    [createOrder, me?.user?.id],
+    [createOrder],
   );
 
-  return {
-    addToCart: handleAddToCart,
-  };
+  return { addToCart: handleAddToCart };
 };
 
 export const useCartDeleteAction = () => {
   const { data: me } = useGetMe();
-  const { mutateAsync: deleteAllOrder } = useDeleteAllOrder();
-  const { data: orders } = useGetOrders(me?.user?.id!);
+  const userId = me?.user?.id;
+  const queryClient = useQueryClient();
+
+  const { data: orders } = useGetOrderCartUserId(Number(userId));
+
+  const { mutateAsync: deleteAllOrder } = useDeleteOrderDeleteAllCartUserId({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetOrderCartUserIdQueryKey(Number(userId)),
+        });
+      },
+    },
+  });
 
   const handleDeleteFromCart = useCallback(() => {
-    if (!me?.user?.id) {
-      toast.error("Вы не авторизованы");
-      return;
-    }
+    if (!userId) return toast.error("Вы не авторизованы");
+    if (!orders || orders.length === 0) return toast("Корзина уже пуста ⚠️");
 
-    if (!orders || orders.length === 0) {
-      toast("Корзина уже пуста ⚠️");
-      return;
-    }
-
-    const promise = deleteAllOrder({ userId: me.user.id });
-
+    const promise = deleteAllOrder({ userId });
     toast.promise(promise, {
       loading: "Удаление...",
       success: "Корзина очищена 🛒",
       error: "Ошибка при очистке корзины",
     });
-
     return promise;
-  }, [deleteAllOrder, me?.user?.id, orders]);
+  }, [deleteAllOrder, userId, orders]);
 
-  return {
-    deleteAllFromCart: handleDeleteFromCart,
-  };
+  return { deleteAllFromCart: handleDeleteFromCart };
 };
 
-//  TODO : add to favoritet
 export const useFavoriteFun = () => {
   const { data: me } = useGetMe();
-  const { mutateAsync: addFavorite } = useAddFavorite();
+  const userId = me?.user?.id;
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: addFavorite } = usePostFavoriteFavoriteAdd({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetFavoriteFavoriteUserIdQueryKey(Number(userId)),
+        });
+      },
+    },
+  });
 
   const handleAddFavorite = useCallback(
     (productId: number) => {
-      if (!me?.user?.id) {
-        toast.error("Вы не авторизованы");
-        return;
-      }
-
-      const promise = addFavorite({
-        userId: me.user.id,
-        productId,
-      });
-
+      if (!userId) return toast.error("Вы не авторизованы");
+      const promise = addFavorite({ data: { productId } });
       toast.promise(promise, {
         loading: "Добавляем в избранное...",
         success: "Товар добавлен в избранное ❤️",
-        error: (error: number | any) => {
-          if (error?.response?.status === 409) {
-            return "Товар уже в избранном";
-          }
+        error: (err: any) => {
+          if (err?.response?.status === 409) return "Товар уже в избранном";
           return "Ошибка при добавлении в избранное";
         },
       });
-
       return promise;
     },
-    [me?.user?.id, addFavorite],
+    [userId, addFavorite],
   );
 
-  return {
-    addToFavorite: handleAddFavorite,
-  };
+  return { addToFavorite: handleAddFavorite };
 };
 
 export const useDelFavorite = () => {
   const { data: me } = useGetMe();
-  const { mutateAsync: deleteFavorite, isPending } = useDeleteFavorite();
+  const userId = me?.user?.id;
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: deleteFavorite, isPending } =
+    useDeleteFavoriteFavoriteDeleteProductId({
+      mutation: {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: getGetFavoriteFavoriteUserIdQueryKey(Number(userId)),
+          });
+        },
+      },
+    });
 
   const handleRemove = useCallback(
     (productId: number) => {
-      if (!me?.user?.id) {
-        toast.error("Вы не авторизованы");
-        return;
-      }
-
-      const promise = deleteFavorite({
-        productId: productId,
-      });
-
+      if (!userId) return toast.error("Вы не авторизованы");
+      const promise = deleteFavorite({ productId });
       toast.promise(promise, {
         loading: "Удаляем из избранного...",
         success: "Товар удален из избранного 🗑️",
-        error: (error: any) => {
-          if (error?.response?.status === 404) {
-            return "Товар уже удален";
-          }
+        error: (err: any) => {
+          if (err?.response?.status === 404) return "Товар уже удален";
           return "Ошибка при удалении";
         },
       });
-
       return promise;
     },
-    [me?.user?.id, deleteFavorite],
+    [userId, deleteFavorite],
   );
 
-  return {
-    handleRemove,
-    isDeleting: isPending,
-  };
+  return { handleRemove, isDeleting: isPending };
 };

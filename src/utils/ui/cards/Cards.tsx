@@ -2,26 +2,18 @@
 import { useState, type FC, useEffect } from "react";
 import scss from "./Cards.module.scss";
 import { useRouter } from "next/navigation";
-import { useGetOrders } from "@/api/order";
 import { useGetMe } from "@/api/user";
 import {
   useCartAddAction,
   useDelFavorite,
   useFavoriteFun,
 } from "@/hooks/useCartActions";
-import { useGetFavorites } from "@/api/favorite";
 import Image from "next/image";
+import { useGetOrderCartUserId } from "@/api/generated/endpoints/order/order";
+import { useGetFavoriteFavoriteUserId } from "@/api/generated/endpoints/favorite/favorite";
+import { Product } from "@/api/generated/models";
 
-interface IBaseCard {
-  id: number;
-  title: string;
-  description: string;
-  images: string[];
-  price: number;
-  newPrice?: number | null;
-}
-
-const Cards: FC<IBaseCard> = ({
+const Cards: FC<Product> = ({
   id,
   title,
   description,
@@ -40,10 +32,10 @@ const Cards: FC<IBaseCard> = ({
   const { data: me } = useGetMe();
   const userId = me?.user?.id;
 
-  const { data: orders } = useGetOrders(userId as number);
-  const { data: favorite } = useGetFavorites(userId as number);
+  const { data: favorite } = useGetFavoriteFavoriteUserId(userId as number);
 
-  const isInCart = orders?.some((item: any) => item.product.id === id);
+  const { data: cartItems } = useGetOrderCartUserId(Number(userId));
+  const isInCart = cartItems?.some((item) => item.product?.id === id);
   const isFavorite = favorite?.favorites?.some(
     (item: any) => item.product.id === id,
   );

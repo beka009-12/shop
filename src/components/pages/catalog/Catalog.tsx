@@ -3,6 +3,7 @@ import { type FC, useState, useEffect } from "react";
 import scss from "./Catalog.module.scss";
 import { useGetCategoriesTree } from "@/api/catalog";
 import { useRouter } from "next/navigation";
+import { useGetCategoryCategoriesTree } from "@/api/generated/endpoints/category/category";
 
 interface Category {
   id: number;
@@ -18,7 +19,7 @@ interface CatalogProps {
 }
 
 const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
-  const { data: categories } = useGetCategoriesTree();
+  const { data: categories } = useGetCategoryCategoriesTree();
   const [breadcrumbs, setBreadcrumbs] = useState<Category[]>([]);
   const [currentCategories, setCurrentCategories] = useState<Category[]>([]);
   const router = useRouter();
@@ -29,7 +30,11 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
       categories.categories &&
       categories.categories.length > 0
     ) {
-      setCurrentCategories(categories.categories);
+      setCurrentCategories(
+        categories.categories.filter(
+          (cat) => cat.id !== undefined,
+        ) as Category[],
+      );
     }
   }, [categories]);
 
@@ -50,7 +55,11 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
     setBreadcrumbs(newBreadcrumbs);
 
     if (newBreadcrumbs.length === 0) {
-      setCurrentCategories(categories?.categories || []);
+      setCurrentCategories(
+        (categories?.categories?.filter(
+          (cat) => cat.id !== undefined,
+        ) as Category[]) || [],
+      );
     } else {
       const previousCategory = newBreadcrumbs[newBreadcrumbs.length - 1];
       setCurrentCategories(previousCategory.children || []);
@@ -59,11 +68,14 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
 
   const handleClose = () => {
     setBreadcrumbs([]);
-    setCurrentCategories(categories?.categories || []);
+    setCurrentCategories(
+      (categories?.categories?.filter(
+        (cat) => cat.id !== undefined,
+      ) as Category[]) || [],
+    );
     onClose();
   };
 
-  // Не делаем early return — нужно чтобы transition анимация работала
   return (
     <>
       {isOpen && <div className={scss.overlay} onClick={handleClose} />}
@@ -125,20 +137,24 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
                 className={scss.categoryItem}
                 onClick={() => handleCategoryClick(category)}
               >
-                <span className={scss.categoryName}>{category.name}</span>
+                <div className={scss.mainInfo}>
+                  <span className={scss.categoryName}>{category.name}</span>
+                  {category._count &&
+                    category._count.products > 0 &&
+                    (!category.children || category.children.length === 0) && (
+                      <span className={scss.countBadge}>
+                        {category._count.products}
+                      </span>
+                    )}
+                </div>
+
                 {category.children && category.children.length > 0 && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className={scss.arrow}
-                  >
+                  <svg className={scss.arrow} viewBox="0 0 24 24">
                     <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
                       d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
                     />
                   </svg>
                 )}

@@ -4,18 +4,10 @@ import scss from "./Grid.module.scss";
 import Cards from "../cards/Cards";
 import CardSceleton from "../cards/CardSceleton";
 import ProductsNot from "../noteF/productsNot";
-
-interface ProductCard {
-  id: number;
-  title: string;
-  description: string;
-  images: string[];
-  price: number;
-  oldPrice?: number | null;
-}
+import { Product } from "@/api/generated/models";
 
 interface GridProps {
-  products?: ProductCard[];
+  products?: Product[];
   isLoading?: boolean;
   isError?: boolean;
 }

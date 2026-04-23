@@ -1,113 +1,62 @@
 .Welcome {
-  padding: 10px 0 60px 0;
+  padding: 20px 0 60px;
   background-color: #fcfcfc;
-  min-height: 100vh;
 
-  .content {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .filters {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    gap: 24px;
+  .filterBar {
     position: sticky;
     top: 0;
-    z-index: 10;
-    background: #fcfcfc;
-    padding-block: 10px;
-
-    @media (max-width: 1024px) {
-      flex-direction: column-reverse;
-      align-items: stretch;
-      gap: 16px;
-    }
-  }
-
-  .tabsWrapper {
-    position: relative;
-    border-bottom: 1px solid #eee;
-    width: 100%;
-    overflow: hidden;
+    z-index: 100;
+    background: rgba(252, 252, 252, 0.9);
+    backdrop-filter: blur(10px); // Эффект стекла
+    padding: 12px 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   .tabs {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     overflow-x: auto;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-
     &::-webkit-scrollbar {
-      display: none; // Chrome/Safari
+      display: none;
     }
 
     .tab {
-      position: relative;
-      padding: 12px 24px;
-      font-size: 15px;
+      padding: 8px 18px;
+      border-radius: 20px; // Округлые кнопки
+      background: #eee;
+      border: 1px solid transparent;
+      color: #666;
+      font-size: 14px;
       font-weight: 500;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #888;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       white-space: nowrap;
-      border-radius: 8px 8px 0 0;
+      transition: all 0.2s ease;
+      cursor: pointer;
 
       &:hover {
-        color: #000;
-        background: rgba(0, 0, 0, 0.02);
+        background: #e5e5e5;
       }
 
       &.active {
-        color: #fb4a1e;
-        background: rgba(0, 0, 0, 0.02);
+        background: #000; // Черная активная кнопка — стильный контраст
+        color: #fff;
+        border-color: #000;
       }
-    }
-
-    // Линия-индикатор
-    .indicator {
-      position: absolute;
-      bottom: 0;
-      height: 2px;
-      background-color: #fb4a1e;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 
   .emptyState {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 100px 20px;
     text-align: center;
-
-    h3 {
-      font-size: 20px;
-      margin-top: 16px;
-      color: #333;
-    }
-
-    p {
-      color: #888;
-      margin-top: 8px;
-    }
-
-    .resetBtn {
-      margin-top: 24px;
-      padding: 10px 24px;
-      background: #000;
-      color: #fff;
-      border-radius: 8px;
-      border: none;
+    padding: 80px 0;
+    button {
+      margin-top: 15px;
+      color: #fb4a1e;
+      background: none;
+      border: 1px solid #fb4a1e;
+      padding: 8px 20px;
+      border-radius: 6px;
       cursor: pointer;
-      font-weight: 500;
     }
   }
 }

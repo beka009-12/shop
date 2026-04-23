@@ -5,16 +5,16 @@
  * API for my startup
  * OpenAPI spec version: 1.0.0
  */
-import type { Category } from './category';
-import type { ProductGender } from './productGender';
-import type { ProductSeason } from './productSeason';
-import type { Store } from './store';
+import type { Category } from "./category";
+import type { ProductGender } from "./productGender";
+import type { ProductSeason } from "./productSeason";
+import type { Store } from "./store";
 
 export interface Product {
-  id?: number;
-  title?: string;
+  id: number;
+  title: string;
   description?: string;
-  price?: number;
+  price: number;
   /** @nullable */
   newPrice?: number | null;
   images?: string[];

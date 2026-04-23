@@ -57,7 +57,7 @@ const BANNERS = [
     accent: "получи 2-й в подарок",
     sub: "При покупке любой вещи из коллекции — вторая такая же бесплатно. Без ограничений по сумме.",
     deadline: "25 апреля 2026",
-    decoNum: "1+1",
+    decoNum: "1+1=3",
     color: "green",
     storeId: 2,
     products: [
@@ -249,7 +249,6 @@ const Advertising: FC = () => {
             ))}
           </Swiper>
 
-          {/* Кнопки теперь находятся СНАРУЖИ Swiper, но ВНУТРИ swiperWrapper */}
           <div className={scss.navControls}>
             <button className={scss.navPrev}>
               <svg

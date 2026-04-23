@@ -11,17 +11,9 @@ import {
 import Image from "next/image";
 import { useGetOrderCartUserId } from "@/api/generated/endpoints/order/order";
 import { useGetFavoriteFavoriteUserId } from "@/api/generated/endpoints/favorite/favorite";
+import { Product } from "@/api/generated/models";
 
-interface IBaseCard {
-  id: number;
-  title: string;
-  description: string;
-  images: string[];
-  price: number;
-  newPrice?: number | null;
-}
-
-const Cards: FC<IBaseCard> = ({
+const Cards: FC<Product> = ({
   id,
   title,
   description,

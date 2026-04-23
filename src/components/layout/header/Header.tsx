@@ -2,30 +2,32 @@
 import { useEffect, useState, type FC } from "react";
 import scss from "./Header.module.scss";
 import { usePathname, useRouter } from "next/navigation";
-import { useGetMe } from "@/api/user";
 import { links } from "@/utils/constant/Link";
-import { useGetOrders } from "@/api/order";
-import { useGetFavorites } from "@/api/favorite";
 import Catalog from "@/components/pages/catalog/Catalog";
 import Profile from "@/components/pages/profile/Profile";
+import { useGetOrderCartUserId } from "@/api/generated/endpoints/order/order";
+import { useGetFavoriteFavoriteUserId } from "@/api/generated/endpoints/favorite/favorite";
+import { useGetAuthProfile } from "@/api/generated/endpoints/auth/auth";
 
 const Header: FC = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { data: getMe, isLoading } = useGetMe();
+  const { data: getMe, isLoading } = useGetAuthProfile();
+
+  // State for header visibility and dropdowns
   const [hidden, setHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
-  const { data: cartItems } = useGetOrders(getMe?.user.id || 0);
-  const { data: favorite } = useGetFavorites(getMe?.user.id || 0);
+  const { data: cartItems } = useGetOrderCartUserId(getMe?.user?.id || 0);
+  const { data: favorite } = useGetFavoriteFavoriteUserId(getMe?.user?.id || 0);
 
   const isAuthenticated = !!getMe?.user?.id || !!getMe?.user?.email || !!getMe;
   const isActive = (path: string) => pathname === path;
 
   const cartCount = cartItems?.length || 0;
-  const favCount = favorite?.favorites.length || 0;
+  const favCount = favorite?.favorites?.length || 0;
 
   const initials = getMe?.user?.name
     ? getMe.user.name.slice(0, 2).toUpperCase()

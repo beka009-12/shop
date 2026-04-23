@@ -1,28 +1,34 @@
 "use client";
 import { type FC, useEffect, useState } from "react";
 import scss from "./Profile.module.scss";
-import { Logaut, useGetMe } from "@/api/user";
 import toast from "react-hot-toast";
 import UpdateProfile from "./update/UpdateProfile";
 import { usePathname, useRouter } from "next/navigation";
-import { useGetOrders } from "@/api/order";
-import { useGetFavorites } from "@/api/favorite";
+import { useGetOrderCartUserId } from "@/api/generated/endpoints/order/order";
+import { useGetFavoriteFavoriteUserId } from "@/api/generated/endpoints/favorite/favorite";
+import {
+  useGetAuthProfile,
+  usePostAuthLogout,
+} from "@/api/generated/endpoints/auth/auth";
 
 interface ProfileProps {
   onClose: () => void;
 }
 
 const Profile: FC<ProfileProps> = ({ onClose }) => {
-  const { data: user } = useGetMe();
-  const { mutateAsync: logoutMutation, reset: resetProfile } = Logaut();
+  const { data: user } = useGetAuthProfile();
+  const { mutateAsync: logoutMutation, reset: resetProfile } =
+    usePostAuthLogout();
+
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+
   const router = useRouter();
   const pathname = usePathname();
 
   const userId = user?.user?.id;
-  const { data: cartItems } = useGetOrders(userId || 0);
-  const { data: favorite } = useGetFavorites(userId || 0);
+  const { data: cartItems } = useGetOrderCartUserId(userId || 0);
+  const { data: favorite } = useGetFavoriteFavoriteUserId(userId || 0);
 
   const cartCount = cartItems?.length || 0;
   const favCount = favorite?.favorites?.length || 0;

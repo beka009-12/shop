@@ -53,8 +53,8 @@ const Cards: FC<Product> = ({
       ? Math.round(((price - newPrice) / price) * 100)
       : 0;
 
-  const handleClick = () => router.push(`/detail/${id}`);
-  const handleHover = () => router.prefetch(`/detail/${id}`);
+  const handleClick = () => router.push(`/product/${id}`);
+  const handleHover = () => router.prefetch(`/product/${id}`);
 
   const onFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();

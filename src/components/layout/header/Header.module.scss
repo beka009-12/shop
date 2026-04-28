@@ -1,278 +1,219 @@
-$orange: #fb4a1e;
+// ─── Shop.app sidebar layout ─────────────────────────────────
+// Fixed left panel: 64px wide, full height, white background,
+// subtle right border. Logo top, nav center, user bottom.
 
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  z-index: 888;
-  padding: 8px 0;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-
-  &.hidden {
-    transform: translateY(-110%);
-  }
+  bottom: 0;
+  width: 64px;
+  z-index: 999;
+  border-radius: 40px;
+  border: 1px solid #e5e5e511;
+  margin: 4px 0 4px 4px !important;
 }
 
-// ─── Pill container ──────────────────────────────────────────
-.content {
+.sidebar {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 0.5px solid rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
-  padding: 0 16px;
-  height: 56px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-
-  @media (max-width: 1024px) {
-    height: 52px;
-    border-radius: 14px;
-  }
-
-  @media (max-width: 768px) {
-    height: 48px;
-    border-radius: 12px;
-    padding: 0 14px;
-  }
+  height: 100%;
+  padding: 16px 0 20px;
 }
 
-// ─── Logo ────────────────────────────────────────────────────
+// ─── Logo ─────────────────────────────────────────────────────
 .logo {
   display: flex;
-  align-items: baseline;
-  gap: 4px;
-  cursor: pointer;
-  user-select: none;
-  flex-shrink: 0;
-}
-
-.logoMain {
-  font-size: 20px;
-  font-weight: 700;
-  color: $orange;
-  letter-spacing: -0.03em;
-  line-height: 1;
-
-  span {
-    color: #111827;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 18px;
-  }
-}
-
-.logoSub {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: #9ca3af;
-  text-transform: uppercase;
-  align-self: flex-end;
-  margin-bottom: 2px;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-}
-
-// ─── Navigation ──────────────────────────────────────────────
-.navigation {
-  flex: 1;
-  display: flex;
+  align-items: center;
   justify-content: center;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-
-  nav {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-}
-
-.navLink {
-  position: relative;
-  padding: 6px 10px;
-  font-size: 14px;
-  font-weight: 400;
-  color: #4b5563;
+  width: 44px;
+  height: 44px;
+  border: none;
   background: none;
-  border: none;
   cursor: pointer;
-  border-radius: 8px;
-  transition:
-    color 0.15s,
-    background 0.15s;
-  white-space: nowrap;
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 2px;
-    left: 10px;
-    right: 10px;
-    height: 1.5px;
-    background: $orange;
-    border-radius: 2px;
-    transform: scaleX(0);
-    transition: transform 0.2s ease;
-    transform-origin: left;
-  }
-
-  &:hover {
-    color: #111827;
-    background: rgba(0, 0, 0, 0.03);
-
-    &::after {
-      transform: scaleX(1);
-    }
-  }
-}
-
-.navLinkActive {
-  color: #111827;
-  font-weight: 500;
-
-  &::after {
-    transform: scaleX(1);
-  }
-}
-
-// ─── Catalog button ──────────────────────────────────────────
-.catalogBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 13px;
-  margin-left: 8px;
-  background: #111827;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-  border: none;
-  border-radius: 9px;
-  cursor: pointer;
-  transition: background 0.15s;
-  white-space: nowrap;
-
-  svg {
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-  }
-
-  &:hover {
-    background: #1f2937;
-  }
-
-  @media (max-width: 1024px) {
-    padding: 6px 11px;
-    font-size: 12px;
-  }
-}
-
-// ─── Icon area ───────────────────────────────────────────────
-.icons {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  flex-shrink: 0;
-}
-
-.iconBtn {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #4b5563;
-  transition:
-    background 0.15s,
-    color 0.15s;
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-    color: #111827;
-  }
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-}
-
-.iconBtnActive {
-  color: $orange;
-
-  &:hover {
-    color: $orange;
-  }
-}
-
-// ─── Badge ───────────────────────────────────────────────────
-.badge {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  background: $orange;
-  color: #fff;
-  font-size: 9px;
-  font-weight: 700;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid #fff;
-  line-height: 1;
-}
-
-// ─── Avatar ──────────────────────────────────────────────────
-.avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  background: #111827;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 4px;
-  flex-shrink: 0;
+  margin-bottom: 24px;
+  padding: 0;
+  border-radius: 12px;
   transition: opacity 0.15s;
 
   &:hover {
     opacity: 0.8;
   }
+}
 
-  @media (max-width: 768px) {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    font-size: 10px;
+.logoCircle {
+  width: 36px;
+  height: 36px;
+  background: #00dfff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+
+  span {
+    line-height: 1;
+  }
+}
+
+// ─── Nav ──────────────────────────────────────────────────────
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.navBtn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 12px;
+  color: #a1a1aa;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  padding: 0;
+
+  &:hover {
+    background: #f4f4f5;
+    color: #111;
+  }
+}
+
+.navBtnActive {
+  background: #f4f4f5;
+  color: #111;
+
+  .navIcon svg {
+    stroke-width: 2.2;
+  }
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+}
+
+// ─── Badge ────────────────────────────────────────────────────
+.badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: #5b5ef4;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  pointer-events: none;
+}
+
+// ─── Bottom ───────────────────────────────────────────────────
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f4f4f5;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.signInLabel {
+  font-size: 9px;
+  font-weight: 500;
+  color: currentColor;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+// ─── Global offset so content isn't hidden under sidebar ──────
+:global(main),
+:global(.main-content) {
+  padding-left: 64px;
+}
+
+// ─── Mobile: bottom bar ───────────────────────────────────────
+@media (max-width: 768px) {
+  .header {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 60px;
+    border-right: none;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 8px;
+    height: 100%;
+  }
+
+  .logo {
+    margin-bottom: 0;
+  }
+
+  .nav {
+    flex-direction: row;
+    flex: none;
+    gap: 4px;
+  }
+
+  .bottom {
+    flex-direction: row;
+  }
+
+  .signInLabel {
+    display: none;
+  }
+
+  :global(main),
+  :global(.main-content) {
+    padding-left: 0;
+    padding-bottom: 60px;
   }
 }

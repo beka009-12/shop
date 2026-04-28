@@ -5,9 +5,8 @@
  * API for my startup
  * OpenAPI spec version: 1.0.0
  */
+import type { BannerItem } from './bannerItem';
 
-export interface AddToCartInput {
-  productId: number;
-  /** @minimum 1 */
-  quantity: number;
-}
+export type GetBannerActive200 = {
+  banners?: BannerItem[];
+};

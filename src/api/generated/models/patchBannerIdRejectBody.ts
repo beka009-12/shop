@@ -6,8 +6,6 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export interface AddToCartInput {
-  productId: number;
-  /** @minimum 1 */
-  quantity: number;
-}
+export type PatchBannerIdRejectBody = {
+  reason: string;
+};

@@ -12,7 +12,9 @@ const Layout: FC<ILay> = ({ children }) => {
   return (
     <div className={scss.Layout}>
       <Header />
-      <main>{children}</main>
+      <main>
+        <div className={scss.card}>{children}</div>
+      </main>
       <Footer />
       <Mobile />
     </div>

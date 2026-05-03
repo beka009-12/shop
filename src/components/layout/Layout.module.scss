@@ -7,24 +7,21 @@
     min-height: 100dvh;
     box-sizing: border-box;
   }
-
-  footer {
-    margin-left: 74px;
-  }
 }
 
 .card {
-  background: #fff;
+  background: #fbfbfb;
   padding: 20px;
   border-radius: 26px;
   border: 1px solid #ebebeb;
   min-height: calc(100dvh - 20px);
   overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
   .Layout {
-    background: #fff;
+    background: #fbfbfb;
 
     main {
       margin-left: 0;

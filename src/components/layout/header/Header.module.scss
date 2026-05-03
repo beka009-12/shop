@@ -1,6 +1,5 @@
 // ─── Shop.app sidebar layout ─────────────────────────────────
-// Fixed left panel: 64px wide, full height, white background,
-// subtle right border. Logo top, nav center, user bottom.
+// Улучшенная версия для маркетплейса одежды
 
 .header {
   position: fixed;
@@ -10,8 +9,8 @@
   width: 64px;
   z-index: 999;
   border-radius: 40px;
-  border: 1px solid #e5e5e511;
-  margin: 4px 0 4px 4px !important;
+  margin: 10px 4px;
+  transition: all 0.2s ease;
 }
 
 .sidebar {
@@ -19,7 +18,7 @@
   flex-direction: column;
   align-items: center;
   height: 100%;
-  padding: 16px 0 20px;
+  padding: 20px 0 24px;
 }
 
 // ─── Logo ─────────────────────────────────────────────────────
@@ -27,37 +26,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  margin-bottom: 24px;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 32px;
   padding: 0;
   border-radius: 12px;
-  transition: opacity 0.15s;
-
-  &:hover {
-    opacity: 0.8;
-  }
+  transition: all 0.2s ease;
 }
 
 .logoCircle {
-  width: 36px;
-  height: 36px;
-  background: #00dfff;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  background: #ec473f;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-size: 16px;
+  color: #ffffff;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: -0.02em;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.03em;
+  box-shadow: 0 2px 6px rgba(30, 64, 175, 0.25);
 
-  span {
-    line-height: 1;
+  .logoLetter {
+    color: #fff;
   }
 }
 
@@ -66,41 +58,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
 }
 
 .navBtn {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 2px;
   border: none;
-  background: none;
+  background: transparent;
   cursor: pointer;
-  border-radius: 12px;
-  color: #a1a1aa;
-  transition:
-    background 0.15s,
-    color 0.15s;
-  padding: 0;
+  border-radius: 14px;
+  color: #64748b;
+  transition: all 0.2s ease;
 
   &:hover {
-    background: #f4f4f5;
-    color: #111;
+    background: #ffffff;
+    color: #1e40af;
   }
-}
-
-.navBtnActive {
-  background: #f4f4f5;
-  color: #111;
-
-  .navIcon svg {
-    stroke-width: 2.2;
+  &:hover {
+    svg {
+      opacity: 1;
+      transform: scale(1.1);
+      transition: 0.2s;
+    }
   }
 }
 
@@ -110,9 +96,22 @@
   justify-content: center;
 
   svg {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
+    transition: 0.2s;
+    opacity: 0.5;
+  }
+}
+
+.navBtnActive {
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.025);
+
+  .navIcon {
+    svg {
+      opacity: 1;
+    }
   }
 }
 
@@ -121,19 +120,19 @@
   position: absolute;
   top: 6px;
   right: 6px;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  background: #5b5ef4;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 5px;
+  background: #ec473f; // Красный — лучше видно
   color: #fff;
   font-size: 10px;
   font-weight: 700;
-  border-radius: 8px;
+  border-radius: 9999px;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(239, 68, 68, 0.3);
 }
 
 // ─── Bottom ───────────────────────────────────────────────────
@@ -141,79 +140,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
 
 .avatar {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: #f4f4f5;
-  color: #374151;
-  font-size: 12px;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 13px;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-}
-
-.signInLabel {
-  font-size: 9px;
-  font-weight: 500;
-  color: currentColor;
-  letter-spacing: 0.01em;
-  line-height: 1;
-}
-
-// ─── Global offset so content isn't hidden under sidebar ──────
-:global(main),
-:global(.main-content) {
-  padding-left: 64px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 // ─── Mobile: bottom bar ───────────────────────────────────────
 @media (max-width: 768px) {
   .header {
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 60px;
-    border-right: none;
-    border-top: 1px solid #f0f0f0;
-  }
-
-  .sidebar {
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0 8px;
-    height: 100%;
-  }
-
-  .logo {
-    margin-bottom: 0;
-  }
-
-  .nav {
-    flex-direction: row;
-    flex: none;
-    gap: 4px;
-  }
-
-  .bottom {
-    flex-direction: row;
-  }
-
-  .signInLabel {
     display: none;
-  }
-
-  :global(main),
-  :global(.main-content) {
-    padding-left: 0;
-    padding-bottom: 60px;
   }
 }

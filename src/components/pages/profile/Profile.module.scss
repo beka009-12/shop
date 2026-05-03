@@ -1,141 +1,76 @@
-// ─── Overlay ─────────────────────────────────────────────────
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 899;
-  animation: fadeIn 0.2s ease;
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
 }
 
-// ─── Side panel ──────────────────────────────────────────────
-.panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 360px;
-  height: 100dvh;
+// ── Hero ──────────────────────────────────────────
+
+.hero {
   background: #fff;
-  z-index: 900;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  scrollbar-width: none;
-  animation: slideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  @media (max-width: 480px) {
-    width: 100%;
-  }
+  border-radius: 20px;
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  margin-bottom: 16px;
+  animation: up 0.35s ease both;
 }
 
-// ─── Cover ───────────────────────────────────────────────────
-.cover {
-  height: 88px;
-  background: #111827;
-  flex-shrink: 0;
-  position: relative;
+.heroCover {
+  height: 96px;
+  background: #1f51ff;
 }
 
-.closeBtn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  border: none;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.15s;
-
-  svg {
-    width: 14px;
-    height: 14px;
-    fill: #fff;
-  }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.25);
-  }
+.heroBody {
+  padding: 0 24px 24px;
 }
 
-// ─── Avatar ──────────────────────────────────────────────────
-.avatarWrap {
+.avatarRow {
   display: flex;
-  justify-content: center;
-  margin-top: -36px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: -32px;
   margin-bottom: 12px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 2;
 }
 
 .avatar {
-  width: 72px;
-  height: 72px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   border: 3px solid #fff;
-  object-fit: cover;
-  background: #e5e7eb;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
-}
-
-.avatarIni {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  border: 3px solid #fff;
-  background: #111827;
-  color: #fff;
-  font-size: 22px;
-  font-weight: 600;
+  background: #e2725b;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
-  letter-spacing: 0.01em;
-}
-
-// ─── User info ───────────────────────────────────────────────
-.userInfo {
-  text-align: center;
-  padding: 0 20px 4px;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
-.userName {
-  font-size: 17px;
-  font-weight: 500;
-  color: #111827;
-  margin-bottom: 3px;
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.userEmail {
-  font-size: 12px;
-  color: #9ca3af;
-  margin-bottom: 12px;
+.avatarIni {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 22px;
+  color: #639922;
+  letter-spacing: 0.5px;
 }
 
 .editBtn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  padding: 6px 14px;
   font-size: 12px;
-  color: #4b5563;
-  background: #f3f4f6;
+  font-weight: 500;
+  color: #3b6d11;
+  background: #e2725b;
   border: none;
-  border-radius: 7px;
-  padding: 5px 12px;
+  border-radius: 20px;
   cursor: pointer;
+  margin-bottom: 4px;
   transition: background 0.15s;
 
   svg {
@@ -144,109 +79,57 @@
   }
 
   &:hover {
-    background: #e5e7eb;
+    background: #d6e9bc;
   }
 }
 
-// ─── Divider ─────────────────────────────────────────────────
-.divider {
-  height: 0.5px;
-  background: rgba(0, 0, 0, 0.06);
-  margin: 14px 0;
-  flex-shrink: 0;
+.userName {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 3px;
+  color: #18180f;
 }
 
-// ─── Contacts ────────────────────────────────────────────────
-.contacts {
-  padding: 0 16px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.contactRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 0;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
-
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.cIcon {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: #f3f4f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-
-  svg {
-    width: 14px;
-    height: 14px;
-    color: #6b7280;
-  }
-}
-
-.cText {
+.userEmail {
   font-size: 13px;
-  color: #374151;
+  color: #8c8b82;
 }
 
-.cPlaceholder {
-  color: #9ca3af;
+// ── Stats ─────────────────────────────────────────
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+  animation: up 0.35s 0.05s ease both;
 }
 
-// ─── Menu ────────────────────────────────────────────────────
-.menu {
-  padding: 0 8px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.menuItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 10px;
-  border-radius: 10px;
-  border: none;
-  background: none;
+.stat {
+  background: #fff;
+  border-radius: 14px;
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  padding: 16px;
   cursor: pointer;
-  transition: background 0.15s;
-  width: 100%;
-  text-align: left;
+  transition:
+    border-color 0.15s,
+    transform 0.15s;
 
   &:hover {
-    background: #f9fafb;
-  }
-
-  &:active {
-    background: #f3f4f6;
+    border-color: rgba(0, 0, 0, 0.16);
+    transform: translateY(-2px);
   }
 }
 
-.menuLeft {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.mIcon {
-  width: 34px;
-  height: 34px;
+.statIcon {
+  width: 32px;
+  height: 32px;
   border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  margin-bottom: 8px;
 
   svg {
     width: 16px;
@@ -257,188 +140,499 @@
 .iconFav {
   background: #fcebeb;
 }
-
 .iconCart {
-  background: #eaf3de;
+  background: #e2725b;
 }
-
 .iconOrders {
   background: #e6f1fb;
 }
 
-.mLabel {
-  font-size: 14px;
+.statNum {
+  font-size: 24px;
   font-weight: 500;
-  color: #111827;
+  line-height: 1;
+  color: #18180f;
 }
 
-.menuRight {
+.statLabel {
+  font-size: 11.5px;
+  color: #8c8b82;
+  margin-top: 2px;
+}
+
+// ── Card ──────────────────────────────────────────
+
+.card {
+  background: #fff;
+  border-radius: 20px;
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  margin-bottom: 16px;
+  animation: up 0.35s 0.1s ease both;
+}
+
+.cardHeader {
+  padding: 14px 20px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
 }
 
-.mCount {
+.cardTitle {
   font-size: 11px;
-  font-weight: 600;
-  color: #6b7280;
-  background: #f3f4f6;
-  padding: 2px 8px;
-  border-radius: 10px;
-  min-width: 24px;
-  text-align: center;
-}
-
-.mArrow {
-  width: 14px;
-  height: 14px;
-  color: #d1d5db;
-}
-
-// ─── Bottom / Logout ─────────────────────────────────────────
-.bottom {
-  padding: 12px 16px 20px;
-  flex-shrink: 0;
-}
-
-.logoutBtn {
-  width: 100%;
-  padding: 11px;
-  border-radius: 9px;
-  background: #f3f4f6;
-  border: none;
-  color: #374151;
-  font-size: 14px;
   font-weight: 500;
+  color: #8c8b82;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cardAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #3b6d11;
+  background: #e2725b;
+  border: none;
+  border-radius: 20px;
+  padding: 4px 10px;
   cursor: pointer;
+  transition: background 0.15s;
+
+  svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  &:hover {
+    background: #d6e9bc;
+  }
+}
+
+// ── Contacts ──────────────────────────────────────
+
+.contactRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 20px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.cIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #f7f6f3;
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  transition:
-    background 0.15s,
-    color 0.15s;
+  flex-shrink: 0;
 
   svg {
     width: 15px;
     height: 15px;
-  }
-
-  &:hover {
-    background: #fcebeb;
-    color: #a32d2d;
+    color: #8c8b82;
   }
 }
 
-// ─── Modal ───────────────────────────────────────────────────
-.modalBackdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 1000;
+.cInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cLabel {
+  font-size: 11px;
+  color: #c2c0b8;
+}
+
+.cVal {
+  font-size: 13.5px;
+  color: #18180f;
+}
+
+.cEmpty {
+  color: #c2c0b8;
+}
+
+// ── Addresses ─────────────────────────────────────
+
+.addrList {
+  display: flex;
+  flex-direction: column;
+}
+
+.addrItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+  transition: background 0.12s;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: #f7f6f3;
+  }
+}
+
+.addrDot {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 0.15s ease;
+  flex-shrink: 0;
+  margin-top: 1px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.addrDotDefault {
+  background: #e2725b;
+}
+.addrDotWork {
+  background: #e6f1fb;
+}
+
+.addrBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.addrTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.addrLabel {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #18180f;
+}
+
+.addrDefault {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #3b6d11;
+  background: #e2725b;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.addrName {
+  font-size: 12.5px;
+  color: #8c8b82;
+  margin-bottom: 2px;
+}
+
+.addrFull {
+  font-size: 12.5px;
+  color: #8c8b82;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.addrPhone {
+  font-size: 12px;
+  color: #c2c0b8;
+  margin-top: 2px;
+}
+
+.addrActions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.addrBtn {
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  background: #f7f6f3;
+  color: #8c8b82;
+  transition: background 0.12s;
+
+  &:hover {
+    background: #e8e7e2;
+  }
+}
+
+.addrBtnDanger {
+  color: #e24b4a;
+  border-color: rgba(226, 75, 74, 0.2);
+  background: #fcebeb;
+
+  &:hover {
+    background: #f9d9d9;
+  }
+}
+
+// Empty state
+.addrEmpty {
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.addrEmptyIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #f7f6f3;
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    color: #c2c0b8;
+  }
+}
+
+.addrEmptyTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #18180f;
+}
+
+.addrEmptySub {
+  font-size: 12.5px;
+  color: #8c8b82;
+}
+
+// ── Nav card ──────────────────────────────────────
+
+.navCard {
+  background: #fff;
+  border-radius: 20px;
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  margin-bottom: 16px;
+  animation: up 0.35s 0.15s ease both;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+  background: transparent;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  width: 100%;
+  transition: background 0.12s;
+  text-align: left;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: #f7f6f3;
+  }
+}
+
+.navLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+.nText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.nLabel {
+  font-size: 14px;
+  color: #18180f;
+}
+
+.nSub {
+  font-size: 11.5px;
+  color: #8c8b82;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nBadge {
+  font-size: 12px;
+  color: #8c8b82;
+  background: #f7f6f3;
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  border-radius: 20px;
+  padding: 2px 10px;
+  min-width: 28px;
+  text-align: center;
+}
+
+.nArrow {
+  width: 15px;
+  height: 15px;
+  color: #c2c0b8;
+}
+
+// ── Logout ────────────────────────────────────────
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px;
+  border-radius: 14px;
+  border: 0.5px solid rgba(226, 75, 74, 0.22);
+  background: #fcebeb;
+  color: #e24b4a;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  animation: up 0.35s 0.2s ease both;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: #f9d9d9;
+  }
+}
+
+// ── Modals ────────────────────────────────────────
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  backdrop-filter: blur(4px);
 }
 
 .modalBox {
   background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 400px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  animation: popIn 0.2s ease;
+  border-radius: 20px;
+  padding: 28px 24px 20px;
+  width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 .modalTitle {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 500;
-  color: #111827;
-  text-align: center;
+  color: #18180f;
+  margin-bottom: 6px;
 }
 
 .modalSub {
-  font-size: 13px;
-  color: #6b7280;
-  text-align: center;
-  line-height: 1.5;
+  font-size: 13.5px;
+  color: #8c8b82;
+  margin-bottom: 20px;
 }
 
 .modalActions {
   display: flex;
   gap: 8px;
-  margin-top: 4px;
 }
 
 .cancelBtn {
   flex: 1;
   padding: 10px;
-  border-radius: 8px;
-  background: #f3f4f6;
-  border: none;
-  font-size: 13px;
+  border-radius: 12px;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  background: #f7f6f3;
+  color: #8c8b82;
+  font-size: 13.5px;
   font-weight: 500;
-  color: #374151;
   cursor: pointer;
-  transition: background 0.15s;
 
   &:hover {
-    background: #e5e7eb;
+    background: #eeede9;
   }
 }
 
 .confirmBtn {
   flex: 1;
   padding: 10px;
-  border-radius: 8px;
-  background: #111827;
+  border-radius: 12px;
   border: none;
-  font-size: 13px;
-  font-weight: 500;
+  background: #e24b4a;
   color: #fff;
+  font-size: 13.5px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s;
 
   &:hover {
-    background: #1f2937;
+    background: #c93b3a;
   }
 }
 
-// ─── Animations ──────────────────────────────────────────────
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+// ── Animation ─────────────────────────────────────
 
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes popIn {
+@keyframes up {
   from {
     opacity: 0;
-    transform: scale(0.94) translateY(8px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: translateY(0);
   }
 }

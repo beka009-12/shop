@@ -13,9 +13,11 @@ const Layout: FC<ILay> = ({ children }) => {
     <div className={scss.Layout}>
       <Header />
       <main>
-        <div className={scss.card}>{children}</div>
+        <div className={scss.card}>
+          {children}
+          <Footer />
+        </div>
       </main>
-      <Footer />
       <Mobile />
     </div>
   );

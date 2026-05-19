@@ -1,37 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+
 .productsNot {
-  min-height: 70vh;
+  min-height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'DM Sans', system-ui, sans-serif;
 }
 
 .content {
   text-align: center;
-  max-width: 500px;
+  max-width: 380px;
+  padding: 40px 24px;
+  animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.iconWrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 22px;
+}
+
+.iconRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  border: 1px solid rgba(85, 51, 235, 0.1);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+.iconBox {
+  position: absolute;
+  inset: 8px;
+  background: #f0edff;
+  border-radius: 16px;
+  border: 1px solid rgba(85, 51, 235, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 26px;
+    height: 26px;
+    color: #5533EB;
+    opacity: 0.65;
+  }
 }
 
 .title {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 12px;
+  font-size: 19px;
+  font-weight: 400;
+  color: #18180f;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
-  font-size: 16px;
-  color: #525252;
-  margin-bottom: 24px;
+  font-size: 13px;
+  color: #aaa;
+  font-weight: 300;
+  margin: 0 0 26px;
+  line-height: 1.55;
 }
 
-.button {
-  padding: 10px 20px;
-  background: black;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-  border-radius: 3px;
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.button:hover {
-  background: #333;
+@keyframes pulse {
+  0%, 100% { transform: scale(1);    opacity: 0.35; }
+  50%       { transform: scale(1.07); opacity: 0.7; }
 }

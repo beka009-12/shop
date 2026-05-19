@@ -2,16 +2,15 @@
 import { useState, type FC } from "react";
 import { useParams, useRouter } from "next/navigation";
 import scss from "./Detail.module.scss";
-import Loader from "@/utils/loader/Loader";
-import { useGetMe } from "@/api/user";
-import { useGetOrders } from "@/api/order";
+import DetailSceleton from "@/utils/ui/sceletons/DetailSceleton";
+import { useGetCart } from "@/api/generated/endpoints/cart/cart";
 import {
   useCartAddAction,
   useDelFavorite,
   useFavoriteFun,
 } from "@/hooks/useCartActions";
-import { useGetFavorites } from "@/api/favorite";
-import { useGetCommodityProductForUserId } from "@/api/generated/endpoints/product/product";
+import { useGetFavoriteFavorites } from "@/api/generated/endpoints/favorite/favorite";
+import { useGetCommodityProductUserId } from "@/api/generated/endpoints/product/product";
 
 const CLOTHING_SIZES = ["XXS", "XS", "S", "M", "L", "XL", "XXL"];
 const SHOE_SIZES = ["36", "37", "38", "39", "40", "41", "42", "43", "44", "45"];
@@ -103,14 +102,13 @@ const Detail: FC = () => {
   const [quantity, setQuantity] = useState(1);
 
   // data shape: GetCommodityProductForUserId200 = { product?: Product }
-  const { data, isPending } = useGetCommodityProductForUserId(Number(id));
+  const { data, isPending } = useGetCommodityProductUserId(Number(id));
   const product = data?.product;
 
-  const { data: me } = useGetMe();
-  const { data: orders } = useGetOrders(me?.user.id!);
-  const { data: favorite } = useGetFavorites(me?.user.id!);
+  const { data: cartData } = useGetCart();
+  const { data: favorite } = useGetFavoriteFavorites();
 
-  if (isPending) return <Loader />;
+  if (isPending) return <DetailSceleton />;
   if (!product) return <div className={scss.notFound}>Продукт не найден</div>;
 
   // Safe accessors with fallbacks
@@ -118,14 +116,15 @@ const Detail: FC = () => {
   const newPrice = product.newPrice ?? null;
   const stockCount = product.stockCount ?? 0;
   const soldCount = product.soldCount ?? 0;
-  const mainImage = activeImage ?? product.images?.[0];
+  const productImgUrls = product.productImages?.map((img) => img.url).filter(Boolean) as string[] ?? [];
+  const mainImage = activeImage ?? productImgUrls[0];
 
   const discountPercent =
     newPrice != null && price > newPrice
       ? Math.round(((price - newPrice) / price) * 100)
       : 0;
 
-  const isInCart = orders?.some((item: any) => item.product.id === product.id);
+  const isInCart = cartData?.items?.some((item) => item.product?.id === product.id);
   const isFavorite = favorite?.favorites?.some(
     (item: any) => item.product.id === product.id,
   );
@@ -189,7 +188,7 @@ const Detail: FC = () => {
         {/* ── Gallery ── */}
         <div className={scss.gallery}>
           <div className={scss.thumbnails}>
-            {product.images?.map((img, i) => (
+            {productImgUrls.map((img, i) => (
               <button
                 type="button"
                 key={i}

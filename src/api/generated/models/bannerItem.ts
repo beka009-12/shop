@@ -19,11 +19,18 @@ export interface BannerItem {
   description?: string;
   decoNum?: string;
   promoTag?: string;
+  /** HEX-цвет баннера */
   color?: string;
   promoType?: PromoType;
-  /** @nullable */
+  /**
+     * Процент скидки. Заполнен только при promoType=PERCENT
+     * @nullable
+     */
   discount?: number | null;
-  /** @nullable */
+  /**
+     * Фиксированная цена. Заполнена только при promoType=FIXED_PRICE
+     * @nullable
+     */
   fixedPrice?: number | null;
   deadline?: string;
   isActive?: boolean;
@@ -31,8 +38,11 @@ export interface BannerItem {
   /** @nullable */
   rejectReason?: string | null;
   createdAt?: string;
+  /** Присутствует только в ответе GET /banner/active */
   store?: BannerItemStore;
-  /** @maxItems 3 */
+  /** POST /banner/:storeId — все переданные товары.
+  GET /banner/active — максимум 3 товара (take: 3).
+   */
   products?: BannerProductEntry[];
   slot?: BannerSlot;
 }

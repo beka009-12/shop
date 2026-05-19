@@ -2,7 +2,11 @@ import { type FC, useEffect, useRef, useState } from "react";
 import scss from "./UpdateProfile.module.scss";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useGetMe, useUpdateProfile } from "@/api/user";
+import {
+  useGetUserProfile,
+  usePutUserProfile,
+} from "@/api/generated/endpoints/user/user";
+import { UpdateProfileInput } from "@/api/generated/models";
 
 interface ProfileProps {
   onClose: () => void;
@@ -10,9 +14,9 @@ interface ProfileProps {
 
 const UpdateProfile: FC<ProfileProps> = ({ onClose }) => {
   const { register, handleSubmit, reset, setValue } =
-    useForm<AUTH.UpdateProfileReq>();
-  const { mutateAsync: updateProfileMutation, isPending } = useUpdateProfile();
-  const { data: getMe } = useGetMe();
+    useForm<UpdateProfileInput>();
+  const { mutateAsync: updateProfileMutation, isPending } = usePutUserProfile();
+  const { data: getMe } = useGetUserProfile();
 
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -20,17 +24,17 @@ const UpdateProfile: FC<ProfileProps> = ({ onClose }) => {
   useEffect(() => {
     if (getMe?.user) {
       reset({
-        name: getMe.user.name,
-        phone: getMe.user.phone,
-        avatar: getMe.user.avatar || "",
+        name: getMe.user.name ?? undefined,
+        phone: getMe.user.phone ?? undefined,
+        avatar: getMe.user.avatar ?? "",
       });
-      setAvatarPreview(getMe.user.avatar);
+      setAvatarPreview(getMe.user.avatar ?? null);
     }
   }, [getMe, reset]);
 
-  const onSubmit = async (data: AUTH.UpdateProfileReq) => {
+  const onSubmit = async (data: UpdateProfileInput) => {
     try {
-      await updateProfileMutation(data);
+      await updateProfileMutation({ data });
       toast.success("Профиль обновлен 🎉");
       onClose();
     } catch (error) {
@@ -87,7 +91,7 @@ const UpdateProfile: FC<ProfileProps> = ({ onClose }) => {
             type="submit"
             disabled={isPending}
           >
-            {isPending ? "Сохраняем..." : "Обновить профиль"}
+            {isPending ? "Сохраняем..." : "Сохранить"}
           </button>
           <button type="button" className={scss.cancelBtn} onClick={onClose}>
             Отмена

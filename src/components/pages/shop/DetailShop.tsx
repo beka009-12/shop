@@ -2,15 +2,22 @@
 import { type FC } from "react";
 import scss from "./DetailShop.module.scss";
 import { useParams } from "next/navigation";
-import { useGetDetailStore } from "@/api/store";
+import { useGetSallerDetailStoreId } from "@/api/generated/endpoints/saller/saller";
+import { GetSallerDetailStoreId200Store } from "@/api/generated/models";
 import DetailShopSkeleton from "@/utils/ui/sceletons/DetailShopSceleton";
-import Grid from "@/utils/ui/cards/Grid"; // Импортируем ваш Grid
+import Grid from "@/utils/ui/cards/Grid";
+
+type StoreDetail = GetSallerDetailStoreId200Store & {
+  region?: string | null;
+  description?: string | null;
+  address?: string | null;
+};
 
 const DetailShop: FC = () => {
   const { id } = useParams();
-  const { data, isLoading, isError } = useGetDetailStore(Number(id));
+  const { data, isLoading, isError } = useGetSallerDetailStoreId(Number(id));
 
-  const store = data?.store;
+  const store = data?.store as StoreDetail | undefined;
 
   const getInitials = (name: string) =>
     name
@@ -38,7 +45,7 @@ const DetailShop: FC = () => {
           {store.logo ? (
             <img src={store.logo} alt={store.name} />
           ) : (
-            <span>{getInitials(store.name)}</span>
+            <span>{getInitials(store.name ?? "")}</span>
           )}
         </div>
       </div>
@@ -54,9 +61,9 @@ const DetailShop: FC = () => {
             {store.rating && (
               <div className={scss.metaItem}>⭐ {store.rating}</div>
             )}
-            {store.products?.length > 0 && (
+            {(store.products?.length ?? 0) > 0 && (
               <div className={scss.metaItem}>
-                {store.products.length} товаров
+                {store.products?.length} товаров
               </div>
             )}
           </div>

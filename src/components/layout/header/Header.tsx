@@ -3,9 +3,9 @@ import { useState, type FC } from "react";
 import scss from "./Header.module.scss";
 import { usePathname, useRouter } from "next/navigation";
 import Catalog from "@/components/pages/catalog/Catalog";
-import { useGetOrderCartUserId } from "@/api/generated/endpoints/order/order";
-import { useGetFavoriteFavoriteUserId } from "@/api/generated/endpoints/favorite/favorite";
-import { useGetAuthProfile } from "@/api/generated/endpoints/auth/auth";
+import { useGetCart } from "@/api/generated/endpoints/cart/cart";
+import { useGetFavoriteFavorites } from "@/api/generated/endpoints/favorite/favorite";
+import { useGetUserProfile } from "@/api/generated/endpoints/user/user";
 
 // ─── Icons ───────────────────────────────────────────────────
 const HomeIcon = () => (
@@ -82,14 +82,14 @@ const Header: FC = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { data: getMe, isLoading } = useGetAuthProfile();
+  const { data: getMe, isLoading } = useGetUserProfile();
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
-  const { data: cartItems } = useGetOrderCartUserId(getMe?.user?.id || 0);
-  const { data: favorite } = useGetFavoriteFavoriteUserId(getMe?.user?.id || 0);
+  const { data: cartData } = useGetCart();
+  const { data: favorite } = useGetFavoriteFavorites();
 
   const isAuthenticated = !!getMe?.user?.id;
-  const cartCount = cartItems?.length || 0;
+  const cartCount = cartData?.items?.length || 0;
   const favCount = favorite?.favorites?.length || 0;
 
   const initials = getMe?.user?.name

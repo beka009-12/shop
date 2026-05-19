@@ -40,7 +40,10 @@ import { customInstance } from '../../../index';
 
 
 /**
- * Возвращает до 5 активных, одобренных и оплаченных баннеров в случайном порядке.
+ * Возвращает до 5 активных баннеров в случайном порядке.
+Фильтры (все обязательны): isActive=true, status=APPROVED,
+deadline > now, slot.isPaid=true, slot.endAt > now.
+Результат перемешивается (Math.random) и обрезается до 5 штук.
 
  * @summary Получить активные баннеры
  */
@@ -134,7 +137,16 @@ export function useGetBannerActive<TData = Awaited<ReturnType<typeof getBannerAc
 
 
 /**
- * Создаёт баннер и слот оплаты. Если у магазина уже есть активный баннер (PENDING или APPROVED), вернёт 400. При передаче promoCode применяется скидка на стоимость размещения.
+ * Создаёт баннер, слот оплаты и обновляет newPrice у товаров — всё в одной транзакции.
+Бизнес-правила:
+1. У магазина не должно быть активного баннера (PENDING или APPROVED) с deadline > now.
+2. Все productIds должны принадлежать магазину storeId.
+3. PERCENT — newPrice = price - (price * discount / 100).
+4. FIXED_PRICE — newPrice = fixedPrice для всех товаров.
+5. BUY_ONE_GET / SEASONAL — newPrice не изменяется.
+6. Промокод: slotPrice = 500 - (500 * promo.discount / 100).
+7. Если slotPrice === 0 — slot.isPaid сразу true.
+8. Созданный баннер имеет статус PENDING, isActive=false.
 
  * @summary Создать баннер для магазина
  */
@@ -200,7 +212,9 @@ export const usePostBannerStoreId = <TError = ErrorResponse,
       return useMutation(getPostBannerStoreIdMutationOptions(options), queryClient);
     }
     /**
- * Переводит баннер в статус APPROVED и делает его isActive=true.
+ * Переводит баннер в статус APPROVED и устанавливает isActive=true.
+Внимание: 404 не обрабатывается в контроллере — несуществующий id вернёт 500.
+
  * @summary Одобрить баннер (admin)
  */
 export const patchBannerIdApprove = (
@@ -262,7 +276,9 @@ export const usePatchBannerIdApprove = <TError = ErrorResponse,
       return useMutation(getPatchBannerIdApproveMutationOptions(options), queryClient);
     }
     /**
- * Переводит баннер в статус REJECTED с указанием причины.
+ * Переводит баннер в статус REJECTED, isActive=false, сохраняет rejectReason.
+Внимание: 404 не обрабатывается в контроллере — несуществующий id вернёт 500.
+
  * @summary Отклонить баннер (admin)
  */
 export const patchBannerIdReject = (

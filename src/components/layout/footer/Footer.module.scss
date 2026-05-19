@@ -1,0 +1,152 @@
+.footer {
+  background: linear-gradient(135deg, #160c3f 0%, #0b0623 100%);
+  border-radius: 18px;
+  margin-top: 40px;
+  overflow: hidden;
+}
+
+// ── Main grid ─────────────────────────────────────────────────
+.inner {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 40px;
+  padding: 40px 40px 32px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    padding: 28px 24px 24px;
+    gap: 28px;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+// ── Brand column ──────────────────────────────────────────────
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoCircle {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #5533eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.logoName {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.55;
+  max-width: 260px;
+}
+
+.socials {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.social {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(85, 51, 235, 0.15);
+  border: 1px solid rgba(85, 51, 235, 0.25);
+  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    background: rgba(85, 51, 235, 0.35);
+    border-color: #5533eb;
+    color: #fff;
+  }
+}
+
+// ── Nav columns ───────────────────────────────────────────────
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.colTitle {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color 0.18s;
+  width: fit-content;
+
+  &:hover {
+    color: #a78bfa;
+  }
+}
+
+// ── Bottom bar ────────────────────────────────────────────────
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+
+  @media (max-width: 768px) {
+    padding: 14px 24px;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+}
+
+.made {
+  color: rgba(167, 139, 250, 0.5);
+}

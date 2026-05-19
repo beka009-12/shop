@@ -1,7 +1,6 @@
 "use client";
 import React, { type FC, useState, useEffect, useRef } from "react";
 import scss from "./Order.module.scss";
-import { useGetMe } from "@/api/user";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import CheckoutModal from "./CheckoutModal";
@@ -10,26 +9,21 @@ import OrderNot from "@/utils/ui/noteF/OrderNot";
 import Image from "next/image";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  getGetOrderCartUserIdQueryKey,
-  useDeleteOrderDeleteAllCartUserId,
-  useDeleteOrderDeleteByIdProductId,
-  useGetOrderCartUserId,
-} from "@/api/generated/endpoints/order/order";
+  useGetCart,
+  useDeleteCartClear,
+  useDeleteCartProductId,
+  getGetCartQueryKey,
+} from "@/api/generated/endpoints/cart/cart";
 
 const Order: FC = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { data: user } = useGetMe();
-  const userId = user?.user?.id;
+  const { data: cartData, isLoading } = useGetCart();
 
-  const { data: cartData, isLoading } = useGetOrderCartUserId(Number(userId));
-
-  const { mutate: deleteById } = useDeleteOrderDeleteByIdProductId({
+  const { mutate: deleteById } = useDeleteCartProductId({
     mutation: {
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: getGetOrderCartUserIdQueryKey(Number(userId)),
-        });
+        queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
         toast.success("Товар удалён");
       },
       onError: () => {
@@ -38,12 +32,10 @@ const Order: FC = () => {
     },
   });
 
-  const { mutate: deleteAll } = useDeleteOrderDeleteAllCartUserId({
+  const { mutate: deleteAll } = useDeleteCartClear({
     mutation: {
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: getGetOrderCartUserIdQueryKey(Number(userId)),
-        });
+        queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
         toast.success("Корзина очищена");
       },
       onError: () => {
@@ -52,7 +44,7 @@ const Order: FC = () => {
     },
   });
 
-  const cartItems = cartData || [];
+  const cartItems = cartData?.items ?? [];
 
   const [openModal, setOpenModal] = useState(false);
   const [showFloating, setShowFloating] = useState(false);
@@ -62,9 +54,9 @@ const Order: FC = () => {
   const summaryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (cartData) {
+    if (cartData?.items) {
       const initial: Record<number, number> = {};
-      cartData.forEach((item) => {
+      cartData.items.forEach((item) => {
         initial[item.id!] = item.quantity || 1;
       });
       setQuantities(initial);
@@ -134,7 +126,7 @@ const Order: FC = () => {
             {cartItems.length > 0 && (
               <button
                 className={scss.clearBtn}
-                onClick={() => deleteAll({ userId: Number(userId) })}
+                onClick={() => deleteAll()}
               >
                 Очистить всё
               </button>
@@ -160,7 +152,7 @@ const Order: FC = () => {
                       >
                         <Image
                           src={
-                            item.product?.images?.[0] ||
+                            item.product?.productImages?.[0]?.url ||
                             "/placeholder-product.jpg"
                           }
                           alt={item.product?.title || "Товар"}

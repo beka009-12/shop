@@ -6,6 +6,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
+/**
+ * Присутствует только в ответе GET /banner/active
+ */
 export type BannerItemStore = {
   name?: string;
   isVerified?: boolean;

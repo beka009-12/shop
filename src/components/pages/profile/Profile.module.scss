@@ -1,27 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap");
+
+// ── Page ──────────────────────────────────────────────────────────
+
 .page {
-  max-width: 680px;
+  max-width: 640px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 0 0 6rem;
+  min-height: 100vh;
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: #18180f;
 }
 
-// ── Hero ──────────────────────────────────────────
+// ── Hero ──────────────────────────────────────────────────────────
 
 .hero {
-  background: #fff;
-  border-radius: 20px;
-  border: 0.5px solid rgba(0, 0, 0, 0.07);
-  overflow: hidden;
   margin-bottom: 16px;
-  animation: up 0.35s ease both;
+  animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .heroCover {
-  height: 96px;
-  background: #1f51ff;
+  height: 120px;
+  background: linear-gradient(135deg, #5533eb 0%, #3d1fd4 55%, #6b4aff 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+  }
+}
+
+.heroCoverMark {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .heroBody {
-  padding: 0 24px 24px;
+  padding: 0 20px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(85, 51, 235, 0.08);
 }
 
 .avatarRow {
@@ -29,19 +71,33 @@
   align-items: flex-end;
   justify-content: space-between;
   margin-top: -32px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .avatar {
-  width: 64px;
-  height: 64px;
+  position: relative;
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+}
+
+.avatarRing {
+  position: absolute;
+  inset: -4px;
   border-radius: 50%;
-  border: 3px solid #fff;
-  background: #e2725b;
+  border: 1px solid rgba(85, 51, 235, 0.18);
+}
+
+.avatarInner {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+  box-shadow: 0 0 0 2px #5533eb;
+  background: #ede9ff;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
   overflow: hidden;
 }
 
@@ -52,218 +108,244 @@
 }
 
 .avatarIni {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 22px;
-  color: #639922;
-  letter-spacing: 0.5px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 26px;
+  font-weight: 300;
+  color: #5533eb;
+  letter-spacing: 0.02em;
+  line-height: 1;
 }
 
 .editBtn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   padding: 6px 14px;
-  font-size: 12px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 10.5px;
   font-weight: 500;
-  color: #3b6d11;
-  background: #e2725b;
-  border: none;
-  border-radius: 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5533eb;
+  background: #f0edff;
+  border: 1px solid rgba(85, 51, 235, 0.2);
+  border-radius: 100px;
   cursor: pointer;
   margin-bottom: 4px;
-  transition: background 0.15s;
+  transition: all 0.18s;
 
   svg {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
   }
 
   &:hover {
-    background: #d6e9bc;
+    background: #e4deff;
+    border-color: #5533eb;
   }
 }
 
 .userName {
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.2;
-  margin-bottom: 3px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.15;
   color: #18180f;
+  margin-bottom: 3px;
+  letter-spacing: -0.02em;
 }
 
 .userEmail {
-  font-size: 13px;
-  color: #8c8b82;
+  font-size: 12px;
+  color: #9a9a90;
+  font-weight: 300;
+  letter-spacing: 0.01em;
 }
 
-// ── Stats ─────────────────────────────────────────
+// ── Stats ─────────────────────────────────────────────────────────
 
 .stats {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
+  gap: 2px;
   margin-bottom: 16px;
-  animation: up 0.35s 0.05s ease both;
+  background: rgba(85, 51, 235, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  animation: fadeUp 0.5s 0.06s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .stat {
-  background: #fff;
-  border-radius: 14px;
-  border: 0.5px solid rgba(0, 0, 0, 0.07);
-  padding: 16px;
+  background: #ffffff;
+  padding: 18px 14px;
   cursor: pointer;
-  transition:
-    border-color 0.15s,
-    transform 0.15s;
+  transition: background 0.15s;
+  text-align: center;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #5533eb;
+    transition: width 0.25s ease;
+  }
 
   &:hover {
-    border-color: rgba(0, 0, 0, 0.16);
-    transform: translateY(-2px);
+    background: #f7f5ff;
+
+    &::after {
+      width: 32px;
+    }
+    .statNum {
+      color: #3d1fd4;
+    }
   }
 }
 
 .statIcon {
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 8px;
-
-  svg {
-    width: 16px;
-    height: 16px;
-  }
-}
-
-.iconFav {
-  background: #fcebeb;
-}
-.iconCart {
-  background: #e2725b;
-}
-.iconOrders {
-  background: #e6f1fb;
+  display: none;
 }
 
 .statNum {
-  font-size: 24px;
-  font-weight: 500;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 42px;
   line-height: 1;
-  color: #18180f;
+  color: #5533eb;
+  letter-spacing: 0.03em;
+  margin-bottom: 5px;
+  transition: color 0.15s;
 }
 
 .statLabel {
-  font-size: 11.5px;
-  color: #8c8b82;
-  margin-top: 2px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #bbb;
 }
 
-// ── Card ──────────────────────────────────────────
+// ── Card ──────────────────────────────────────────────────────────
 
 .card {
-  background: #fff;
-  border-radius: 20px;
-  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   overflow: hidden;
-  margin-bottom: 16px;
-  animation: up 0.35s 0.1s ease both;
+  margin-bottom: 12px;
+  animation: fadeUp 0.5s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .cardHeader {
-  padding: 14px 20px;
+  padding: 13px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .cardTitle {
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 500;
-  color: #8c8b82;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+  color: #5533eb;
 }
 
 .cardAction {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: 12px;
+  gap: 4px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 10.5px;
   font-weight: 500;
-  color: #3b6d11;
-  background: #e2725b;
-  border: none;
-  border-radius: 20px;
-  padding: 4px 10px;
+  letter-spacing: 0.05em;
+  color: #5533eb;
+  background: #f0edff;
+  border: 1px solid rgba(85, 51, 235, 0.2);
+  border-radius: 100px;
+  padding: 4px 11px;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: all 0.18s;
 
   svg {
-    width: 11px;
-    height: 11px;
+    width: 9px;
+    height: 9px;
   }
 
   &:hover {
-    background: #d6e9bc;
+    background: #e4deff;
+    border-color: #5533eb;
   }
 }
 
-// ── Contacts ──────────────────────────────────────
+// ── Contacts ──────────────────────────────────────────────────────
 
 .contactRow {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 13px 20px;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+  padding: 13px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background 0.1s;
 
   &:last-child {
     border-bottom: none;
   }
+  &:hover {
+    background: #fafafa;
+  }
 }
 
 .cIcon {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: #f7f6f3;
-  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f0edff;
+  border: 1px solid rgba(85, 51, 235, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 
   svg {
-    width: 15px;
-    height: 15px;
-    color: #8c8b82;
+    width: 14px;
+    height: 14px;
+    color: #5533eb;
+    opacity: 0.75;
   }
 }
 
 .cInfo {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .cLabel {
-  font-size: 11px;
-  color: #c2c0b8;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ccc;
 }
 
 .cVal {
   font-size: 13.5px;
   color: #18180f;
+  font-weight: 300;
 }
 
 .cEmpty {
-  color: #c2c0b8;
+  color: #bbb;
+  font-style: italic;
 }
 
-// ── Addresses ─────────────────────────────────────
+// ── Addresses ─────────────────────────────────────────────────────
 
 .addrList {
   display: flex;
@@ -274,23 +356,22 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 14px 20px;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
-  transition: background 0.12s;
+  padding: 15px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background 0.1s;
 
   &:last-child {
     border-bottom: none;
   }
-
   &:hover {
-    background: #f7f6f3;
+    background: #fafafa;
   }
 }
 
 .addrDot {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -298,16 +379,25 @@
   margin-top: 1px;
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
   }
 }
 
 .addrDotDefault {
-  background: #e2725b;
+  background: #f0edff;
+  border: 1px solid rgba(85, 51, 235, 0.2);
+  svg {
+    color: #5533eb;
+  }
 }
+
 .addrDotWork {
-  background: #e6f1fb;
+  background: #f4f4f4;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  svg {
+    color: #aaa;
+  }
 }
 
 .addrBody {
@@ -323,37 +413,41 @@
 }
 
 .addrLabel {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 500;
   color: #18180f;
 }
 
 .addrDefault {
-  font-size: 10.5px;
+  font-size: 8.5px;
   font-weight: 500;
-  color: #3b6d11;
-  background: #e2725b;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5533eb;
+  background: #f0edff;
+  border: 1px solid rgba(85, 51, 235, 0.2);
   padding: 2px 8px;
-  border-radius: 20px;
+  border-radius: 100px;
 }
 
 .addrName {
-  font-size: 12.5px;
-  color: #8c8b82;
-  margin-bottom: 2px;
+  font-size: 12px;
+  color: #888;
+  font-weight: 300;
 }
 
 .addrFull {
-  font-size: 12.5px;
-  color: #8c8b82;
+  font-size: 12px;
+  color: #888;
+  font-weight: 300;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .addrPhone {
-  font-size: 12px;
-  color: #c2c0b8;
+  font-size: 11.5px;
+  color: #bbb;
   margin-top: 2px;
 }
 
@@ -365,33 +459,36 @@
 }
 
 .addrBtn {
-  font-size: 11.5px;
-  padding: 4px 10px;
-  border-radius: 20px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  padding: 4px 11px;
+  border-radius: 100px;
   cursor: pointer;
-  border: 0.5px solid rgba(0, 0, 0, 0.07);
-  background: #f7f6f3;
-  color: #8c8b82;
-  transition: background 0.12s;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f8f8f8;
+  color: #888;
+  transition: all 0.15s;
 
   &:hover {
-    background: #e8e7e2;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #333;
   }
 }
 
 .addrBtnDanger {
-  color: #e24b4a;
-  border-color: rgba(226, 75, 74, 0.2);
-  background: #fcebeb;
+  color: #b03030;
+  border-color: rgba(176, 48, 48, 0.2);
+  background: #fff5f5;
 
   &:hover {
-    background: #f9d9d9;
+    background: #ffe8e8;
+    border-color: rgba(176, 48, 48, 0.35);
   }
 }
 
-// Empty state
 .addrEmpty {
-  padding: 28px 20px;
+  padding: 32px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -402,9 +499,9 @@
 .addrEmptyIcon {
   width: 44px;
   height: 44px;
-  border-radius: 14px;
-  background: #f7f6f3;
-  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  border-radius: 12px;
+  background: #f8f8f8;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -413,53 +510,73 @@
   svg {
     width: 20px;
     height: 20px;
-    color: #c2c0b8;
+    color: #ccc;
   }
 }
 
 .addrEmptyTitle {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   color: #18180f;
 }
 
 .addrEmptySub {
-  font-size: 12.5px;
-  color: #8c8b82;
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 300;
 }
 
-// ── Nav card ──────────────────────────────────────
+// ── Nav card ──────────────────────────────────────────────────────
 
 .navCard {
-  background: #fff;
-  border-radius: 20px;
-  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
   overflow: hidden;
-  margin-bottom: 16px;
-  animation: up 0.35s 0.15s ease both;
+  margin-bottom: 12px;
+  animation: fadeUp 0.5s 0.14s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .navItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+  padding: 15px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   cursor: pointer;
   background: transparent;
   border-left: none;
   border-right: none;
   border-top: none;
   width: 100%;
-  transition: background 0.12s;
   text-align: left;
+  position: relative;
+  transition: background 0.12s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: #5533eb;
+    transition: width 0.18s ease;
+  }
 
   &:last-child {
     border-bottom: none;
   }
 
   &:hover {
-    background: #f7f6f3;
+    background: #f7f5ff;
+
+    &::before {
+      width: 2px;
+    }
+    .nLabel {
+      color: #5533eb;
+    }
   }
 }
 
@@ -477,11 +594,23 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  background: #f4f4f4;
+  border: 1px solid rgba(0, 0, 0, 0.06);
 
   svg {
-    width: 17px;
-    height: 17px;
+    width: 16px;
+    height: 16px;
   }
+}
+
+.iconFav svg {
+  color: #c05050;
+}
+.iconCart svg {
+  color: #5533eb;
+}
+.iconOrders svg {
+  color: #3a6090;
 }
 
 .nText {
@@ -491,13 +620,16 @@
 }
 
 .nLabel {
-  font-size: 14px;
+  font-size: 13.5px;
+  font-weight: 400;
   color: #18180f;
+  transition: color 0.12s;
 }
 
 .nSub {
-  font-size: 11.5px;
-  color: #8c8b82;
+  font-size: 11px;
+  color: #bbb;
+  font-weight: 300;
 }
 
 .navRight {
@@ -507,23 +639,21 @@
 }
 
 .nBadge {
-  font-size: 12px;
-  color: #8c8b82;
-  background: #f7f6f3;
-  border: 0.5px solid rgba(0, 0, 0, 0.07);
-  border-radius: 20px;
-  padding: 2px 10px;
-  min-width: 28px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: #5533eb;
+  min-width: 20px;
   text-align: center;
 }
 
 .nArrow {
-  width: 15px;
-  height: 15px;
-  color: #c2c0b8;
+  width: 14px;
+  height: 14px;
+  color: #ccc;
 }
 
-// ── Logout ────────────────────────────────────────
+// ── Logout ────────────────────────────────────────────────────────
 
 .logoutBtn {
   display: flex;
@@ -533,27 +663,31 @@
   width: 100%;
   padding: 13px;
   border-radius: 14px;
-  border: 0.5px solid rgba(226, 75, 74, 0.22);
-  background: #fcebeb;
-  color: #e24b4a;
-  font-size: 13.5px;
+  border: 1px solid rgba(176, 48, 48, 0.2);
+  background: transparent;
+  color: #b03030;
+  font-family: "DM Sans", sans-serif;
+  font-size: 11px;
   font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.15s;
-  animation: up 0.35s 0.2s ease both;
+  transition: all 0.18s;
+  animation: fadeUp 0.5s 0.18s cubic-bezier(0.22, 1, 0.36, 1) both;
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     flex-shrink: 0;
   }
 
   &:hover {
-    background: #f9d9d9;
+    background: #fff5f5;
+    border-color: rgba(176, 48, 48, 0.4);
   }
 }
 
-// ── Modals ────────────────────────────────────────
+// ── Modals ────────────────────────────────────────────────────────
 
 .modalBackdrop {
   position: fixed;
@@ -563,28 +697,47 @@
   align-items: center;
   justify-content: center;
   z-index: 50;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.2s ease;
 }
 
 .modalBox {
-  background: #fff;
-  border-radius: 20px;
-  padding: 28px 24px 20px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 28px 24px 22px;
   width: 320px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 24px 64px rgba(85, 51, 235, 0.12);
+  animation: scaleIn 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #5533eb, transparent);
+    opacity: 0.6;
+  }
 }
 
 .modalTitle {
+  font-family: "DM Sans", sans-serif;
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 400;
   color: #18180f;
   margin-bottom: 6px;
+  letter-spacing: -0.01em;
 }
 
 .modalSub {
-  font-size: 13.5px;
-  color: #8c8b82;
-  margin-bottom: 20px;
+  font-size: 13px;
+  color: #888;
+  font-weight: 300;
+  margin-bottom: 22px;
 }
 
 .modalActions {
@@ -594,45 +747,298 @@
 
 .cancelBtn {
   flex: 1;
-  padding: 10px;
-  border-radius: 12px;
-  border: 0.5px solid rgba(0, 0, 0, 0.1);
-  background: #f7f6f3;
-  color: #8c8b82;
-  font-size: 13.5px;
-  font-weight: 500;
+  padding: 11px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #f8f8f8;
+  color: #888;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
   cursor: pointer;
+  transition: all 0.15s;
 
   &:hover {
-    background: #eeede9;
+    border-color: rgba(0, 0, 0, 0.18);
+    color: #333;
   }
 }
 
 .confirmBtn {
   flex: 1;
-  padding: 10px;
-  border-radius: 12px;
-  border: none;
-  background: #e24b4a;
-  color: #fff;
-  font-size: 13.5px;
+  padding: 11px;
+  border-radius: 10px;
+  border: 1px solid rgba(176, 48, 48, 0.3);
+  background: #fff5f5;
+  color: #b03030;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.01em;
 
   &:hover {
-    background: #c93b3a;
+    background: #ffe8e8;
+    border-color: rgba(176, 48, 48, 0.5);
   }
 }
 
-// ── Animation ─────────────────────────────────────
+// ── Address empty btn ─────────────────────────────────────────────
 
-@keyframes up {
+.addrEmptyBtn {
+  margin-top: 4px;
+  padding: 8px 20px;
+  border-radius: 100px;
+  border: 1px solid rgba(85, 51, 235, 0.25);
+  background: #f0edff;
+  color: #5533EB;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.18s;
+
+  &:hover {
+    background: #e4deff;
+    border-color: #5533EB;
+  }
+}
+
+// ── Address Modal ─────────────────────────────────────────────────
+
+.addrModalBox {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  width: 400px;
+  max-width: calc(100vw - 32px);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(85, 51, 235, 0.12);
+  animation: scaleIn 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #5533EB, transparent);
+    opacity: 0.55;
+    border-radius: 18px 18px 0 0;
+  }
+}
+
+.addrModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 0;
+  margin-bottom: 16px;
+}
+
+.addrModalTitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #18180f;
+  letter-spacing: -0.01em;
+}
+
+.addrModalClose {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: #888;
+
+  svg { width: 13px; height: 13px; }
+
+  &:hover {
+    background: #f0edff;
+    border-color: rgba(85, 51, 235, 0.2);
+    color: #5533EB;
+  }
+}
+
+.addrForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 20px 20px;
+}
+
+.addrFieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.addrLabel2 {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #bbb;
+}
+
+.addrInput {
+  padding: 10px 13px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fafafa;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 300;
+  color: #18180f;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  width: 100%;
+  box-sizing: border-box;
+
+  &::placeholder { color: #ccc; }
+
+  &:focus {
+    border-color: rgba(85, 51, 235, 0.35);
+    box-shadow: 0 0 0 3px rgba(85, 51, 235, 0.06);
+    background: #fff;
+  }
+}
+
+.addrError {
+  font-size: 11px;
+  color: #b03030;
+}
+
+.addrRow2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.addrCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 2px 0;
+
+  input[type="checkbox"] { display: none; }
+
+  &:hover .addrCheckboxBox {
+    border-color: #5533EB;
+  }
+
+  input:checked + .addrCheckboxBox {
+    background: #5533EB;
+    border-color: #5533EB;
+
+    &::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.addrCheckboxBox {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  background: #fff;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.15s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 5px;
+    height: 9px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg) scale(0.6);
+    opacity: 0;
+    transition: all 0.15s;
+  }
+}
+
+.addrCheckboxLabel {
+  font-size: 13px;
+  color: #555;
+  font-weight: 300;
+}
+
+.addrFormActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.addrSaveBtn {
+  flex: 1;
+  padding: 11px;
+  border-radius: 10px;
+  border: none;
+  background: #5533EB;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all 0.18s;
+
+  &:hover:not(:disabled) {
+    background: #3d1fd4;
+    box-shadow: 0 4px 16px rgba(85, 51, 235, 0.25);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+// ── Animations ────────────────────────────────────────────────────
+
+@keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }

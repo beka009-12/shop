@@ -9,7 +9,8 @@ import {
 } from "react";
 import scss from "./Welcome.module.scss";
 import Grid from "@/utils/ui/cards/Grid";
-import useSearch from "@/api/search";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getSearchProducts } from "@/api/generated/endpoints/search/search";
 
 const TABS = [
   { id: "all", label: "Все товары" },
@@ -31,8 +32,16 @@ const Welcome: FC = () => {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useSearch({
-    limit: 20,
+  } = useInfiniteQuery({
+    queryKey: ["search", "welcome"],
+    queryFn: ({ pageParam = 1 }) =>
+      getSearchProducts({ limit: 20, page: pageParam as number }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const p = lastPage.pagination;
+      return p?.hasNextPage ? (p.page ?? 1) + 1 : undefined;
+    },
+    staleTime: 1000 * 30,
   });
 
   const handleObserver = useCallback(
@@ -53,14 +62,14 @@ const Welcome: FC = () => {
   }, [handleObserver]);
 
   const filteredProducts = useMemo(() => {
-    const allProducts = data?.pages.flatMap((page) => page.products) ?? [];
+    const allProducts = data?.pages.flatMap((page) => page.products ?? []) ?? [];
     switch (activeTab) {
       case "sale":
-        return allProducts.filter((p) => p.newPrice && p.newPrice < p.price);
+        return allProducts.filter((p) => p.newPrice != null && p.price != null && p.newPrice < p.price);
       case "new": {
         const monthAgo = new Date();
         monthAgo.setDate(monthAgo.getDate() - 30);
-        return allProducts.filter((p) => new Date(p.createdAt) >= monthAgo);
+        return allProducts.filter((p) => p.createdAt && new Date(p.createdAt) >= monthAgo);
       }
       case "popular":
         return allProducts.filter((p) => Number(p.store?.rating ?? 0) >= 4.5);

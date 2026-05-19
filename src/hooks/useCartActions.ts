@@ -1,37 +1,33 @@
-import { getGetFavoriteFavoriteUserIdQueryKey } from "./../api/generated/endpoints/favorite/favorite";
+import { getGetFavoriteFavoritesQueryKey } from "@/api/generated/endpoints/favorite/favorite";
 import { useCallback } from "react";
-import { useGetMe } from "@/api/user";
+import { useGetUserProfile } from "@/api/generated/endpoints/user/user";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  useDeleteOrderDeleteAllCartUserId,
-  useGetOrderCartUserId,
-  usePostOrderCreateOrder,
-  getGetOrderCartUserIdQueryKey,
-} from "@/api/generated/endpoints/order/order";
+  useDeleteCartClear,
+  useGetCart,
+  usePostCart,
+  getGetCartQueryKey,
+} from "@/api/generated/endpoints/cart/cart";
 import {
   useDeleteFavoriteFavoriteDeleteProductId,
   usePostFavoriteFavoriteAdd,
 } from "@/api/generated/endpoints/favorite/favorite";
 
 export const useCartAddAction = () => {
-  const { data: me } = useGetMe();
-  const userId = me?.user?.id;
   const queryClient = useQueryClient();
 
-  const { mutateAsync: createOrder } = usePostOrderCreateOrder({
+  const { mutateAsync: addToCartMutation } = usePostCart({
     mutation: {
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: getGetOrderCartUserIdQueryKey(Number(userId)),
-        });
+        queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
       },
     },
   });
 
   const handleAddToCart = useCallback(
     (productId: number) => {
-      const promise = createOrder({ data: { productId, quantity: 1 } });
+      const promise = addToCartMutation({ data: { productId, quantity: 1 } });
       toast.promise(promise, {
         loading: "Добавляем в корзину...",
         success: "Товар добавлен в корзину 🛒",
@@ -42,47 +38,43 @@ export const useCartAddAction = () => {
       });
       return promise;
     },
-    [createOrder],
+    [addToCartMutation],
   );
 
   return { addToCart: handleAddToCart };
 };
 
 export const useCartDeleteAction = () => {
-  const { data: me } = useGetMe();
-  const userId = me?.user?.id;
   const queryClient = useQueryClient();
 
-  const { data: orders } = useGetOrderCartUserId(Number(userId));
+  const { data: cartData } = useGetCart();
 
-  const { mutateAsync: deleteAllOrder } = useDeleteOrderDeleteAllCartUserId({
+  const { mutateAsync: deleteAllCart } = useDeleteCartClear({
     mutation: {
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: getGetOrderCartUserIdQueryKey(Number(userId)),
-        });
+        queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
       },
     },
   });
 
   const handleDeleteFromCart = useCallback(() => {
-    if (!userId) return toast.error("Вы не авторизованы");
-    if (!orders || orders.length === 0) return toast("Корзина уже пуста ⚠️");
+    const items = cartData?.items;
+    if (!items || items.length === 0) return toast("Корзина уже пуста ⚠️");
 
-    const promise = deleteAllOrder({ userId });
+    const promise = deleteAllCart();
     toast.promise(promise, {
       loading: "Удаление...",
       success: "Корзина очищена 🛒",
       error: "Ошибка при очистке корзины",
     });
     return promise;
-  }, [deleteAllOrder, userId, orders]);
+  }, [deleteAllCart, cartData]);
 
   return { deleteAllFromCart: handleDeleteFromCart };
 };
 
 export const useFavoriteFun = () => {
-  const { data: me } = useGetMe();
+  const { data: me } = useGetUserProfile();
   const userId = me?.user?.id;
   const queryClient = useQueryClient();
 
@@ -90,7 +82,7 @@ export const useFavoriteFun = () => {
     mutation: {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: getGetFavoriteFavoriteUserIdQueryKey(Number(userId)),
+          queryKey: getGetFavoriteFavoritesQueryKey(),
         });
       },
     },
@@ -117,7 +109,7 @@ export const useFavoriteFun = () => {
 };
 
 export const useDelFavorite = () => {
-  const { data: me } = useGetMe();
+  const { data: me } = useGetUserProfile();
   const userId = me?.user?.id;
   const queryClient = useQueryClient();
 
@@ -126,7 +118,7 @@ export const useDelFavorite = () => {
       mutation: {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: getGetFavoriteFavoriteUserIdQueryKey(Number(userId)),
+            queryKey: getGetFavoriteFavoritesQueryKey(),
           });
         },
       },

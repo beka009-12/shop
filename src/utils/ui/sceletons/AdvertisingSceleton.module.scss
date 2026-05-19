@@ -1,0 +1,242 @@
+.wrap {
+  padding: 20px 0 30px;
+
+  @media (max-width: 768px) {
+    padding: 10px 0 10px;
+  }
+}
+
+// ── Shimmer ────────────────────────────────────────────────────
+.sh {
+  background: linear-gradient(
+    90deg,
+    rgba(85, 51, 235, 0.12) 0%,
+    rgba(120, 80, 255, 0.28) 40%,
+    rgba(85, 51, 235, 0.12) 60%,
+    rgba(85, 51, 235, 0.08) 100%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+// ── Slide ──────────────────────────────────────────────────────
+.slide {
+  height: 360px;
+  background: linear-gradient(135deg, #160c3f 0%, #0b0623 100%);
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  overflow: hidden;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 60%;
+    height: 140%;
+    background: radial-gradient(
+      circle,
+      rgba(85, 51, 235, 0.06) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    height: auto;
+    min-height: 240px;
+    grid-template-columns: 1fr;
+    padding-bottom: 40px;
+  }
+}
+
+// ── Left ───────────────────────────────────────────────────────
+.left {
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 768px) {
+    padding: 20px 20px 16px;
+  }
+}
+
+.storeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.storeAv {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.storeNm {
+  width: 90px;
+  height: 13px;
+}
+
+.promoTag {
+  width: 100px;
+  height: 24px;
+  border-radius: 20px;
+}
+
+.titleLine1 {
+  width: 70%;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.titleLine2 {
+  width: 50%;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.subLine1 {
+  width: 85%;
+  height: 14px;
+}
+
+.subLine2 {
+  width: 65%;
+  height: 14px;
+}
+
+.deadlineRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.dlLabel {
+  width: 52px;
+  height: 12px;
+}
+
+.dlVal {
+  width: 110px;
+  height: 26px;
+  border-radius: 6px;
+}
+
+.btn {
+  width: 160px;
+  height: 40px;
+  border-radius: 8px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+// ── Right ──────────────────────────────────────────────────────
+.right {
+  padding: 16px 16px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 20px;
+    bottom: 20px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.rightLabel {
+  width: 110px;
+  height: 10px;
+  margin-left: 12px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.prodCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 12px;
+}
+
+.prodImg {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.prodInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prodName {
+  height: 12px;
+  width: 80%;
+}
+
+.prodPrice {
+  height: 13px;
+  width: 55%;
+}
+
+.moreLink {
+  height: 34px;
+  border-radius: 8px;
+  margin-left: 12px;
+}
+
+// ── Nav controls placeholder ───────────────────────────────────
+.navControls {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 10px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.navBtn {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(85, 51, 235, 0.12);
+  border: 1px solid rgba(85, 51, 235, 0.2);
+}
+
+// ── Animation ──────────────────────────────────────────────────
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}

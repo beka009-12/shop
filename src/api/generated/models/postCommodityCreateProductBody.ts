@@ -8,5 +8,6 @@
 import type { CreateProductInput } from './createProductInput';
 
 export type PostCommodityCreateProductBody = CreateProductInput & {
-  images?: Blob[];
+  /** Минимум 1 фото, максимум 8 */
+  images: Blob[];
 };

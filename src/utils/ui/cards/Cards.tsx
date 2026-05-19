@@ -2,25 +2,26 @@
 import { useState, type FC, useEffect } from "react";
 import scss from "./Cards.module.scss";
 import { useRouter } from "next/navigation";
-import { useGetMe } from "@/api/user";
+import { useGetUserProfile } from "@/api/generated/endpoints/user/user";
 import {
   useCartAddAction,
   useDelFavorite,
   useFavoriteFun,
 } from "@/hooks/useCartActions";
 import Image from "next/image";
-import { useGetOrderCartUserId } from "@/api/generated/endpoints/order/order";
-import { useGetFavoriteFavoriteUserId } from "@/api/generated/endpoints/favorite/favorite";
+import { useGetCart } from "@/api/generated/endpoints/cart/cart";
+import { useGetFavoriteFavorites } from "@/api/generated/endpoints/favorite/favorite";
 import { Product } from "@/api/generated/models";
 
 const Cards: FC<Product> = ({
   id,
   title,
   description,
-  images = [],
+  productImages = [],
   price,
   newPrice,
 }) => {
+  const images = productImages.map((img) => img.url).filter(Boolean) as string[];
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -29,15 +30,15 @@ const Cards: FC<Product> = ({
   const { addToFavorite } = useFavoriteFun();
   const { handleRemove } = useDelFavorite();
 
-  const { data: me } = useGetMe();
+  const { data: me } = useGetUserProfile();
   const userId = me?.user?.id;
 
-  const { data: favorite } = useGetFavoriteFavoriteUserId(userId as number);
+  const { data: favoriteData } = useGetFavoriteFavorites();
+  const { data: cartData } = useGetCart();
 
-  const { data: cartItems } = useGetOrderCartUserId(Number(userId));
-  const isInCart = cartItems?.some((item) => item.product?.id === id);
-  const isFavorite = favorite?.favorites?.some(
-    (item: any) => item.product.id === id,
+  const isInCart = cartData?.items?.some((item) => item.product?.id === id);
+  const isFavorite = favoriteData?.favorites?.some(
+    (item) => item.product?.id === id,
   );
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const Cards: FC<Product> = ({
   }, [isHovered, images.length]);
 
   const discountPercent =
-    newPrice && price > newPrice
+    newPrice && price && price > newPrice
       ? Math.round(((price - newPrice) / price) * 100)
       : 0;
 
@@ -58,7 +59,7 @@ const Cards: FC<Product> = ({
 
   const onFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    isFavorite ? handleRemove(id) : addToFavorite(id);
+    isFavorite ? handleRemove(id!) : addToFavorite(id!);
   };
 
   return (
@@ -78,7 +79,7 @@ const Cards: FC<Product> = ({
             <Image
               key={i}
               src={src}
-              alt={title}
+              alt={title ?? ""}
               onMouseEnter={handleHover}
               className={`${scss.image} ${i === currentIndex ? scss.active : ""}`}
               width={300}
@@ -150,8 +151,7 @@ const Cards: FC<Product> = ({
           disabled={isInCart}
           onClick={(e) => {
             e.stopPropagation();
-            addToCart(id);
-            `${isInCart ? "Добавлено в корзину" : "Добавить в корзину"}`;
+            addToCart(id!);
           }}
           aria-label={isInCart ? "Добавлено в корзину" : "Добавить в корзину"}
         >

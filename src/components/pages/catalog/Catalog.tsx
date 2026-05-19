@@ -1,7 +1,6 @@
 "use client";
 import { type FC, useState, useEffect } from "react";
 import scss from "./Catalog.module.scss";
-import { useGetCategoriesTree } from "@/api/catalog";
 import { useRouter } from "next/navigation";
 import { useGetCategoryCategoriesTree } from "@/api/generated/endpoints/category/category";
 

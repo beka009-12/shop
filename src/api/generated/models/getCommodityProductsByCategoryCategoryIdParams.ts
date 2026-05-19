@@ -5,8 +5,12 @@
  * API for my startup
  * OpenAPI spec version: 1.0.0
  */
+import type { GetCommodityProductsByCategoryCategoryIdSort } from './getCommodityProductsByCategoryCategoryIdSort';
 
 export type GetCommodityProductsByCategoryCategoryIdParams = {
 page?: number;
 limit?: number;
+minPrice?: number;
+maxPrice?: number;
+sort?: GetCommodityProductsByCategoryCategoryIdSort;
 };

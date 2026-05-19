@@ -9,8 +9,12 @@
 export interface BannerProduct {
   id?: number;
   title?: string;
+  /** Оригинальная цена (Decimal → string из Prisma) */
   price?: string;
-  /** @nullable */
+  /**
+     * Пересчитанная цена после применения акции. null если promoType не влияет на цену
+     * @nullable
+     */
   newPrice?: string | null;
   images?: string[];
 }

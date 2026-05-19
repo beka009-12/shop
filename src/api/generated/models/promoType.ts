@@ -6,6 +6,13 @@
  * OpenAPI spec version: 1.0.0
  */
 
+/**
+ * - PERCENT — скидка в процентах (требует discount), newPrice = price - (price * discount / 100)
+- FIXED_PRICE — фиксированная цена (требует fixedPrice), newPrice = fixedPrice
+- BUY_ONE_GET — newPrice не пересчитывается
+- SEASONAL — newPrice не пересчитывается
+
+ */
 export type PromoType = typeof PromoType[keyof typeof PromoType];
 
 

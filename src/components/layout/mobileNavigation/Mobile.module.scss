@@ -1,129 +1,124 @@
-$accent-orange: #fb4a1e;
-$black: #000000;
-$white: #ffffff;
-$gray-light: #f5f5f7;
-
 .bottomHeader {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 65px;
-  background: rgba($white, 0.85);
-  backdrop-filter: blur(15px); // Размытие фона
-  border-top: 1px solid rgba($black, 0.05);
+  height: 64px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
-  justify-content: space-around; // Более равномерное распределение
-  padding: 0 10px;
-  z-index: 1000;
-  padding-bottom: env(safe-area-inset-bottom); // Поддержка челок iPhone
-
-  .navLink,
-  .cartLink {
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    -webkit-tap-highlight-color: transparent;
-    transition: transform 0.2s ease;
-
-    &:active {
-      transform: scale(0.9);
-    }
-
-    svg {
-      width: 24px;
-      height: 24px;
-      stroke: $black; // Иконки теперь черные по умолчанию
-      transition: all 0.3s ease;
-    }
-  }
-
-  .cartLink {
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background 0.2s ease;
-    border-radius: 12px;
-    .cartCount {
-      background: $accent-orange; // Оранжевый только на счетчике
-      color: $white;
-      font-size: 10px;
-      font-weight: 700;
-      min-width: 16px;
-      height: 16px;
-      padding: 0 4px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: -4px;
-      right: -6px;
-      border: 2px solid $white; // Белая обводка делает счетчик четче
-    }
-
-    &:hover {
-      background: rgba($black, 0.04);
-    }
-  }
-
-  // Центральные кнопки (Плюс / Категории)
-  .addBtn,
-  .addCategory {
-    background: $black; // Сделал черными — это выглядит дороже
-    color: $white;
-    width: 52px;
-    height: 52px;
-    border-radius: 18px; // "Squircle" вместо круга — тренд 2025
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    bottom: 12px; // Легкое "выпрыгивание"
-    box-shadow: 0 8px 16px rgba($black, 0.2);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    svg,
-    .iconPlus,
-    .categoryIcon {
-      width: 24px;
-      height: 24px;
-      fill: $white;
-      stroke: $white;
-    }
-
-    &:active {
-      background: $accent-orange; // При нажатии вспыхивает твоим оранжевым
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 12px 20px rgba($accent-orange, 0.3);
-    }
-  }
+  justify-content: space-between;
+  gap: 4px;
+  padding: 0 12px;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 30;
 
   @media (min-width: 769px) {
     display: none;
   }
 }
 
-.active {
+.cartLink {
+  position: relative;
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+  flex-shrink: 0;
+
   svg {
-    stroke: $accent-orange !important; // Активная иконка становится оранжевой
+    width: 23px;
+    height: 23px;
+    stroke: #64748b;
+    transition: all 0.18s;
   }
 
-  img {
-    border: 2px solid $accent-orange;
-    padding: 2px;
+  &:hover {
+    background: rgba(85, 51, 235, 0.07);
+    svg {
+      stroke: #5533eb;
+    }
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  .cartCount {
+    background: #5533eb;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    min-width: 15px;
+    height: 15px;
+    padding: 0 3px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    border: 1.5px solid #fff;
+    box-shadow: 0 1px 4px rgba(85, 51, 235, 0.35);
+    line-height: 1;
   }
 }
 
-.cartCountAnimate {
-  animation: pulse 2s infinite;
+// Центральная кнопка каталога
+.addCategory {
+  background: #5533eb;
+  color: #fff;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  bottom: 8px;
+  box-shadow: 0 6px 16px rgba(85, 51, 235, 0.35);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+  .categoryIcon {
+    width: 22px;
+    height: 22px;
+    stroke: #fff;
+    fill: none;
+  }
+
+  &:active {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 24px rgba(85, 51, 235, 0.45);
+  }
+}
+
+.cartIcon {
+  width: 23px;
+  height: 23px;
+  stroke: #64748b;
+  transition: stroke 0.18s;
+  flex-shrink: 0;
+}
+
+.active {
+  svg,
+  .cartIcon {
+    stroke: #5533eb !important;
+  }
 }
 
 @keyframes pulse {
@@ -131,9 +126,13 @@ $gray-light: #f5f5f7;
     transform: scale(1);
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.12);
   }
   100% {
     transform: scale(1);
   }
+}
+
+.cartCountAnimate {
+  animation: pulse 2s infinite;
 }

@@ -1,7 +1,10 @@
 "use client";
 import { type FC, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useSignUp, useSignIn } from "@/api/user";
+import {
+  usePostAuthSignUp,
+  usePostAuthSignIn,
+} from "@/api/generated/endpoints/auth/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import scss from "./Register.module.scss";
@@ -11,28 +14,34 @@ const Auth: FC = () => {
   const mode = searchParams.get("mode");
   const [isLogin, setIsLogin] = useState(mode === "login");
 
-  const { mutateAsync: signUpMutate } = useSignUp();
-  const { mutateAsync: signInMutate } = useSignIn();
+  const { mutateAsync: signUpMutate } = usePostAuthSignUp();
+  const { mutateAsync: signInMutate } = usePostAuthSignIn();
   const router = useRouter();
 
   const {
     register: registerSignUp,
     handleSubmit: handleSubmitSignUp,
     reset: resetSignUp,
-  } = useForm<AUTH.SignUpReq>();
+  } = useForm<{ email: string; password: string; name: string }>();
 
   const {
     register: registerSignIn,
     handleSubmit: handleSubmitSignIn,
     reset: resetSignIn,
-  } = useForm<AUTH.SignInReq>();
+  } = useForm<{ email: string; password: string }>();
 
-  const onRegister: SubmitHandler<AUTH.SignUpReq> = async (formData) => {
+  const onRegister: SubmitHandler<{
+    email: string;
+    password: string;
+    name: string;
+  }> = async (formData) => {
     try {
-      const response = await signUpMutate(formData);
+      const response = await signUpMutate({
+        data: { ...formData, phone: "" },
+      });
       resetSignUp();
       toast.success("Регистрация успешна!");
-      localStorage.setItem("token", response.token);
+      if (response.token) localStorage.setItem("token", response.token);
       router.push("/");
     } catch (error: any) {
       console.error("Ошибка регистрации:", error);
@@ -40,12 +49,15 @@ const Auth: FC = () => {
     }
   };
 
-  const onLogin: SubmitHandler<AUTH.SignInReq> = async (formData) => {
+  const onLogin: SubmitHandler<{ email: string; password: string }> = async (
+    formData,
+  ) => {
     try {
-      const response = await signInMutate(formData);
+      const response = await signInMutate({ data: formData });
       resetSignIn();
       toast.success("Вход выполнен!");
-      localStorage.setItem("token", response.token);
+      const token = response.result?.token;
+      if (token) localStorage.setItem("token", token);
       router.push("/");
     } catch (error: any) {
       console.error("Ошибка входа:", error);

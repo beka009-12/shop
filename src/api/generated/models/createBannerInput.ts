@@ -24,7 +24,16 @@ export interface CreateBannerInput {
   /** Обязателен при promoType=FIXED_PRICE */
   fixedPrice?: number;
   deadline: string;
-  /** @minItems 1 */
+  /**
+     * Все ID должны принадлежать магазину storeId из пути.
+  Если хотя бы один чужой или несуществующий — вернётся 400.
+
+     * @minItems 1
+     */
   productIds: number[];
+  /** Опциональный промокод на скидку стоимости размещения.
+  Должен быть активным (isActive=true) и не истёкшим (expiresAt > now).
+  При успешном применении usedCount промокода увеличивается на 1.
+   */
   promoCode?: string;
 }

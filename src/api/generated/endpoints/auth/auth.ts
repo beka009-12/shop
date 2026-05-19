@@ -6,32 +6,21 @@
  * OpenAPI spec version: 1.0.0
  */
 import {
-  useMutation,
-  useQuery
+  useMutation
 } from '@tanstack/react-query';
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
   MutationFunction,
   QueryClient,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult,
-  UseQueryOptions,
-  UseQueryResult
+  UseMutationResult
 } from '@tanstack/react-query';
 
 import type {
   AuthResponse,
-  GetAuthProfile200,
   LoginInput,
   PostAuthLogout200,
-  PutAuthProfileUpdate200,
-  RegisterInput,
-  UpdateProfileInput
+  PostAuthSignIn200,
+  RegisterInput
 } from '../../models';
 
 import { customInstance } from '../../../index';
@@ -40,7 +29,7 @@ import { customInstance } from '../../../index';
 
 
 /**
- * @summary Регистрация пользователя
+ * @summary Регистрация покупателя
  */
 export const postAuthSignUp = (
     registerInput: RegisterInput,
@@ -58,7 +47,7 @@ export const postAuthSignUp = (
 
 
 
-export const getPostAuthSignUpMutationOptions = <TError = unknown,
+export const getPostAuthSignUpMutationOptions = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthSignUp>>, TError,{data: RegisterInput}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof postAuthSignUp>>, TError,{data: RegisterInput}, TContext> => {
 
@@ -87,12 +76,12 @@ const {mutation: mutationOptions} = options ?
 
     export type PostAuthSignUpMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthSignUp>>>
     export type PostAuthSignUpMutationBody = RegisterInput
-    export type PostAuthSignUpMutationError = unknown
+    export type PostAuthSignUpMutationError = void
 
     /**
- * @summary Регистрация пользователя
+ * @summary Регистрация покупателя
  */
-export const usePostAuthSignUp = <TError = unknown,
+export const usePostAuthSignUp = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthSignUp>>, TError,{data: RegisterInput}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postAuthSignUp>>,
@@ -103,7 +92,70 @@ export const usePostAuthSignUp = <TError = unknown,
       return useMutation(getPostAuthSignUpMutationOptions(options), queryClient);
     }
     /**
- * @summary Вход пользователя
+ * @summary Регистрация продавца (role=OWNER)
+ */
+export const postAuthSignUpSeller = (
+    registerInput: RegisterInput,
+ signal?: AbortSignal
+) => {
+
+
+      return customInstance<AuthResponse>(
+      {url: `/auth/sign-up-seller`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: registerInput, signal
+    },
+      );
+    }
+
+
+
+export const getPostAuthSignUpSellerMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthSignUpSeller>>, TError,{data: RegisterInput}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postAuthSignUpSeller>>, TError,{data: RegisterInput}, TContext> => {
+
+const mutationKey = ['postAuthSignUpSeller'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthSignUpSeller>>, {data: RegisterInput}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postAuthSignUpSeller(data,)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostAuthSignUpSellerMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthSignUpSeller>>>
+    export type PostAuthSignUpSellerMutationBody = RegisterInput
+    export type PostAuthSignUpSellerMutationError = void
+
+    /**
+ * @summary Регистрация продавца (role=OWNER)
+ */
+export const usePostAuthSignUpSeller = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthSignUpSeller>>, TError,{data: RegisterInput}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postAuthSignUpSeller>>,
+        TError,
+        {data: RegisterInput},
+        TContext
+      > => {
+      return useMutation(getPostAuthSignUpSellerMutationOptions(options), queryClient);
+    }
+    /**
+ * @summary Вход
  */
 export const postAuthSignIn = (
     loginInput: LoginInput,
@@ -111,7 +163,7 @@ export const postAuthSignIn = (
 ) => {
 
 
-      return customInstance<AuthResponse>(
+      return customInstance<PostAuthSignIn200>(
       {url: `/auth/sign-in`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: loginInput, signal
@@ -121,7 +173,7 @@ export const postAuthSignIn = (
 
 
 
-export const getPostAuthSignInMutationOptions = <TError = unknown,
+export const getPostAuthSignInMutationOptions = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthSignIn>>, TError,{data: LoginInput}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof postAuthSignIn>>, TError,{data: LoginInput}, TContext> => {
 
@@ -150,12 +202,12 @@ const {mutation: mutationOptions} = options ?
 
     export type PostAuthSignInMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthSignIn>>>
     export type PostAuthSignInMutationBody = LoginInput
-    export type PostAuthSignInMutationError = unknown
+    export type PostAuthSignInMutationError = void
 
     /**
- * @summary Вход пользователя
+ * @summary Вход
  */
-export const usePostAuthSignIn = <TError = unknown,
+export const usePostAuthSignIn = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthSignIn>>, TError,{data: LoginInput}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postAuthSignIn>>,
@@ -182,7 +234,7 @@ export const postAuthLogout = (
 
 
 
-export const getPostAuthLogoutMutationOptions = <TError = unknown,
+export const getPostAuthLogoutMutationOptions = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthLogout>>, TError,void, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof postAuthLogout>>, TError,void, TContext> => {
 
@@ -211,12 +263,12 @@ const {mutation: mutationOptions} = options ?
 
     export type PostAuthLogoutMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthLogout>>>
 
-    export type PostAuthLogoutMutationError = unknown
+    export type PostAuthLogoutMutationError = void
 
     /**
  * @summary Выход
  */
-export const usePostAuthLogout = <TError = unknown,
+export const usePostAuthLogout = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthLogout>>, TError,void, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postAuthLogout>>,
@@ -225,159 +277,4 @@ export const usePostAuthLogout = <TError = unknown,
         TContext
       > => {
       return useMutation(getPostAuthLogoutMutationOptions(options), queryClient);
-    }
-    /**
- * @summary Получить профиль
- */
-export const getAuthProfile = (
-
- signal?: AbortSignal
-) => {
-
-
-      return customInstance<GetAuthProfile200>(
-      {url: `/auth/profile`, method: 'GET', signal
-    },
-      );
-    }
-
-
-
-
-export const getGetAuthProfileQueryKey = () => {
-    return [
-    `/auth/profile`
-    ] as const;
-    }
-
-
-export const getGetAuthProfileQueryOptions = <TData = Awaited<ReturnType<typeof getAuthProfile>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthProfile>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetAuthProfileQueryKey();
-
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAuthProfile>>> = ({ signal }) => getAuthProfile(signal);
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAuthProfile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAuthProfileQueryResult = NonNullable<Awaited<ReturnType<typeof getAuthProfile>>>
-export type GetAuthProfileQueryError = unknown
-
-
-export function useGetAuthProfile<TData = Awaited<ReturnType<typeof getAuthProfile>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthProfile>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAuthProfile>>,
-          TError,
-          Awaited<ReturnType<typeof getAuthProfile>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAuthProfile<TData = Awaited<ReturnType<typeof getAuthProfile>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthProfile>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAuthProfile>>,
-          TError,
-          Awaited<ReturnType<typeof getAuthProfile>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAuthProfile<TData = Awaited<ReturnType<typeof getAuthProfile>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthProfile>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-/**
- * @summary Получить профиль
- */
-
-export function useGetAuthProfile<TData = Awaited<ReturnType<typeof getAuthProfile>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthProfile>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetAuthProfileQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
-}
-
-
-
-
-
-
-/**
- * @summary Обновить профиль
- */
-export const putAuthProfileUpdate = (
-    updateProfileInput: UpdateProfileInput,
- signal?: AbortSignal
-) => {
-
-
-      return customInstance<PutAuthProfileUpdate200>(
-      {url: `/auth/profile-update`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: updateProfileInput, signal
-    },
-      );
-    }
-
-
-
-export const getPutAuthProfileUpdateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putAuthProfileUpdate>>, TError,{data: UpdateProfileInput}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof putAuthProfileUpdate>>, TError,{data: UpdateProfileInput}, TContext> => {
-
-const mutationKey = ['putAuthProfileUpdate'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putAuthProfileUpdate>>, {data: UpdateProfileInput}> = (props) => {
-          const {data} = props ?? {};
-
-          return  putAuthProfileUpdate(data,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PutAuthProfileUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof putAuthProfileUpdate>>>
-    export type PutAuthProfileUpdateMutationBody = UpdateProfileInput
-    export type PutAuthProfileUpdateMutationError = unknown
-
-    /**
- * @summary Обновить профиль
- */
-export const usePutAuthProfileUpdate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putAuthProfileUpdate>>, TError,{data: UpdateProfileInput}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof putAuthProfileUpdate>>,
-        TError,
-        {data: UpdateProfileInput},
-        TContext
-      > => {
-      return useMutation(getPutAuthProfileUpdateMutationOptions(options), queryClient);
     }

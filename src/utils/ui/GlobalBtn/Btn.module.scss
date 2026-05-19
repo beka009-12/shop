@@ -1,35 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap');
+
 .NoteBtn {
-  padding: 10px 20px;
-  background: black;
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 28px;
+  background: #5533EB;
+  color: #fff;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
   border: none;
+  border-radius: 100px;
   cursor: pointer;
-  transition: 0.3s;
-  border-radius: 3px;
+  letter-spacing: 0.02em;
+  transition: background 0.18s, box-shadow 0.18s, transform 0.1s;
+
   &:hover {
-    background: #333;
+    background: #3d1fd4;
+    box-shadow: 0 6px 20px rgba(85, 51, 235, 0.3);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 }
 
 .cartBtn {
   flex: 1;
   min-width: 160px;
-  background: #000000;
+  background: #5533EB;
   color: #fff;
-  font-weight: 600;
-  font-size: 15px;
-  padding: 10px 6px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.02em;
+  transition: background 0.18s, box-shadow 0.18s, transform 0.1s;
+  box-shadow: 0 4px 14px rgba(85, 51, 235, 0.25);
 
   &:hover {
-    background: #333333;
+    background: #3d1fd4;
+    box-shadow: 0 8px 24px rgba(85, 51, 235, 0.35);
   }
+
   &:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(85, 51, 235, 0.2);
   }
 }

@@ -7,7 +7,12 @@
  */
 import type { BannerProduct } from './bannerProduct';
 
+/**
+ * Запись промежуточной таблицы баннер ↔ товар
+ */
 export interface BannerProductEntry {
+  productId?: number;
+  /** Snapshot цены товара на момент создания баннера */
   originalPrice?: string;
   product?: BannerProduct;
 }

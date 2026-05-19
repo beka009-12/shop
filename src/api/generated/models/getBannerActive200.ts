@@ -8,5 +8,6 @@
 import type { BannerItem } from './bannerItem';
 
 export type GetBannerActive200 = {
+  /** @maxItems 5 */
   banners?: BannerItem[];
 };

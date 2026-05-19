@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400&display=swap');
+
+// ── Shimmer base ───────────────────────────────────────────────
+
+.sh {
+  background: linear-gradient(
+    90deg,
+    #f0eeff 0%,
+    #e6e0ff 40%,
+    #ede8ff 60%,
+    #f0eeff 100%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+// ── Page wrapper ──────────────────────────────────────────────
+
+.detail {
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+// ── Top bar ───────────────────────────────────────────────────
+
+.topBar {
+  padding: 12px 0 8px;
+  margin-bottom: 4px;
+}
+
+.backBtn {
+  width: 72px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+// ── Main layout ───────────────────────────────────────────────
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+// ── Gallery ───────────────────────────────────────────────────
+
+.gallery {
+  display: flex;
+  gap: 12px;
+}
+
+.thumbnails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+
+  @media (max-width: 480px) { display: none; }
+}
+
+.thumb {
+  width: 64px;
+  height: 80px;
+  border-radius: 10px;
+}
+
+.mainImage {
+  flex: 1;
+  aspect-ratio: 3 / 4;
+  border-radius: 16px;
+}
+
+// ── Info block ────────────────────────────────────────────────
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 4px;
+}
+
+// store header
+.storeRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.storeAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.storeName {
+  width: 100px;
+  height: 13px;
+}
+
+.storeRating {
+  width: 50px;
+  height: 11px;
+  margin-top: 5px;
+}
+
+// title block
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.brand {
+  width: 70px;
+  height: 18px;
+  border-radius: 100px;
+}
+
+.title {
+  width: 85%;
+  height: 28px;
+}
+
+.titleSub {
+  width: 55%;
+  height: 18px;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stars {
+  width: 88px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.reviewCount {
+  width: 70px;
+  height: 12px;
+}
+
+// price
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.priceMain {
+  width: 120px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.priceOld {
+  width: 80px;
+  height: 20px;
+  opacity: 0.5;
+}
+
+// divider
+.divider {
+  height: 1px;
+  background: rgba(85, 51, 235, 0.07);
+  border-radius: 0;
+}
+
+// size section
+.sizeHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sizeLabel {
+  width: 80px;
+  height: 13px;
+}
+
+.sizeGuide {
+  width: 100px;
+  height: 13px;
+  opacity: 0.5;
+}
+
+.sizeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sizeBtn {
+  width: 52px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+// buttons
+.addBtn {
+  height: 50px;
+  border-radius: 14px;
+  width: 100%;
+}
+
+.secondaryBtn {
+  height: 42px;
+  border-radius: 14px;
+  width: 100%;
+  opacity: 0.45;
+}
+
+// ── Animation ─────────────────────────────────────────────────
+
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}

@@ -1,13 +1,10 @@
-// ─── Shop.app sidebar layout ─────────────────────────────────
-// Улучшенная версия для маркетплейса одежды
-
 .header {
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   width: 64px;
-  z-index: 999;
+  z-index: 30;
   border-radius: 40px;
   margin: 10px 4px;
   transition: all 0.2s ease;
@@ -22,6 +19,7 @@
 }
 
 // ─── Logo ─────────────────────────────────────────────────────
+
 .logo {
   display: flex;
   align-items: center;
@@ -31,34 +29,38 @@
   margin-bottom: 32px;
   padding: 0;
   border-radius: 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .logoCircle {
   width: 40px;
   height: 40px;
-  background: #ec473f;
+  background: #5533EB;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  box-shadow: 0 2px 6px rgba(30, 64, 175, 0.25);
+  box-shadow: 0 4px 12px rgba(85, 51, 235, 0.35);
+}
 
-  .logoLetter {
-    color: #fff;
-  }
+.logoLetter {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 // ─── Nav ──────────────────────────────────────────────────────
+
 .nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 4px;
   flex: 1;
 }
 
@@ -69,23 +71,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   border: none;
   background: transparent;
   cursor: pointer;
   border-radius: 14px;
-  color: #64748b;
-  transition: all 0.2s ease;
+  color: #94a3b8;
+  transition: all 0.18s ease;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    transition: all 0.18s;
+  }
 
   &:hover {
-    background: #ffffff;
-    color: #1e40af;
-  }
-  &:hover {
+    background: rgba(85, 51, 235, 0.08);
+    color: #5533EB;
+
     svg {
-      opacity: 1;
-      transform: scale(1.1);
-      transition: 0.2s;
+      transform: scale(1.08);
     }
   }
 }
@@ -94,48 +98,50 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  svg {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    transition: 0.2s;
-    opacity: 0.5;
-  }
 }
 
 .navBtnActive {
-  background: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.025);
+  background: rgba(85, 51, 235, 0.1);
+  color: #5533EB;
 
-  .navIcon {
-    svg {
-      opacity: 1;
-    }
+  svg {
+    opacity: 1;
   }
 }
 
 // ─── Badge ────────────────────────────────────────────────────
+
 .badge {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  min-width: 17px;
-  height: 17px;
-  padding: 0 5px;
-  background: #ec473f; // Красный — лучше видно
+  top: 7px;
+  right: 7px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: #5533EB;
   color: #fff;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   border-radius: 9999px;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  box-shadow: 0 1px 3px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 1px 4px rgba(85, 51, 235, 0.4);
+}
+
+// ─── Sign-in label ────────────────────────────────────────────
+
+.signInLabel {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: inherit;
+  margin-top: 2px;
 }
 
 // ─── Bottom ───────────────────────────────────────────────────
+
 .bottom {
   display: flex;
   flex-direction: column;
@@ -147,18 +153,19 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #e2e8f0;
-  color: #475569;
-  font-size: 13px;
+  background: #ede9ff;
+  color: #5533EB;
+  font-size: 12px;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px rgba(85, 51, 235, 0.25);
 }
 
-// ─── Mobile: bottom bar ───────────────────────────────────────
+// ─── Mobile: hide sidebar ─────────────────────────────────────
+
 @media (max-width: 768px) {
   .header {
     display: none;

@@ -1,21 +1,31 @@
 "use client";
 import { type FC, useState } from "react";
 import scss from "./Shop.module.scss";
-import { useGetAllStores } from "@/api/store";
+import { useGetSallerAllStores } from "@/api/generated/endpoints/saller/saller";
 import { useRouter } from "next/navigation";
+import { GetSallerAllStores200StoresItem } from "@/api/generated/models";
+import ShopSceleton from "@/utils/ui/sceletons/ShopSceleton";
+import ShopNot from "@/utils/ui/noteF/ShopNot";
+
+type StoreItem = GetSallerAllStores200StoresItem & {
+  region?: string | null;
+  description?: string | null;
+  address?: string | null;
+};
 
 const Shop: FC = () => {
-  const { data: stores, isLoading } = useGetAllStores();
+  const { data: stores, isPending } = useGetSallerAllStores();
   const router = useRouter();
   const [search, setSearch] = useState("");
 
-  const filtered = stores?.stores.filter(
+  const storeList = (stores?.stores ?? []) as StoreItem[];
+
+  const filtered = storeList.filter(
     (s) =>
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      (s.region || "").toLowerCase().includes(search.toLowerCase()),
+      (s.name ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      (s.region ?? "").toLowerCase().includes(search.toLowerCase()),
   );
 
-  // Инициалы из названия магазина
   const getInitials = (name: string) =>
     name
       .split(" ")
@@ -24,34 +34,7 @@ const Shop: FC = () => {
       .join("")
       .toUpperCase();
 
-  if (isLoading) {
-    return (
-      <section className={scss.shop}>
-        <div className="container">
-          <div className={scss.top}>
-            <div className={`${scss.skEl} ${scss.skPageTitle}`} />
-          </div>
-          <div className={scss.grid}>
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className={`${scss.card} ${scss.skCard}`}>
-                <div className={`${scss.cover} ${scss.skEl}`} />
-                <div className={scss.body}>
-                  <div className={`${scss.skEl} ${scss.skName}`} />
-                  <div className={`${scss.skEl} ${scss.skRegion}`} />
-                  <div className={`${scss.skEl} ${scss.skDesc}`} />
-                  <div
-                    className={`${scss.skEl} ${scss.skDesc}`}
-                    style={{ width: "70%" }}
-                  />
-                  <div className={`${scss.skEl} ${scss.skStats}`} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
+  if (isPending) return <ShopSceleton />;
 
   return (
     <section className={scss.shop}>
@@ -89,17 +72,11 @@ const Shop: FC = () => {
           </div>
         </div>
 
-        {/* Empty search */}
-        {filtered?.length === 0 && (
-          <div className={scss.empty}>
-            <p className={scss.emptyTitle}>Магазины не найдены</p>
-            <p className={scss.emptySub}>Попробуйте другой запрос</p>
-          </div>
-        )}
+        {filtered.length === 0 && <ShopNot isSearch={search.length > 0} />}
 
         {/* Grid */}
         <div className={scss.grid}>
-          {filtered?.map((store) => (
+          {filtered.map((store) => (
             <div
               key={store.id}
               className={scss.card}
@@ -128,7 +105,7 @@ const Shop: FC = () => {
                     <img src={store.logo} alt={store.name} />
                   ) : (
                     <div className={scss.logoIni}>
-                      {getInitials(store.name)}
+                      {getInitials(store.name ?? "")}
                     </div>
                   )}
                 </div>

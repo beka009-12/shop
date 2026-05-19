@@ -28,7 +28,7 @@
 
   :global(.swiper-pagination-bullet-active) {
     width: 20px;
-    background: #e24b4a;
+    background: #5533eb;
   }
 }
 
@@ -57,16 +57,16 @@
   }
 
   &.red {
-    background: linear-gradient(135deg, #2a0a0a 0%, #1a0808 100%);
+    background: linear-gradient(135deg, #160c3f 0%, #0b0623 100%);
   }
   &.green {
-    background: linear-gradient(135deg, #0d2a11 0%, #071a09 100%);
+    background: linear-gradient(135deg, #1a0f4a 0%, #0d0828 100%);
   }
   &.blue {
-    background: linear-gradient(135deg, #0f1e3a 0%, #07101f 100%);
+    background: linear-gradient(135deg, #22104a 0%, #0f0826 100%);
   }
   &.amber {
-    background: linear-gradient(135deg, #332100 0%, #1a1000 100%);
+    background: linear-gradient(135deg, #0f0d3f 0%, #09091f 100%);
   }
 
   @media (max-width: 768px) {
@@ -130,20 +130,20 @@
   font-weight: 700;
 
   .red & {
-    background: #3a1212;
-    color: #e24b4a;
+    background: #2a1a6e;
+    color: #a78bfa;
   }
   .green & {
-    background: #0f2e0f;
-    color: #639922;
+    background: #2d1a7a;
+    color: #c4b5fd;
   }
   .blue & {
-    background: #0f2035;
-    color: #378add;
+    background: #3a1a80;
+    color: #ddd6fe;
   }
   .amber & {
-    background: #2a1a00;
-    color: #ef9f27;
+    background: #1e1a60;
+    color: #818cf8;
   }
 }
 
@@ -163,20 +163,20 @@
   width: fit-content;
 
   .red & {
-    background: #2a0808;
-    color: #e24b4a;
+    background: #1e1060;
+    color: #a78bfa;
   }
   .green & {
-    background: #0a1e0a;
-    color: #639922;
+    background: #251270;
+    color: #c4b5fd;
   }
   .blue & {
-    background: #081828;
-    color: #378add;
+    background: #2d1278;
+    color: #ddd6fe;
   }
   .amber & {
-    background: #1a1000;
-    color: #ef9f27;
+    background: #16104e;
+    color: #818cf8;
   }
 }
 
@@ -189,16 +189,16 @@
   em {
     font-style: normal;
     .red & {
-      color: #e24b4a;
+      color: #a78bfa;
     }
     .green & {
-      color: #639922;
+      color: #c4b5fd;
     }
     .blue & {
-      color: #378add;
+      color: #ddd6fe;
     }
     .amber & {
-      color: #ef9f27;
+      color: #818cf8;
     }
   }
 
@@ -242,24 +242,24 @@
   border-radius: 6px;
 
   .red & {
-    background: #1a0808;
-    color: #e24b4a;
-    border: 0.5px solid #2a1010;
+    background: #1a0e58;
+    color: #a78bfa;
+    border: 0.5px solid #2d1a80;
   }
   .green & {
-    background: #0a1e0a;
-    color: #639922;
-    border: 0.5px solid #0f2a0f;
+    background: #200e65;
+    color: #c4b5fd;
+    border: 0.5px solid #341a8e;
   }
   .blue & {
-    background: #081828;
-    color: #378add;
-    border: 0.5px solid #0c2040;
+    background: #270e6e;
+    color: #ddd6fe;
+    border: 0.5px solid #3d1a96;
   }
   .amber & {
-    background: #1a1000;
-    color: #ef9f27;
-    border: 0.5px solid #2a1a00;
+    background: #131048;
+    color: #818cf8;
+    border: 0.5px solid #201860;
   }
 }
 
@@ -280,20 +280,20 @@
   }
 
   .red & {
-    background: #e24b4a;
+    background: #5533eb;
     color: #fff;
   }
   .green & {
-    background: #639922;
+    background: #6d4aed;
     color: #fff;
   }
   .blue & {
-    background: #378add;
+    background: #7c3aed;
     color: #fff;
   }
   .amber & {
-    background: #ef9f27;
-    color: #0a0a0a;
+    background: #4f46e5;
+    color: #fff;
   }
 
   @media (max-width: 768px) {
@@ -430,16 +430,16 @@
   font-weight: 700;
 
   .red & {
-    color: #ff5f5e;
+    color: #a78bfa;
   }
   .green & {
-    color: #7ed321;
+    color: #c4b5fd;
   }
   .blue & {
-    color: #50a1ff;
+    color: #ddd6fe;
   }
   .amber & {
-    color: #ffb84d;
+    color: #818cf8;
   }
 }
 
@@ -458,20 +458,20 @@
   letter-spacing: 0.02em;
 
   .red & {
-    background: #2a0808;
-    color: #e24b4a;
+    background: #1e1060;
+    color: #a78bfa;
   }
   .green & {
-    background: #0a1e0a;
-    color: #639922;
+    background: #251270;
+    color: #c4b5fd;
   }
   .blue & {
-    background: #081828;
-    color: #378add;
+    background: #2d1278;
+    color: #ddd6fe;
   }
   .amber & {
-    background: #1a1000;
-    color: #ef9f27;
+    background: #16104e;
+    color: #818cf8;
   }
 }
 
@@ -488,20 +488,20 @@
   transition: all 0.2s;
 
   .red & {
-    background: #2a0808;
-    color: #e24b4a;
+    background: #1e1060;
+    color: #a78bfa;
   }
   .green & {
-    background: #0a1e0a;
-    color: #639922;
+    background: #251270;
+    color: #c4b5fd;
   }
   .blue & {
-    background: #081828;
-    color: #378add;
+    background: #2d1278;
+    color: #ddd6fe;
   }
   .amber & {
-    background: #1a1000;
-    color: #ef9f27;
+    background: #16104e;
+    color: #818cf8;
   }
 
   &:hover {
@@ -538,10 +538,10 @@
   transition: all 0.2s;
 
   &:hover {
-    border-color: #e24b4a;
+    border-color: #5533eb;
 
     svg {
-      stroke: #e24b4a;
+      stroke: #a78bfa;
     }
   }
 }

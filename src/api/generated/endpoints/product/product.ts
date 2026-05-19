@@ -27,15 +27,16 @@ import type {
 import type {
   CreateProductInput,
   DeleteCommodityProductDeleteId200,
-  GetCommodityProductForUserId200,
-  GetCommodityProducts200,
+  GetCommodityProductOwnerId200,
+  GetCommodityProductUserId200,
+  GetCommodityProductsByCategoryCategoryId200,
   GetCommodityProductsByCategoryCategoryIdParams,
-  GetCommodityProductsForUserParams,
+  GetCommodityProductsInfiniteParams,
+  GetCommoditySimilarProductsId200,
+  InfiniteResponse,
   PatchCommodityProductUpdateId200,
   PostCommodityCreateProduct201,
-  PostCommodityCreateProductBody,
-  Product,
-  ProductListResponse
+  PostCommodityCreateProductBody
 } from '../../models';
 
 import { customInstance } from '../../../index';
@@ -44,108 +45,16 @@ import { customInstance } from '../../../index';
 
 
 /**
- * @summary Получить товары продавца
+ * @summary Список товаров (cursor pagination)
  */
-export const getCommodityProducts = (
-
+export const getCommodityProductsInfinite = (
+    params?: GetCommodityProductsInfiniteParams,
  signal?: AbortSignal
 ) => {
 
 
-      return customInstance<GetCommodityProducts200>(
-      {url: `/commodity/products`, method: 'GET', signal
-    },
-      );
-    }
-
-
-
-
-export const getGetCommodityProductsQueryKey = () => {
-    return [
-    `/commodity/products`
-    ] as const;
-    }
-
-
-export const getGetCommodityProductsQueryOptions = <TData = Awaited<ReturnType<typeof getCommodityProducts>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProducts>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetCommodityProductsQueryKey();
-
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCommodityProducts>>> = ({ signal }) => getCommodityProducts(signal);
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCommodityProducts>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetCommodityProductsQueryResult = NonNullable<Awaited<ReturnType<typeof getCommodityProducts>>>
-export type GetCommodityProductsQueryError = unknown
-
-
-export function useGetCommodityProducts<TData = Awaited<ReturnType<typeof getCommodityProducts>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProducts>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCommodityProducts>>,
-          TError,
-          Awaited<ReturnType<typeof getCommodityProducts>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCommodityProducts<TData = Awaited<ReturnType<typeof getCommodityProducts>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProducts>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCommodityProducts>>,
-          TError,
-          Awaited<ReturnType<typeof getCommodityProducts>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCommodityProducts<TData = Awaited<ReturnType<typeof getCommodityProducts>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProducts>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-/**
- * @summary Получить товары продавца
- */
-
-export function useGetCommodityProducts<TData = Awaited<ReturnType<typeof getCommodityProducts>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProducts>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetCommodityProductsQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
-}
-
-
-
-
-
-
-/**
- * @summary Получить все товары для пользователей
- */
-export const getCommodityProductsForUser = (
-    params?: GetCommodityProductsForUserParams,
- signal?: AbortSignal
-) => {
-
-
-      return customInstance<ProductListResponse>(
-      {url: `/commodity/products-for-user`, method: 'GET',
+      return customInstance<InfiniteResponse>(
+      {url: `/commodity/products/infinite`, method: 'GET',
         params, signal
     },
       );
@@ -154,69 +63,69 @@ export const getCommodityProductsForUser = (
 
 
 
-export const getGetCommodityProductsForUserQueryKey = (params?: GetCommodityProductsForUserParams,) => {
+export const getGetCommodityProductsInfiniteQueryKey = (params?: GetCommodityProductsInfiniteParams,) => {
     return [
-    `/commodity/products-for-user`, ...(params ? [params] : [])
+    `/commodity/products/infinite`, ...(params ? [params] : [])
     ] as const;
     }
 
 
-export const getGetCommodityProductsForUserQueryOptions = <TData = Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError = unknown>(params?: GetCommodityProductsForUserParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError, TData>>, }
+export const getGetCommodityProductsInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError = unknown>(params?: GetCommodityProductsInfiniteParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetCommodityProductsForUserQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getGetCommodityProductsInfiniteQueryKey(params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCommodityProductsForUser>>> = ({ signal }) => getCommodityProductsForUser(params, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCommodityProductsInfinite>>> = ({ signal }) => getCommodityProductsInfinite(params, signal);
 
 
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetCommodityProductsForUserQueryResult = NonNullable<Awaited<ReturnType<typeof getCommodityProductsForUser>>>
-export type GetCommodityProductsForUserQueryError = unknown
+export type GetCommodityProductsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getCommodityProductsInfinite>>>
+export type GetCommodityProductsInfiniteQueryError = unknown
 
 
-export function useGetCommodityProductsForUser<TData = Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError = unknown>(
- params: undefined |  GetCommodityProductsForUserParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError, TData>> & Pick<
+export function useGetCommodityProductsInfinite<TData = Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError = unknown>(
+ params: undefined |  GetCommodityProductsInfiniteParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCommodityProductsForUser>>,
+          Awaited<ReturnType<typeof getCommodityProductsInfinite>>,
           TError,
-          Awaited<ReturnType<typeof getCommodityProductsForUser>>
+          Awaited<ReturnType<typeof getCommodityProductsInfinite>>
         > , 'initialData'
       >, }
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCommodityProductsForUser<TData = Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError = unknown>(
- params?: GetCommodityProductsForUserParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError, TData>> & Pick<
+export function useGetCommodityProductsInfinite<TData = Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError = unknown>(
+ params?: GetCommodityProductsInfiniteParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCommodityProductsForUser>>,
+          Awaited<ReturnType<typeof getCommodityProductsInfinite>>,
           TError,
-          Awaited<ReturnType<typeof getCommodityProductsForUser>>
+          Awaited<ReturnType<typeof getCommodityProductsInfinite>>
         > , 'initialData'
       >, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCommodityProductsForUser<TData = Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError = unknown>(
- params?: GetCommodityProductsForUserParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError, TData>>, }
+export function useGetCommodityProductsInfinite<TData = Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError = unknown>(
+ params?: GetCommodityProductsInfiniteParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
- * @summary Получить все товары для пользователей
+ * @summary Список товаров (cursor pagination)
  */
 
-export function useGetCommodityProductsForUser<TData = Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError = unknown>(
- params?: GetCommodityProductsForUserParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsForUser>>, TError, TData>>, }
+export function useGetCommodityProductsInfinite<TData = Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError = unknown>(
+ params?: GetCommodityProductsInfiniteParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsInfinite>>, TError, TData>>, }
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetCommodityProductsForUserQueryOptions(params,options)
+  const queryOptions = getGetCommodityProductsInfiniteQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -229,7 +138,7 @@ export function useGetCommodityProductsForUser<TData = Awaited<ReturnType<typeof
 
 
 /**
- * @summary Товары по категории
+ * @summary Товары по категории (включая вложенные)
  */
 export const getCommodityProductsByCategoryCategoryId = (
     categoryId: number,
@@ -238,7 +147,7 @@ export const getCommodityProductsByCategoryCategoryId = (
 ) => {
 
 
-      return customInstance<ProductListResponse>(
+      return customInstance<GetCommodityProductsByCategoryCategoryId200>(
       {url: `/commodity/products-by-category/${categoryId}`, method: 'GET',
         params, signal
     },
@@ -256,7 +165,7 @@ export const getGetCommodityProductsByCategoryCategoryIdQueryKey = (categoryId: 
     }
 
 
-export const getGetCommodityProductsByCategoryCategoryIdQueryOptions = <TData = Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError = unknown>(categoryId: number,
+export const getGetCommodityProductsByCategoryCategoryIdQueryOptions = <TData = Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError = void>(categoryId: number,
     params?: GetCommodityProductsByCategoryCategoryIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError, TData>>, }
 ) => {
 
@@ -276,10 +185,10 @@ const {query: queryOptions} = options ?? {};
 }
 
 export type GetCommodityProductsByCategoryCategoryIdQueryResult = NonNullable<Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>>
-export type GetCommodityProductsByCategoryCategoryIdQueryError = unknown
+export type GetCommodityProductsByCategoryCategoryIdQueryError = void
 
 
-export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError = unknown>(
+export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError = void>(
  categoryId: number,
     params: undefined |  GetCommodityProductsByCategoryCategoryIdParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
@@ -290,7 +199,7 @@ export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<Retu
       >, }
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError = unknown>(
+export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError = void>(
  categoryId: number,
     params?: GetCommodityProductsByCategoryCategoryIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
@@ -301,16 +210,16 @@ export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<Retu
       >, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError = unknown>(
+export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError = void>(
  categoryId: number,
     params?: GetCommodityProductsByCategoryCategoryIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
- * @summary Товары по категории
+ * @summary Товары по категории (включая вложенные)
  */
 
-export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError = unknown>(
+export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError = void>(
  categoryId: number,
     params?: GetCommodityProductsByCategoryCategoryIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductsByCategoryCategoryId>>, TError, TData>>, }
  , queryClient?: QueryClient
@@ -329,108 +238,16 @@ export function useGetCommodityProductsByCategoryCategoryId<TData = Awaited<Retu
 
 
 /**
- * @summary Похожие товары
+ * @summary Похожие товары (по категории, бренду, полу, сезону)
  */
-export const getCommoditySimilarProductsCategoryId = (
-    categoryId: number,
- signal?: AbortSignal
-) => {
-
-
-      return customInstance<Product[]>(
-      {url: `/commodity/similar-products/${categoryId}`, method: 'GET', signal
-    },
-      );
-    }
-
-
-
-
-export const getGetCommoditySimilarProductsCategoryIdQueryKey = (categoryId: number,) => {
-    return [
-    `/commodity/similar-products/${categoryId}`
-    ] as const;
-    }
-
-
-export const getGetCommoditySimilarProductsCategoryIdQueryOptions = <TData = Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError = unknown>(categoryId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetCommoditySimilarProductsCategoryIdQueryKey(categoryId);
-
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>> = ({ signal }) => getCommoditySimilarProductsCategoryId(categoryId, signal);
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: !!(categoryId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetCommoditySimilarProductsCategoryIdQueryResult = NonNullable<Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>>
-export type GetCommoditySimilarProductsCategoryIdQueryError = unknown
-
-
-export function useGetCommoditySimilarProductsCategoryId<TData = Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError = unknown>(
- categoryId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>,
-          TError,
-          Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCommoditySimilarProductsCategoryId<TData = Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError = unknown>(
- categoryId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>,
-          TError,
-          Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCommoditySimilarProductsCategoryId<TData = Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError = unknown>(
- categoryId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-/**
- * @summary Похожие товары
- */
-
-export function useGetCommoditySimilarProductsCategoryId<TData = Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError = unknown>(
- categoryId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsCategoryId>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetCommoditySimilarProductsCategoryIdQueryOptions(categoryId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
-}
-
-
-
-
-
-
-/**
- * @summary Получить товар по ID
- */
-export const getCommodityProductForUserId = (
+export const getCommoditySimilarProductsId = (
     id: number,
  signal?: AbortSignal
 ) => {
 
 
-      return customInstance<GetCommodityProductForUserId200>(
-      {url: `/commodity/product-for-user/${id}`, method: 'GET', signal
+      return customInstance<GetCommoditySimilarProductsId200>(
+      {url: `/commodity/similar-products/${id}`, method: 'GET', signal
     },
       );
     }
@@ -438,69 +255,69 @@ export const getCommodityProductForUserId = (
 
 
 
-export const getGetCommodityProductForUserIdQueryKey = (id: number,) => {
+export const getGetCommoditySimilarProductsIdQueryKey = (id: number,) => {
     return [
-    `/commodity/product-for-user/${id}`
+    `/commodity/similar-products/${id}`
     ] as const;
     }
 
 
-export const getGetCommodityProductForUserIdQueryOptions = <TData = Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError = void>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError, TData>>, }
+export const getGetCommoditySimilarProductsIdQueryOptions = <TData = Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError = void>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetCommodityProductForUserIdQueryKey(id);
+  const queryKey =  queryOptions?.queryKey ?? getGetCommoditySimilarProductsIdQueryKey(id);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCommodityProductForUserId>>> = ({ signal }) => getCommodityProductForUserId(id, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCommoditySimilarProductsId>>> = ({ signal }) => getCommoditySimilarProductsId(id, signal);
 
 
 
 
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GetCommodityProductForUserIdQueryResult = NonNullable<Awaited<ReturnType<typeof getCommodityProductForUserId>>>
-export type GetCommodityProductForUserIdQueryError = void
+export type GetCommoditySimilarProductsIdQueryResult = NonNullable<Awaited<ReturnType<typeof getCommoditySimilarProductsId>>>
+export type GetCommoditySimilarProductsIdQueryError = void
 
 
-export function useGetCommodityProductForUserId<TData = Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError = void>(
- id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError, TData>> & Pick<
+export function useGetCommoditySimilarProductsId<TData = Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError = void>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCommodityProductForUserId>>,
+          Awaited<ReturnType<typeof getCommoditySimilarProductsId>>,
           TError,
-          Awaited<ReturnType<typeof getCommodityProductForUserId>>
+          Awaited<ReturnType<typeof getCommoditySimilarProductsId>>
         > , 'initialData'
       >, }
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCommodityProductForUserId<TData = Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError = void>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError, TData>> & Pick<
+export function useGetCommoditySimilarProductsId<TData = Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCommodityProductForUserId>>,
+          Awaited<ReturnType<typeof getCommoditySimilarProductsId>>,
           TError,
-          Awaited<ReturnType<typeof getCommodityProductForUserId>>
+          Awaited<ReturnType<typeof getCommoditySimilarProductsId>>
         > , 'initialData'
       >, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetCommodityProductForUserId<TData = Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError = void>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError, TData>>, }
+export function useGetCommoditySimilarProductsId<TData = Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
- * @summary Получить товар по ID
+ * @summary Похожие товары (по категории, бренду, полу, сезону)
  */
 
-export function useGetCommodityProductForUserId<TData = Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError = void>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductForUserId>>, TError, TData>>, }
+export function useGetCommoditySimilarProductsId<TData = Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommoditySimilarProductsId>>, TError, TData>>, }
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetCommodityProductForUserIdQueryOptions(id,options)
+  const queryOptions = getGetCommoditySimilarProductsIdQueryOptions(id,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -513,7 +330,191 @@ export function useGetCommodityProductForUserId<TData = Awaited<ReturnType<typeo
 
 
 /**
- * @summary Создать товар
+ * @summary Товар по ID (публичный)
+ */
+export const getCommodityProductUserId = (
+    id: number,
+ signal?: AbortSignal
+) => {
+
+
+      return customInstance<GetCommodityProductUserId200>(
+      {url: `/commodity/product/user/${id}`, method: 'GET', signal
+    },
+      );
+    }
+
+
+
+
+export const getGetCommodityProductUserIdQueryKey = (id: number,) => {
+    return [
+    `/commodity/product/user/${id}`
+    ] as const;
+    }
+
+
+export const getGetCommodityProductUserIdQueryOptions = <TData = Awaited<ReturnType<typeof getCommodityProductUserId>>, TError = void>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductUserId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetCommodityProductUserIdQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCommodityProductUserId>>> = ({ signal }) => getCommodityProductUserId(id, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductUserId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetCommodityProductUserIdQueryResult = NonNullable<Awaited<ReturnType<typeof getCommodityProductUserId>>>
+export type GetCommodityProductUserIdQueryError = void
+
+
+export function useGetCommodityProductUserId<TData = Awaited<ReturnType<typeof getCommodityProductUserId>>, TError = void>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductUserId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCommodityProductUserId>>,
+          TError,
+          Awaited<ReturnType<typeof getCommodityProductUserId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCommodityProductUserId<TData = Awaited<ReturnType<typeof getCommodityProductUserId>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductUserId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCommodityProductUserId>>,
+          TError,
+          Awaited<ReturnType<typeof getCommodityProductUserId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCommodityProductUserId<TData = Awaited<ReturnType<typeof getCommodityProductUserId>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductUserId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Товар по ID (публичный)
+ */
+
+export function useGetCommodityProductUserId<TData = Awaited<ReturnType<typeof getCommodityProductUserId>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductUserId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetCommodityProductUserIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+/**
+ * @summary Товар по ID (для владельца магазина)
+ */
+export const getCommodityProductOwnerId = (
+    id: number,
+ signal?: AbortSignal
+) => {
+
+
+      return customInstance<GetCommodityProductOwnerId200>(
+      {url: `/commodity/product/owner/${id}`, method: 'GET', signal
+    },
+      );
+    }
+
+
+
+
+export const getGetCommodityProductOwnerIdQueryKey = (id: number,) => {
+    return [
+    `/commodity/product/owner/${id}`
+    ] as const;
+    }
+
+
+export const getGetCommodityProductOwnerIdQueryOptions = <TData = Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError = void>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetCommodityProductOwnerIdQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCommodityProductOwnerId>>> = ({ signal }) => getCommodityProductOwnerId(id, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetCommodityProductOwnerIdQueryResult = NonNullable<Awaited<ReturnType<typeof getCommodityProductOwnerId>>>
+export type GetCommodityProductOwnerIdQueryError = void
+
+
+export function useGetCommodityProductOwnerId<TData = Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError = void>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCommodityProductOwnerId>>,
+          TError,
+          Awaited<ReturnType<typeof getCommodityProductOwnerId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCommodityProductOwnerId<TData = Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCommodityProductOwnerId>>,
+          TError,
+          Awaited<ReturnType<typeof getCommodityProductOwnerId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCommodityProductOwnerId<TData = Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Товар по ID (для владельца магазина)
+ */
+
+export function useGetCommodityProductOwnerId<TData = Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError = void>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCommodityProductOwnerId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetCommodityProductOwnerIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+/**
+ * @summary Создать товар (только для владельца магазина)
  */
 export const postCommodityCreateProduct = (
     postCommodityCreateProductBody: PostCommodityCreateProductBody,
@@ -524,16 +525,16 @@ export const postCommodityCreateProduct = (
 formData.append(`title`, postCommodityCreateProductBody.title);
 formData.append(`description`, postCommodityCreateProductBody.description);
 formData.append(`price`, postCommodityCreateProductBody.price.toString())
-if(postCommodityCreateProductBody.newPrice !== undefined) {
+if(postCommodityCreateProductBody.newPrice !== undefined && postCommodityCreateProductBody.newPrice !== null) {
  formData.append(`newPrice`, postCommodityCreateProductBody.newPrice.toString())
  }
 formData.append(`categoryId`, postCommodityCreateProductBody.categoryId.toString())
-if(postCommodityCreateProductBody.brandName !== undefined) {
+if(postCommodityCreateProductBody.brandName !== undefined && postCommodityCreateProductBody.brandName !== null) {
  formData.append(`brandName`, postCommodityCreateProductBody.brandName);
  }
 postCommodityCreateProductBody.sizes.forEach(value => formData.append(`sizes`, value));
 postCommodityCreateProductBody.colors.forEach(value => formData.append(`colors`, value));
-if(postCommodityCreateProductBody.material !== undefined) {
+if(postCommodityCreateProductBody.material !== undefined && postCommodityCreateProductBody.material !== null) {
  formData.append(`material`, postCommodityCreateProductBody.material);
  }
 formData.append(`gender`, postCommodityCreateProductBody.gender);
@@ -542,9 +543,7 @@ if(postCommodityCreateProductBody.stockCount !== undefined) {
  formData.append(`stockCount`, postCommodityCreateProductBody.stockCount.toString())
  }
 
-if(postCommodityCreateProductBody.images !== undefined) {
- postCommodityCreateProductBody.images.forEach(value => formData.append(`images`, value));
- }
+postCommodityCreateProductBody.images.forEach(value => formData.append(`images`, value));
 
       return customInstance<PostCommodityCreateProduct201>(
       {url: `/commodity/create-product`, method: 'POST',
@@ -555,7 +554,7 @@ if(postCommodityCreateProductBody.images !== undefined) {
 
 
 
-export const getPostCommodityCreateProductMutationOptions = <TError = unknown,
+export const getPostCommodityCreateProductMutationOptions = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postCommodityCreateProduct>>, TError,{data: PostCommodityCreateProductBody}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof postCommodityCreateProduct>>, TError,{data: PostCommodityCreateProductBody}, TContext> => {
 
@@ -584,12 +583,12 @@ const {mutation: mutationOptions} = options ?
 
     export type PostCommodityCreateProductMutationResult = NonNullable<Awaited<ReturnType<typeof postCommodityCreateProduct>>>
     export type PostCommodityCreateProductMutationBody = PostCommodityCreateProductBody
-    export type PostCommodityCreateProductMutationError = unknown
+    export type PostCommodityCreateProductMutationError = void
 
     /**
- * @summary Создать товар
+ * @summary Создать товар (только для владельца магазина)
  */
-export const usePostCommodityCreateProduct = <TError = unknown,
+export const usePostCommodityCreateProduct = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postCommodityCreateProduct>>, TError,{data: PostCommodityCreateProductBody}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postCommodityCreateProduct>>,
@@ -619,7 +618,7 @@ export const patchCommodityProductUpdateId = (
 
 
 
-export const getPatchCommodityProductUpdateIdMutationOptions = <TError = unknown,
+export const getPatchCommodityProductUpdateIdMutationOptions = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchCommodityProductUpdateId>>, TError,{id: number;data: CreateProductInput}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof patchCommodityProductUpdateId>>, TError,{id: number;data: CreateProductInput}, TContext> => {
 
@@ -648,12 +647,12 @@ const {mutation: mutationOptions} = options ?
 
     export type PatchCommodityProductUpdateIdMutationResult = NonNullable<Awaited<ReturnType<typeof patchCommodityProductUpdateId>>>
     export type PatchCommodityProductUpdateIdMutationBody = CreateProductInput
-    export type PatchCommodityProductUpdateIdMutationError = unknown
+    export type PatchCommodityProductUpdateIdMutationError = void
 
     /**
  * @summary Обновить товар
  */
-export const usePatchCommodityProductUpdateId = <TError = unknown,
+export const usePatchCommodityProductUpdateId = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchCommodityProductUpdateId>>, TError,{id: number;data: CreateProductInput}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof patchCommodityProductUpdateId>>,
@@ -664,7 +663,7 @@ export const usePatchCommodityProductUpdateId = <TError = unknown,
       return useMutation(getPatchCommodityProductUpdateIdMutationOptions(options), queryClient);
     }
     /**
- * @summary Удалить товар
+ * @summary Удалить товар (soft delete)
  */
 export const deleteCommodityProductDeleteId = (
     id: number,
@@ -680,7 +679,7 @@ export const deleteCommodityProductDeleteId = (
 
 
 
-export const getDeleteCommodityProductDeleteIdMutationOptions = <TError = unknown,
+export const getDeleteCommodityProductDeleteIdMutationOptions = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCommodityProductDeleteId>>, TError,{id: number}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof deleteCommodityProductDeleteId>>, TError,{id: number}, TContext> => {
 
@@ -709,12 +708,12 @@ const {mutation: mutationOptions} = options ?
 
     export type DeleteCommodityProductDeleteIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteCommodityProductDeleteId>>>
 
-    export type DeleteCommodityProductDeleteIdMutationError = unknown
+    export type DeleteCommodityProductDeleteIdMutationError = void
 
     /**
- * @summary Удалить товар
+ * @summary Удалить товар (soft delete)
  */
-export const useDeleteCommodityProductDeleteId = <TError = unknown,
+export const useDeleteCommodityProductDeleteId = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteCommodityProductDeleteId>>, TError,{id: number}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteCommodityProductDeleteId>>,

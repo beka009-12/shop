@@ -7,5 +7,6 @@
  */
 
 export type PatchBannerIdRejectBody = {
+  /** @minLength 1 */
   reason: string;
 };

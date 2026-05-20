@@ -8,30 +8,29 @@ interface Props {
   categoryId?: number;
 }
 
+const SORT_OPTIONS = [
+  { value: "default",    label: "По умолчанию" },
+  { value: "price-asc",  label: "Дешевле" },
+  { value: "price-desc", label: "Дороже" },
+];
+
 const FilterCatalog: FC<Props> = ({ categoryId }) => {
-  // Исправил синтаксическую ошибку с categoryId?
   const { data, isLoading, isError } =
     useGetCommodityProductsByCategoryCategoryId(categoryId as number);
 
   const [sortBy, setSortBy] = useState("default");
 
-  // Сортировка на стороне клиента (для примера)
   const sortedProducts = useMemo(() => {
     if (!data?.products) return [];
     const products = [...data.products];
-
     switch (sortBy) {
       case "price-asc":
         return products.sort(
-          (a, b) =>
-            (a.price ? a.price : 0) -
-            (b.newPrice ? b.newPrice : b.price ? b.price : 0),
+          (a, b) => (a.price ?? 0) - (b.newPrice ?? b.price ?? 0),
         );
       case "price-desc":
         return products.sort(
-          (a, b) =>
-            (b.newPrice ? b.newPrice : b.price ? b.price : 0) -
-            (a.price ? a.price : 0),
+          (a, b) => (b.newPrice ?? b.price ?? 0) - (a.price ?? 0),
         );
       default:
         return products;
@@ -40,40 +39,64 @@ const FilterCatalog: FC<Props> = ({ categoryId }) => {
 
   if (isError) return <div className={scss.error}>Ошибка загрузки товаров</div>;
 
+  const total = data?.pagination?.total ?? 0;
+
   return (
     <div className={scss.FilterCatalog}>
       <div className="container">
-        {/* Заголовок категории и количество */}
+
+        {/* ── Head bar ── */}
         <div className={scss.head}>
-          <div className={scss.categoryTitle}>
-            <span>Найдено {data?.pagination?.total || 0} товаров</span>
+          <div className={scss.countBlock}>
+            <span className={scss.countNum}>{total}</span>
+            <span className={scss.countLabel}>товаров</span>
           </div>
 
-          <div className={scss.controls}>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className={scss.select}
-            >
-              <option value="default">По умолчанию</option>
-              <option value="price-asc">Сначала дешевые</option>
-              <option value="price-desc">Сначала дорогие</option>
-            </select>
+          <div className={scss.sortGroup}>
+            <span className={scss.sortLabel}>Сортировка</span>
+            {SORT_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                className={`${scss.sortBtn} ${sortBy === opt.value ? scss.sortBtnActive : ""}`}
+                onClick={() => setSortBy(opt.value)}
+              >
+                {opt.label}
+              </button>
+            ))}
           </div>
         </div>
 
+        {/* ── Layout ── */}
         <div className={scss.layout}>
-          {/* Можно добавить Aside для более сложных фильтров */}
           <aside className={scss.aside}>
-            <div className={scss.filterGroup}>
-              <h4>Бренды</h4>
-              {/* Здесь можно мапить уникальные бренды из массива товаров */}
-              <label>
-                <input type="checkbox" /> Nike
+            <div className={scss.filterSection}>
+              <p className={scss.filterSectionTitle}>Цена</p>
+              <div className={scss.priceHint}>Используйте сортировку выше</div>
+            </div>
+
+            <div className={scss.filterSection}>
+              <p className={scss.filterSectionTitle}>Наличие</p>
+              <label className={scss.checkLabel}>
+                <input type="checkbox" className={scss.check} />
+                <span className={scss.checkMark} />
+                В наличии
               </label>
-              <label>
-                <input type="checkbox" /> Adidas
+              <label className={scss.checkLabel}>
+                <input type="checkbox" className={scss.check} />
+                <span className={scss.checkMark} />
+                Со скидкой
               </label>
+            </div>
+
+            <div className={scss.filterSection}>
+              <p className={scss.filterSectionTitle}>Бренды</p>
+              {["Nike", "Adidas", "Puma", "New Balance"].map((brand) => (
+                <label key={brand} className={scss.checkLabel}>
+                  <input type="checkbox" className={scss.check} />
+                  <span className={scss.checkMark} />
+                  {brand}
+                </label>
+              ))}
             </div>
           </aside>
 
@@ -85,6 +108,7 @@ const FilterCatalog: FC<Props> = ({ categoryId }) => {
             />
           </div>
         </div>
+
       </div>
     </div>
   );

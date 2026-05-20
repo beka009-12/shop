@@ -130,10 +130,11 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
           </div>
 
           <div className={scss.categories}>
-            {currentCategories.map((category) => (
+            {currentCategories.map((category, index) => (
               <div
                 key={category.id}
                 className={scss.categoryItem}
+                style={{ animationDelay: `${index * 0.035}s` }}
                 onClick={() => handleCategoryClick(category)}
               >
                 <div className={scss.mainInfo}>
@@ -165,10 +166,7 @@ const Catalog: FC<CatalogProps> = ({ isOpen, onClose }) => {
             <div className={scss.breadcrumbsPath}>
               <span>Главная</span>
               {breadcrumbs.map((crumb) => (
-                <span key={crumb.id}>
-                  {" > "}
-                  {crumb.name}
-                </span>
+                <span key={crumb.id}>{crumb.name}</span>
               ))}
             </div>
           )}

@@ -18,6 +18,8 @@ import type {
 import type {
   AuthResponse,
   LoginInput,
+  PostAuthGoogleBuyerBody,
+  PostAuthGoogleSellerBody,
   PostAuthLogout200,
   PostAuthSignIn200,
   RegisterInput
@@ -277,4 +279,130 @@ export const usePostAuthLogout = <TError = void,
         TContext
       > => {
       return useMutation(getPostAuthLogoutMutationOptions(options), queryClient);
+    }
+    /**
+ * @summary Вход/регистрация покупателя через Google
+ */
+export const postAuthGoogleBuyer = (
+    postAuthGoogleBuyerBody: PostAuthGoogleBuyerBody,
+ signal?: AbortSignal
+) => {
+
+
+      return customInstance<AuthResponse>(
+      {url: `/auth/google/buyer`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postAuthGoogleBuyerBody, signal
+    },
+      );
+    }
+
+
+
+export const getPostAuthGoogleBuyerMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthGoogleBuyer>>, TError,{data: PostAuthGoogleBuyerBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postAuthGoogleBuyer>>, TError,{data: PostAuthGoogleBuyerBody}, TContext> => {
+
+const mutationKey = ['postAuthGoogleBuyer'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthGoogleBuyer>>, {data: PostAuthGoogleBuyerBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postAuthGoogleBuyer(data,)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostAuthGoogleBuyerMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthGoogleBuyer>>>
+    export type PostAuthGoogleBuyerMutationBody = PostAuthGoogleBuyerBody
+    export type PostAuthGoogleBuyerMutationError = void
+
+    /**
+ * @summary Вход/регистрация покупателя через Google
+ */
+export const usePostAuthGoogleBuyer = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthGoogleBuyer>>, TError,{data: PostAuthGoogleBuyerBody}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postAuthGoogleBuyer>>,
+        TError,
+        {data: PostAuthGoogleBuyerBody},
+        TContext
+      > => {
+      return useMutation(getPostAuthGoogleBuyerMutationOptions(options), queryClient);
+    }
+    /**
+ * @summary Вход/регистрация продавца через Google
+ */
+export const postAuthGoogleSeller = (
+    postAuthGoogleSellerBody: PostAuthGoogleSellerBody,
+ signal?: AbortSignal
+) => {
+
+
+      return customInstance<AuthResponse>(
+      {url: `/auth/google/seller`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: postAuthGoogleSellerBody, signal
+    },
+      );
+    }
+
+
+
+export const getPostAuthGoogleSellerMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthGoogleSeller>>, TError,{data: PostAuthGoogleSellerBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postAuthGoogleSeller>>, TError,{data: PostAuthGoogleSellerBody}, TContext> => {
+
+const mutationKey = ['postAuthGoogleSeller'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postAuthGoogleSeller>>, {data: PostAuthGoogleSellerBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postAuthGoogleSeller(data,)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostAuthGoogleSellerMutationResult = NonNullable<Awaited<ReturnType<typeof postAuthGoogleSeller>>>
+    export type PostAuthGoogleSellerMutationBody = PostAuthGoogleSellerBody
+    export type PostAuthGoogleSellerMutationError = void
+
+    /**
+ * @summary Вход/регистрация продавца через Google
+ */
+export const usePostAuthGoogleSeller = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postAuthGoogleSeller>>, TError,{data: PostAuthGoogleSellerBody}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postAuthGoogleSeller>>,
+        TError,
+        {data: PostAuthGoogleSellerBody},
+        TContext
+      > => {
+      return useMutation(getPostAuthGoogleSellerMutationOptions(options), queryClient);
     }

@@ -1,24 +1,23 @@
 "use client";
 import { type FC, useState } from "react";
 import scss from "./Shop.module.scss";
-import { useGetSallerAllStores } from "@/api/generated/endpoints/saller/saller";
+import { useGetShops } from "@/api/generated/endpoints/shops/shops";
 import { useRouter } from "next/navigation";
-import { GetSallerAllStores200StoresItem } from "@/api/generated/models";
+import { ShopSummary } from "@/api/generated/models";
 import ShopSceleton from "@/utils/ui/sceletons/ShopSceleton";
 import ShopNot from "@/utils/ui/noteF/ShopNot";
 
-type StoreItem = GetSallerAllStores200StoresItem & {
-  region?: string | null;
+type StoreItem = ShopSummary & {
   description?: string | null;
   address?: string | null;
 };
 
 const Shop: FC = () => {
-  const { data: stores, isPending } = useGetSallerAllStores();
+  const { data: stores, isPending } = useGetShops();
   const router = useRouter();
   const [search, setSearch] = useState("");
 
-  const storeList = (stores?.stores ?? []) as StoreItem[];
+  const storeList = (stores?.shops ?? []) as StoreItem[];
 
   const filtered = storeList.filter(
     (s) =>

@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type _GetSallerAllStores200StoresItemCount = {
-  products?: number;
+export type PostAuthGoogleSellerBody = {
+  /** Google ID токен полученный на фронте */
+  idToken: string;
 };

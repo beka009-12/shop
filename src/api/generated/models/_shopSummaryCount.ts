@@ -6,6 +6,6 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostSallerUploadStoreLogoBody = {
-  file?: Blob;
+export type _ShopSummaryCount = {
+  products?: number;
 };

@@ -6,6 +6,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostSallerLogoutSeller200 = {
-  message?: string;
+export type ShopDetailOwner = {
+  id?: number;
+  /** @nullable */
+  name?: string | null;
 };

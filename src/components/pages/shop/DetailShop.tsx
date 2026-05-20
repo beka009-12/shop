@@ -2,22 +2,17 @@
 import { type FC } from "react";
 import scss from "./DetailShop.module.scss";
 import { useParams } from "next/navigation";
-import { useGetSallerDetailStoreId } from "@/api/generated/endpoints/saller/saller";
-import { GetSallerDetailStoreId200Store } from "@/api/generated/models";
+import { useGetShopsId } from "@/api/generated/endpoints/shops/shops";
+import { ShopDetail } from "@/api/generated/models";
 import DetailShopSkeleton from "@/utils/ui/sceletons/DetailShopSceleton";
 import Grid from "@/utils/ui/cards/Grid";
 
-type StoreDetail = GetSallerDetailStoreId200Store & {
-  region?: string | null;
-  description?: string | null;
-  address?: string | null;
-};
-
 const DetailShop: FC = () => {
   const { id } = useParams();
-  const { data, isLoading, isError } = useGetSallerDetailStoreId(Number(id));
+  const { data, isLoading, isError } = useGetShopsId(Number(id));
 
-  const store = data?.store as StoreDetail | undefined;
+  const store = data?.shop as ShopDetail | undefined;
+  const products = data?.products;
 
   const getInitials = (name: string) =>
     name
@@ -61,9 +56,9 @@ const DetailShop: FC = () => {
             {store.rating && (
               <div className={scss.metaItem}>⭐ {store.rating}</div>
             )}
-            {(store.products?.length ?? 0) > 0 && (
+            {(products?.length ?? 0) > 0 && (
               <div className={scss.metaItem}>
-                {store.products?.length} товаров
+                {products?.length} товаров
               </div>
             )}
           </div>
@@ -89,13 +84,13 @@ const DetailShop: FC = () => {
               <h2 className={scss.prodTitle}>Товары магазина</h2>
             </div>
 
-            {!store.products?.length ? (
+            {!products?.length ? (
               <div className={scss.noProducts}>
                 <p>В магазине пока нет товаров</p>
               </div>
             ) : (
               <Grid
-                products={store.products}
+                products={products}
                 isLoading={isLoading}
                 isError={isError}
               />

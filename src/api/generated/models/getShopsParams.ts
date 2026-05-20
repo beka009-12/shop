@@ -5,9 +5,8 @@
  * API for my startup
  * OpenAPI spec version: 1.0.0
  */
-import type { Store } from './store';
 
-export type PostSallerCreateStore201 = {
-  message?: string;
-  store?: Store;
+export type GetShopsParams = {
+page?: number;
+limit?: number;
 };

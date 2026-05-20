@@ -105,6 +105,32 @@
   gap: 10px;
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+  color: #9ca3af;
+  font-size: 13px;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e5e7eb;
+  }
+}
+
+.googleWrap {
+  display: flex;
+  justify-content: center;
+
+  > div {
+    width: 100% !important;
+  }
+}
+
 /* ===== Adaptive ===== */
 
 @media (max-width: 480px) {

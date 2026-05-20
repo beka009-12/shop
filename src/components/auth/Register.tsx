@@ -4,7 +4,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import {
   usePostAuthSignUp,
   usePostAuthSignIn,
+  usePostAuthGoogleBuyer,
 } from "@/api/generated/endpoints/auth/auth";
+import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import scss from "./Register.module.scss";
@@ -16,7 +18,23 @@ const Auth: FC = () => {
 
   const { mutateAsync: signUpMutate } = usePostAuthSignUp();
   const { mutateAsync: signInMutate } = usePostAuthSignIn();
+  const { mutateAsync: googleMutate } = usePostAuthGoogleBuyer();
   const router = useRouter();
+
+  const onGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+    if (!credentialResponse.credential) return;
+    try {
+      const response = await googleMutate({
+        data: { idToken: credentialResponse.credential },
+      });
+      const token = response?.token;
+      if (token) localStorage.setItem("token", token);
+      toast.success("Вход через Google выполнен!");
+      router.push("/");
+    } catch {
+      toast.error("Ошибка входа через Google");
+    }
+  };
 
   const {
     register: registerSignUp,
@@ -102,6 +120,19 @@ const Auth: FC = () => {
                 </button>
               </form>
 
+              <div className={scss.divider}>
+                <span>или</span>
+              </div>
+
+              <div className={scss.googleWrap}>
+                <GoogleLogin
+                  onSuccess={onGoogleSuccess}
+                  onError={() => toast.error("Ошибка входа через Google")}
+                  width="100%"
+                  text="signin_with"
+                />
+              </div>
+
               <p
                 onClick={() => setIsLogin(false)}
                 className={scss.registerLink}
@@ -147,6 +178,19 @@ const Auth: FC = () => {
                   Зарегистрироваться
                 </button>
               </form>
+
+              <div className={scss.divider}>
+                <span>или</span>
+              </div>
+
+              <div className={scss.googleWrap}>
+                <GoogleLogin
+                  onSuccess={onGoogleSuccess}
+                  onError={() => toast.error("Ошибка входа через Google")}
+                  width="100%"
+                  text="signup_with"
+                />
+              </div>
 
               <p className={scss.registerLink} onClick={() => setIsLogin(true)}>
                 Уже есть аккаунт? <span>Войти</span>

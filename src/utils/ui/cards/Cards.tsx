@@ -2,7 +2,6 @@
 import { useState, type FC, useEffect } from "react";
 import scss from "./Cards.module.scss";
 import { useRouter } from "next/navigation";
-import { useGetUserProfile } from "@/api/generated/endpoints/user/user";
 import {
   useCartAddAction,
   useDelFavorite,
@@ -21,7 +20,10 @@ const Cards: FC<Product> = ({
   price,
   newPrice,
 }) => {
-  const images = productImages.map((img) => img.url).filter(Boolean) as string[];
+  const images = productImages
+    .map((img) => img.url)
+    .filter(Boolean) as string[];
+
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -29,9 +31,6 @@ const Cards: FC<Product> = ({
   const { addToCart } = useCartAddAction();
   const { addToFavorite } = useFavoriteFun();
   const { handleRemove } = useDelFavorite();
-
-  const { data: me } = useGetUserProfile();
-  const userId = me?.user?.id;
 
   const { data: favoriteData } = useGetFavoriteFavorites();
   const { data: cartData } = useGetCart();

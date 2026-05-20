@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PostSallerUploadStoreLogo200 = {
-  name?: string;
-  url?: string;
+export type PostAuthGoogleBuyerBody = {
+  /** Google ID токен полученный на фронте */
+  idToken: string;
 };

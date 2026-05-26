@@ -1,7 +1,24 @@
-.detail {
-  padding: 24px 20px 80px;
-  min-height: 80vh;
-  background: #fff;
+// ─── Design tokens ───────────────────────────────────────────
+$accent: #5533eb;
+$accent-soft: #f0edff;
+$text: #111;
+$text-sub: #666;
+$text-muted: #aaa;
+$border: #ebebeb;
+$radius-card: 24px;
+$radius-btn: 100px;
+
+// ─── Page shell ───────────────────────────────────────────────
+.page {
+  min-height: 100vh;
+
+  @media (max-width: 899px) {
+    padding-bottom: calc(56px + 64px + env(safe-area-inset-bottom) + 12px);
+  }
+
+  @media (min-width: 900px) {
+    padding: 24px 20px 80px;
+  }
 }
 
 .notFound {
@@ -13,79 +30,193 @@
   color: #9ca3af;
 }
 
-// ─── Top bar ──────────────────────────────────────────────────
-.topBar {
-  max-width: 1200px;
-  margin: 0 auto 20px;
-}
-
+// ─── Back button ──────────────────────────────────────────────
 .btnBack {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #111;
-  background: none;
-  border: none;
   cursor: pointer;
-  padding: 8px 0;
-  transition: opacity 0.15s;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: $text;
 
-  &:hover {
-    opacity: 0.6;
-  }
-}
-
-// ─── Main grid ────────────────────────────────────────────────
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: clamp(2rem, 4vw, 5rem);
-  align-items: start;
-
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-}
-
-// ─── Gallery ─────────────────────────────────────────────────
-.gallery {
-  display: flex;
-  gap: 10px;
-  position: sticky;
-  top: 16px;
-
-  @media (max-width: 900px) {
-    position: static;
+  @media (max-width: 899px) {
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 50;
+    padding: 8px 14px 8px 10px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.6);
   }
 
-  @media (max-width: 560px) {
-    flex-direction: column-reverse;
-  }
-}
+  @media (min-width: 900px) {
+    background: none;
+    padding: 8px 0;
+    margin-bottom: 20px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    transition: opacity 0.15s;
 
-.thumbnails {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-
-  @media (max-width: 560px) {
-    flex-direction: row;
-    overflow-x: auto;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
+    &:hover {
+      opacity: 0.6;
     }
   }
 }
 
+.btnBackLabel {
+  @media (max-width: 899px) {
+    display: none; // show only icon on mobile
+  }
+}
+
+// ─── Main layout ─────────────────────────────────────────────
+.layout {
+  @media (min-width: 900px) {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(2rem, 4vw, 5rem);
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+  }
+}
+
+// ─── Gallery column ───────────────────────────────────────────
+.galleryCol {
+  @media (min-width: 900px) {
+    position: sticky;
+    top: 16px;
+  }
+}
+
+// ─── MOBILE gallery (Swiper) ──────────────────────────────────
+.mobileGallery {
+  display: none;
+  position: relative;
+  height: 68vh;
+  min-height: 320px;
+  max-height: 560px;
+  background: #f3f3f3;
+  overflow: hidden;
+
+  @media (max-width: 899px) {
+    display: block;
+  }
+}
+
+// Bottom gradient overlay — fades photo into white card below
+.photoGradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.4));
+  pointer-events: none;
+  z-index: 2;
+}
+
+// Swiper fills the fixed-height container
+:global(.swiper).swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  width: 100%;
+  height: 100%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.slidePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+  background: #f5f5f5;
+}
+
+// Pagination dots — positioned above the floating info card
+.mobileGallery :global(.swiper-pagination) {
+  bottom: 44px;
+  z-index: 4;
+}
+
+.mobileGallery :global(.swiper-pagination-bullet) {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.55);
+  opacity: 1;
+  transition: all 0.2s;
+}
+
+.mobileGallery :global(.swiper-pagination-bullet-active) {
+  width: 20px;
+  background: #fff;
+  border-radius: 3px;
+}
+
+// ─── Photo badges ─────────────────────────────────────────────
+.photoBadgeDiscount {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  background: $accent;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 20px;
+  letter-spacing: 0.01em;
+}
+
+.photoBadgeUrgency {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.9);
+  color: #d32f2f;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+// ─── DESKTOP gallery ──────────────────────────────────────────
+.desktopGallery {
+  display: none;
+
+  @media (min-width: 900px) {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+.thumbCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .thumb {
-  width: 64px;
-  height: 64px;
+  width: 68px;
+  height: 68px;
   border-radius: 10px;
   overflow: hidden;
   border: 2px solid transparent;
@@ -102,95 +233,82 @@
   }
 
   &:hover {
-    border-color: rgba(0, 0, 0, 0.2);
+    border-color: rgba($accent, 0.4);
   }
 }
 
-.activeThumb {
-  border-color: #111;
+.thumbActive {
+  border-color: $accent;
 }
 
-.mainImageWrapper {
+.mainImgBox {
   flex: 1;
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  background: #f5f5f5;
+  background: #f3f3f3;
   aspect-ratio: 4 / 5;
-  max-height: 640px;
-
-  @media (max-width: 560px) {
-    max-height: 400px;
-  }
+  max-height: 600px;
 }
 
-.mainImage {
+.mainImg {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
-.imagePlaceholder {
+.imgPlaceholder {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   color: #ccc;
-  background: #f5f5f5;
-
-  svg {
-    width: 56px;
-    height: 56px;
-  }
-
-  span {
-    font-size: 13px;
-    font-weight: 400;
-  }
 }
 
-.discountBadge {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: #111;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px 11px;
-  border-radius: 20px;
-  z-index: 2;
-  letter-spacing: 0.02em;
-}
-
-.urgencyBadge {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  background: rgba(255, 255, 255, 0.92);
-  color: #c0392b;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
-  z-index: 2;
-  backdrop-filter: blur(4px);
-}
-
-// ─── Info column ─────────────────────────────────────────────
-.info {
+// ─── Info card / floating card (mobile) ───────────────────────
+.infoCard {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding-top: 4px;
+  gap: 16px;
+
+  @media (max-width: 899px) {
+    margin-top: -16px;
+    border-radius: $radius-card $radius-card 20px 20px;
+    background: #fff;
+    position: relative;
+    z-index: 5;
+    padding: 8px 18px 28px;
+    gap: 14px;
+    box-shadow:
+      0 -6px 24px rgba(0, 0, 0, 0.06),
+      0 4px 16px rgba(0, 0, 0, 0.04);
+    margin-bottom: 12px;
+  }
+
+  @media (min-width: 900px) {
+    padding-top: 4px;
+  }
 }
 
-// ─── Store header ─────────────────────────────────────────────
-.storeHeader {
+// iOS-style pull handle (mobile only)
+.pullHandle {
+  display: none;
+
+  @media (max-width: 899px) {
+    display: block;
+    width: 36px;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    margin: 0 auto 8px;
+    flex-shrink: 0;
+  }
+}
+
+// ─── Store row ────────────────────────────────────────────────
+.storeRow {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -210,86 +328,86 @@
   border-radius: 50%;
   background: #111;
   color: #fff;
+  font-size: 12px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
   flex-shrink: 0;
 }
 
-.storeHeaderInfo {
+.storeMeta {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 1px;
+  min-width: 0;
 }
 
 .storeName {
   font-size: 14px;
   font-weight: 600;
-  color: #111;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .storeRating {
   font-size: 12px;
-  color: #777;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.verifiedDot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 14px;
-  height: 14px;
-  background: #0f6e56;
-  color: #fff;
-  border-radius: 50%;
-  font-size: 8px;
-  font-weight: 700;
+  color: $text-sub;
 }
 
 .storeActions {
   display: flex;
   gap: 4px;
   margin-left: auto;
+  flex-shrink: 0;
 }
 
-.iconBtn {
+.actionBtn {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1.5px solid #e5e5e5;
+  border: 1.5px solid $border;
   background: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #111;
+  color: $text;
   transition:
     background 0.15s,
-    border-color 0.15s;
+    border-color 0.15s,
+    color 0.15s;
 
   &:hover {
     background: #f5f5f5;
   }
 }
 
-// ─── Title & Rating ───────────────────────────────────────────
+.actionBtnFav {
+  color: #d32f2f;
+  border-color: #fecaca;
+  background: #fff5f5;
+}
+
+// ─── Title block ──────────────────────────────────────────────
 .titleBlock {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.brandTag {
+.brandPill {
   display: inline-flex;
-  font-size: 11px;
-  font-weight: 600;
-  color: #555;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: $accent;
+  background: $accent-soft;
+  padding: 3px 9px;
+  border-radius: 6px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   width: fit-content;
@@ -297,8 +415,8 @@
 
 .title {
   font-size: clamp(20px, 2.5vw, 26px);
-  font-weight: 600;
-  color: #111;
+  font-weight: 700;
+  color: $text;
   line-height: 1.2;
   margin: 0;
   letter-spacing: -0.02em;
@@ -307,114 +425,147 @@
 .ratingRow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   flex-wrap: wrap;
 }
 
 .stars {
   display: flex;
-  gap: 2px;
+  gap: 1px;
+}
+
+.starOn {
   color: #f5a623;
 }
 
-.starFilled {
-  color: #f5a623;
-}
-
-.starEmpty {
+.starOff {
   color: #ddd;
 }
 
-.ratingCount {
-  font-size: 13px;
-  color: #007aff;
+.reviewLink {
+  font-size: 12px;
+  color: $accent;
   font-weight: 500;
   text-decoration: underline;
   cursor: pointer;
 }
 
-.soldBadge {
-  font-size: 12px;
-  font-weight: 600;
-  color: #555;
-  background: #f0f0f0;
-  padding: 3px 9px;
+.soldChip {
+  font-size: 11px;
+  font-weight: 500;
+  color: $text-sub;
+  background: #f2f2f2;
+  padding: 2px 8px;
   border-radius: 20px;
 }
 
-// ─── Price ───────────────────────────────────────────────────
-.priceRow {
+// ─── Price block ──────────────────────────────────────────────
+.priceBlock {
   display: flex;
-  align-items: baseline;
-  gap: 10px;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.priceMain {
-  font-size: clamp(22px, 3vw, 28px);
-  font-weight: 700;
-  color: #111;
-  letter-spacing: -0.02em;
+.price {
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 800;
+  color: $text;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.priceCurrency {
+  font-size: 0.6em;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.priceOldRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .priceOld {
-  font-size: 15px;
-  color: #aaa;
-  text-decoration: line-through;
-}
-
-.divider {
-  height: 1px;
-  background: #f0f0f0;
-}
-
-// ─── Section label ────────────────────────────────────────────
-.sectionLabel {
   font-size: 14px;
-  font-weight: 500;
-  color: #555;
-
-  strong {
-    color: #111;
-    font-weight: 600;
-  }
+  color: $text-muted;
+  text-decoration: line-through;
+  font-weight: 400;
 }
 
-// ─── Colors ──────────────────────────────────────────────────
-.colorSection {
+.discountChip {
+  font-size: 12px;
+  font-weight: 700;
+  color: #c62828;
+  background: #fff3f3;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.urgencyNote {
+  font-size: 12px;
+  font-weight: 600;
+  color: #c62828;
+  background: #fff3f3;
+  border-radius: 8px;
+  padding: 7px 12px;
+  margin: 0;
+}
+
+.sep {
+  height: 1px;
+  background: $border;
+}
+
+// ─── Color selector ───────────────────────────────────────────
+.colorBlock {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.colorDots {
+.fieldLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-sub;
+  margin: 0;
+
+  strong {
+    color: $text;
+    font-weight: 600;
+  }
+}
+
+.colorRow {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
 .colorDot {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background: #0a3055;
-  border: 2px solid transparent;
+  border: none;
   cursor: pointer;
   padding: 0;
   transition: transform 0.15s;
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.12);
   }
 }
 
 .colorDotActive {
-  border-color: #111;
   box-shadow:
-    0 0 0 2px #fff,
-    0 0 0 3.5px #111;
+    0 0 0 2.5px #fff,
+    0 0 0 4.5px $accent;
+  transform: scale(1.08);
 }
 
-// ─── Size selector ───────────────────────────────────────────
-.sizeSection {
+// ─── Size selector ────────────────────────────────────────────
+.sizeBlock {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -422,13 +573,13 @@
 
 .sizeHead {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .sizeGuide {
-  font-size: 13px;
-  color: #007aff;
+  font-size: 12px;
+  color: $accent;
   background: none;
   border: none;
   cursor: pointer;
@@ -446,16 +597,16 @@
   gap: 6px;
 }
 
-.sizeBtn {
-  min-width: 52px;
-  height: 42px;
+.sizeChip {
+  min-width: 48px;
+  height: 40px;
   padding: 0 14px;
-  border-radius: 100px;
-  border: 1.5px solid #e5e5e5;
+  border-radius: $radius-btn;
+  border: 1.5px solid $border;
   background: #fff;
   font-size: 13px;
   font-weight: 600;
-  color: #111;
+  color: $text;
   cursor: pointer;
   transition:
     border-color 0.15s,
@@ -465,28 +616,27 @@
   align-items: center;
   justify-content: center;
 
-  &:hover:not(:disabled) {
-    border-color: #111;
+  &:hover {
+    border-color: $accent;
+    color: $accent;
   }
 }
 
-.sizeBtnActive {
-  background: #111;
+.sizeChipOn {
+  background: $accent;
   color: #fff;
-  border-color: #111;
+  border-color: $accent;
+
+  &:hover {
+    color: #fff;
+  }
 }
 
-.sizeBtnUnavailable {
-  opacity: 0.3;
-  cursor: not-allowed;
-  text-decoration: line-through;
-}
-
-.sizeError {
+.sizeErr {
   font-size: 12px;
-  color: #c0392b;
-  margin: 0;
+  color: #d32f2f;
   font-weight: 500;
+  margin: 2px 0 0;
   animation: shake 0.3s ease;
 }
 
@@ -503,39 +653,41 @@
   }
 }
 
-// ─── Quantity ─────────────────────────────────────────────────
-.quantitySection {
+// ─── Quantity ──────────────────────────────────────────────────
+.qtyRow {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  gap: 16px;
 }
 
-.quantityControl {
+.qtyControl {
   display: inline-flex;
   align-items: center;
-  border: 1.5px solid #e5e5e5;
-  border-radius: 100px;
+  border: 1.5px solid $border;
+  border-radius: $radius-btn;
   overflow: hidden;
-  width: fit-content;
 }
 
 .qtyBtn {
-  width: 42px;
-  height: 42px;
-  font-size: 20px;
-  font-weight: 400;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: 300;
   background: none;
   border: none;
   cursor: pointer;
-  color: #111;
+  color: $text;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
   line-height: 1;
 
   &:hover:not(:disabled) {
-    background: #f5f5f5;
+    background: $accent-soft;
+    color: $accent;
   }
 
   &:disabled {
@@ -544,45 +696,44 @@
   }
 }
 
-.qtyValue {
-  min-width: 40px;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  color: #111;
-  border-left: 1.5px solid #e5e5e5;
-  border-right: 1.5px solid #e5e5e5;
-  height: 42px;
+.qtyVal {
+  min-width: 38px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: $text;
+  border-left: 1.5px solid $border;
+  border-right: 1.5px solid $border;
 }
 
-// ─── Actions ─────────────────────────────────────────────────
-.actions {
+// ─── CTA buttons ──────────────────────────────────────────────
+.ctaGroup {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .btnPrimary {
   width: 100%;
   padding: 15px 20px;
-  border-radius: 100px;
-  background: #5b5ef4;
+  border-radius: $radius-btn;
+  background: $accent;
   color: #fff;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  letter-spacing: -0.01em;
   transition:
     opacity 0.15s,
     transform 0.1s;
-  letter-spacing: -0.01em;
 
   &:hover {
     opacity: 0.9;
@@ -593,30 +744,30 @@
   }
 }
 
-.btnInCart {
+.btnGreen {
   background: #27ae60;
 }
 
-.btnSecondary {
+.btnOutline {
   width: 100%;
   padding: 14px 20px;
-  border-radius: 100px;
-  background: #111;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
+  border-radius: $radius-btn;
+  background: transparent;
+  color: $accent;
+  font-size: 15px;
+  font-weight: 700;
+  border: 2px solid $accent;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition:
-    opacity 0.15s,
-    transform 0.1s;
   letter-spacing: -0.01em;
+  transition:
+    background 0.15s,
+    transform 0.1s;
 
   &:hover {
-    opacity: 0.85;
+    background: $accent-soft;
   }
 
   &:active {
@@ -639,43 +790,48 @@
   color: #27ae60;
 }
 
-.outOfStock {
+.noStock {
   font-size: 13px;
   font-weight: 500;
-  color: #c0392b;
+  color: #d32f2f;
 }
 
 .addedDate {
   font-size: 12px;
-  color: #aaa;
+  color: $text-muted;
 }
 
-// ─── Bottom section ──────────────────────────────────────────
+// ─── Bottom section ───────────────────────────────────────────
 .bottomSection {
-  max-width: 1200px;
-  margin: 48px auto 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 10px;
+  margin: 0 12px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
     grid-template-columns: 1fr;
-    margin-top: 32px;
+    margin: 0 12px;
+  }
+
+  @media (min-width: 900px) {
+    max-width: 1200px;
+    margin: 48px auto 0;
+    padding: 0;
   }
 }
 
-.descBlock,
-.tagsBlock {
-  background: #f9f9f9;
-  border-radius: 14px;
-  padding: 20px;
+.bottomCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
 
-.descHead {
-  font-size: 11px;
+.bottomCardLabel {
+  font-size: 10px;
   font-weight: 700;
-  color: #aaa;
-  letter-spacing: 0.1em;
+  color: $text-muted;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   margin: 0 0 10px;
 }
@@ -687,7 +843,7 @@
   margin: 0;
 }
 
-.tags {
+.tagList {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -695,8 +851,8 @@
 
 .tag {
   font-size: 13px;
-  color: #111;
-  background: #ebebeb;
+  color: $accent;
+  background: $accent-soft;
   padding: 5px 12px;
   border-radius: 20px;
   font-weight: 500;
@@ -704,26 +860,78 @@
   transition: background 0.15s;
 
   &:hover {
-    background: #ddd;
+    background: #e5e0ff;
   }
 }
 
-// ─── Responsive ──────────────────────────────────────────────
-@media (max-width: 768px) {
-  .detail {
-    padding: 16px 14px 60px;
+// ─── Sticky bar ───────────────────────────────────────────────
+// z-index: 20 — sits BEHIND the mobile nav (z-index: 30)
+// padding-bottom pushes content above the nav
+.stickyBar {
+  display: none;
+
+  @media (max-width: 899px) {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    padding: 10px 18px calc(64px + env(safe-area-inset-bottom) + 4px);
+    background: #fff;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.08);
   }
 }
 
-@media (max-width: 480px) {
-  .thumb {
-    width: 56px;
-    height: 56px;
+.stickyInner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.stickyPrices {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.stickyPrice {
+  font-size: 16px;
+  font-weight: 800;
+  color: $text;
+  letter-spacing: -0.02em;
+}
+
+.stickyOld {
+  font-size: 11px;
+  color: $text-muted;
+  text-decoration: line-through;
+}
+
+.stickyBtn {
+  padding: 12px 22px;
+  border-radius: $radius-btn;
+  background: $accent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.9;
   }
 
-  .sizeBtn {
-    min-width: 46px;
-    height: 38px;
-    font-size: 12px;
+  &:active {
+    transform: scale(0.98);
   }
+}
+
+.stickyBtnGreen {
+  background: #27ae60;
 }

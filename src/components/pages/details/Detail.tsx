@@ -1,6 +1,10 @@
 "use client";
 import { useState, type FC } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 import scss from "./Detail.module.scss";
 import DetailSceleton from "@/utils/ui/sceletons/DetailSceleton";
 import { useGetCart } from "@/api/generated/endpoints/cart/cart";
@@ -12,32 +16,20 @@ import {
 import { useGetFavoriteFavorites } from "@/api/generated/endpoints/favorite/favorite";
 import { useGetCommodityProductUserId } from "@/api/generated/endpoints/product/product";
 
-const CLOTHING_SIZES = ["XXS", "XS", "S", "M", "L", "XL", "XXL"];
-const SHOE_SIZES = ["36", "37", "38", "39", "40", "41", "42", "43", "44", "45"];
-
-const SHOE_KEYWORDS = [
-  "кроссовк",
-  "ботинк",
-  "туфл",
-  "сапог",
-  "кед",
-  "мокасин",
-  "сандал",
-  "тапочк",
-  "слипон",
-  "sneaker",
-  "shoe",
-  "boot",
-];
-
-function isShoeProduct(title?: string, category?: string): boolean {
-  const text = `${title ?? ""} ${category ?? ""}`.toLowerCase();
-  return SHOE_KEYWORDS.some((kw) => text.includes(kw));
-}
-
-const StarIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+const ArrowLeftIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+    />
   </svg>
 );
 
@@ -75,6 +67,12 @@ const ShareIcon = () => (
   </svg>
 );
 
+const StarIcon = () => (
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+  </svg>
+);
+
 const CheckIcon = () => (
   <svg
     width="16"
@@ -88,6 +86,23 @@ const CheckIcon = () => (
   </svg>
 );
 
+const ImageOffIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.2"
+    width="48"
+    height="48"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+    />
+  </svg>
+);
+
 const Detail: FC = () => {
   const { id } = useParams();
   const router = useRouter();
@@ -98,352 +113,378 @@ const Detail: FC = () => {
 
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [sizeError, setSizeError] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  // data shape: GetCommodityProductForUserId200 = { product?: Product }
   const { data, isPending } = useGetCommodityProductUserId(Number(id));
   const product = data?.product;
-
   const { data: cartData } = useGetCart();
   const { data: favorite } = useGetFavoriteFavorites();
 
   if (isPending) return <DetailSceleton />;
   if (!product) return <div className={scss.notFound}>Продукт не найден</div>;
 
-  // Safe accessors with fallbacks
   const price = product.price ?? 0;
   const newPrice = product.newPrice ?? null;
   const stockCount = product.stockCount ?? 0;
   const soldCount = product.soldCount ?? 0;
-  const productImgUrls = product.productImages?.map((img) => img.url).filter(Boolean) as string[] ?? [];
-  const mainImage = activeImage ?? productImgUrls[0];
-
-  const discountPercent =
+  const imgs =
+    (product.productImages
+      ?.map((img) => img.url)
+      .filter(Boolean) as string[]) ?? [];
+  const mainImg = activeImage ?? imgs[0];
+  const displayPrice = Number(newPrice ?? price).toLocaleString("ru-RU");
+  const discountPct =
     newPrice != null && price > newPrice
       ? Math.round(((price - newPrice) / price) * 100)
       : 0;
 
-  const isInCart = cartData?.items?.some((item) => item.product?.id === product.id);
-  const isFavorite = favorite?.favorites?.some(
-    (item: any) => item.product.id === product.id,
+  const isInCart = cartData?.items?.some((i) => i.product?.id === product.id);
+  const isFav = favorite?.favorites?.some(
+    (i: any) => i.product.id === product.id,
   );
 
-  const isShoe = isShoeProduct(product.title, product.category?.name);
-  const sizes = isShoe ? SHOE_SIZES : CLOTHING_SIZES;
+  const sizes = product.sizes ?? [];
+  const activeColor = selectedColor ?? product.colors?.[0] ?? null;
+  const rating = product.store?.rating;
+  const reviewCount = (product as any)._count?.reviews as number | undefined;
 
-  const rating = product.store?.rating ?? 4.8;
-  const reviewCount = 206;
-
-  const onFavoriteClick = () => {
+  const onFavClick = () => {
     if (!product.id) return;
-    isFavorite ? handleRemove(product.id) : addToFavorite(product.id);
+    isFav ? handleRemove(product.id) : addToFavorite(product.id);
   };
 
   const handleAddToCart = () => {
-    if (!selectedSize) {
+    if (sizes.length > 0 && !selectedSize) {
       setSizeError(true);
-      document
-        .getElementById("size-section")
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
     setSizeError(false);
     if (product.id) addToCart(product.id);
   };
 
-  const handleSizeSelect = (size: string) => {
-    setSelectedSize(size);
-    setSizeError(false);
-  };
-
-  return (
-    <section className={scss.detail}>
-      {/* ── Back bar ── */}
-      <div className={scss.topBar}>
-        <button
-          onClick={() => router.back()}
-          className={scss.btnBack}
-          aria-label="Назад"
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
+  const infoContent = (
+    <>
+      {/* Store row */}
+      <div className={scss.storeRow}>
+        {product.store?.logo ? (
+          <img
+            src={product.store.logo}
+            alt={product.store.name}
+            className={scss.storeAvatar}
+          />
+        ) : (
+          <div className={scss.storeAvatarFallback}>
+            {(product.store?.name ?? "NS").slice(0, 2).toUpperCase()}
+          </div>
+        )}
+        <div className={scss.storeMeta}>
+          <span className={scss.storeName}>
+            {product.store?.name ?? "Nest Shop"}
+          </span>
+          {rating != null && (
+            <span className={scss.storeRating}>
+              ★ {rating}
+              {product.store?.isVerified ? " · Верифицирован ✓" : ""}
+            </span>
+          )}
+        </div>
+        <div className={scss.storeActions}>
+          <button
+            className={`${scss.actionBtn} ${isFav ? scss.actionBtnFav : ""}`}
+            onClick={onFavClick}
+            title={isFav ? "Убрать из избранного" : "В избранное"}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-            />
-          </svg>
-          Назад
-        </button>
+            <HeartIcon filled={!!isFav} />
+          </button>
+          <button className={scss.actionBtn} title="Поделиться">
+            <ShareIcon />
+          </button>
+        </div>
       </div>
 
-      <div className={scss.container}>
-        {/* ── Gallery ── */}
-        <div className={scss.gallery}>
-          <div className={scss.thumbnails}>
-            {productImgUrls.map((img, i) => (
-              <button
-                type="button"
-                key={i}
-                onClick={() => setActiveImage(img)}
-                className={`${scss.thumb} ${mainImage === img ? scss.activeThumb : ""}`}
-              >
-                <img src={img} alt={`Фото ${i + 1}`} loading="lazy" />
-              </button>
-            ))}
-          </div>
-
-          <div className={scss.mainImageWrapper}>
-            {discountPercent > 0 && (
-              <span className={scss.discountBadge}>−{discountPercent}%</span>
-            )}
-            {stockCount > 0 && stockCount <= 5 && (
-              <span className={scss.urgencyBadge}>
-                Осталось {stockCount} шт
-              </span>
-            )}
-            {mainImage ? (
-              <img
-                src={mainImage}
-                alt={product.title}
-                className={scss.mainImage}
-                loading="lazy"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                }}
-              />
-            ) : (
-              <div className={scss.imagePlaceholder}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                </svg>
-                <span>Нет фото</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* ── Info ── */}
-        <div className={scss.info}>
-          {/* Store header */}
-          <div className={scss.storeHeader}>
-            {product.store?.logo ? (
-              <img
-                src={product.store.logo}
-                alt={product.store.name}
-                className={scss.storeAvatar}
-              />
-            ) : (
-              <div className={scss.storeAvatarFallback}>
-                {(product.store?.name ?? "NS").slice(0, 2).toUpperCase()}
-              </div>
-            )}
-            <div className={scss.storeHeaderInfo}>
-              <span className={scss.storeName}>
-                {product.store?.name ?? "Nest Shop"}
-              </span>
-              {product.store?.rating && (
-                <span className={scss.storeRating}>
-                  ★ {product.store.rating}
-                  {product.store.isVerified && (
-                    <span className={scss.verifiedDot} title="Проверен">
-                      ✓
-                    </span>
-                  )}
-                </span>
-              )}
-            </div>
-            <div className={scss.storeActions}>
-              <button
-                className={scss.iconBtn}
-                onClick={onFavoriteClick}
-                title={isFavorite ? "Убрать из избранного" : "В избранное"}
-              >
-                <HeartIcon filled={!!isFavorite} />
-              </button>
-              <button className={scss.iconBtn} title="Поделиться">
-                <ShareIcon />
-              </button>
-            </div>
-          </div>
-
-          {/* Title & rating */}
-          <div className={scss.titleBlock}>
-            {product.brandName && (
-              <span className={scss.brandTag}>{product.brandName}</span>
-            )}
-            <h1 className={scss.title}>{product.title}</h1>
-            <div className={scss.ratingRow}>
-              <div className={scss.stars}>
+      {/* Title */}
+      <div className={scss.titleBlock}>
+        {product.brandName && (
+          <span className={scss.brandPill}>{product.brandName}</span>
+        )}
+        <h1 className={scss.title}>{product.title}</h1>
+        {(rating != null ||
+          (reviewCount != null && reviewCount > 0) ||
+          soldCount > 0) && (
+          <div className={scss.ratingRow}>
+            {rating != null && (
+              <span className={scss.stars}>
                 {[1, 2, 3, 4, 5].map((s) => (
                   <span
                     key={s}
-                    className={rating >= s ? scss.starFilled : scss.starEmpty}
+                    className={rating >= s ? scss.starOn : scss.starOff}
                   >
                     <StarIcon />
                   </span>
                 ))}
-              </div>
-              <span className={scss.ratingCount}>{reviewCount} отзывов</span>
-              {soldCount > 0 && (
-                <span className={scss.soldBadge}>{soldCount}+ куплено</span>
-              )}
-            </div>
+              </span>
+            )}
+            {reviewCount != null && reviewCount > 0 && (
+              <span className={scss.reviewLink}>{reviewCount} отзывов</span>
+            )}
+            {soldCount > 0 && (
+              <span className={scss.soldChip}>{soldCount}+ куплено</span>
+            )}
           </div>
+        )}
+      </div>
 
-          {/* Price */}
-          <div className={scss.priceRow}>
-            <span className={scss.priceMain}>
-              {Number(newPrice ?? price).toLocaleString()} сом
+      {/* Price */}
+      <div className={scss.priceBlock}>
+        <span className={scss.price}>
+          {displayPrice} <span className={scss.priceCurrency}>сом</span>
+        </span>
+        {discountPct > 0 && (
+          <div className={scss.priceOldRow}>
+            <span className={scss.priceOld}>
+              {Number(price).toLocaleString("ru-RU")} сом
             </span>
-            {newPrice != null && price > newPrice && (
-              <span className={scss.priceOld}>
-                {Number(price).toLocaleString()} сом
-              </span>
-            )}
+            <span className={scss.discountChip}>−{discountPct}%</span>
           </div>
+        )}
+      </div>
 
-          <div className={scss.divider} />
+      {stockCount > 0 && stockCount <= 5 && (
+        <p className={scss.urgencyNote}>🔥 Осталось всего {stockCount} шт</p>
+      )}
 
-          {/* Colors */}
-          {(product.colors?.length ?? 0) > 0 && (
-            <div className={scss.colorSection}>
-              <span className={scss.sectionLabel}>
-                Цвет <strong>{product.colors![0]}</strong>
-              </span>
-              <div className={scss.colorDots}>
-                {product.colors!.map((color, i) => (
-                  <button
-                    key={i}
-                    className={`${scss.colorDot} ${scss.colorDotActive}`}
-                    title={color}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+      <div className={scss.sep} />
 
-          {/* Size selector */}
-          <div className={scss.sizeSection} id="size-section">
-            <div className={scss.sizeHead}>
-              <span className={scss.sectionLabel}>
-                Размер {selectedSize && <strong>{selectedSize}</strong>}
-              </span>
-              <button className={scss.sizeGuide} type="button">
-                Таблица размеров
-              </button>
-            </div>
-
-            <div className={scss.sizeGrid}>
-              {sizes.map((size) => {
-                const available = product.sizes?.includes(size) ?? false;
-                const isActive = selectedSize === size;
-                return (
-                  <button
-                    key={size}
-                    type="button"
-                    onClick={() => available && handleSizeSelect(size)}
-                    className={[
-                      scss.sizeBtn,
-                      isActive ? scss.sizeBtnActive : "",
-                      !available ? scss.sizeBtnUnavailable : "",
-                    ].join(" ")}
-                    disabled={!available}
-                  >
-                    {size}
-                  </button>
-                );
-              })}
-            </div>
-
-            {sizeError && (
-              <p className={scss.sizeError}>Пожалуйста, выберите размер</p>
-            )}
-          </div>
-
-          {/* Quantity */}
-          <div className={scss.quantitySection}>
-            <span className={scss.sectionLabel}>Количество</span>
-            <div className={scss.quantityControl}>
+      {/* Colors */}
+      {(product.colors?.length ?? 0) > 0 && (
+        <div className={scss.colorBlock}>
+          <p className={scss.fieldLabel}>
+            Цвет <strong>{activeColor}</strong>
+          </p>
+          <div className={scss.colorRow}>
+            {product.colors!.map((c, i) => (
               <button
-                className={scss.qtyBtn}
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                disabled={quantity <= 1}
-              >
-                −
-              </button>
-              <span className={scss.qtyValue}>{quantity}</span>
-              <button
-                className={scss.qtyBtn}
-                onClick={() => setQuantity(Math.min(stockCount, quantity + 1))}
-                disabled={quantity >= stockCount}
-              >
-                +
-              </button>
-            </div>
+                key={i}
+                type="button"
+                className={`${scss.colorDot} ${activeColor === c ? scss.colorDotActive : ""}`}
+                style={{ background: c }}
+                title={c}
+                onClick={() => setSelectedColor(c)}
+              />
+            ))}
           </div>
+        </div>
+      )}
 
-          {/* Actions */}
-          <div className={scss.actions}>
-            {isInCart ? (
+      {/* Sizes */}
+      {sizes.length > 0 && (
+        <div className={scss.sizeBlock}>
+          <div className={scss.sizeHead}>
+            <p className={scss.fieldLabel}>
+              Размер {selectedSize && <strong>{selectedSize}</strong>}
+            </p>
+            <button className={scss.sizeGuide} type="button">
+              Таблица размеров
+            </button>
+          </div>
+          <div className={scss.sizeGrid}>
+            {sizes.map((s) => (
               <button
-                className={`${scss.btnPrimary} ${scss.btnInCart}`}
-                onClick={() => router.push("/cart")}
+                key={s}
+                type="button"
+                onClick={() => {
+                  setSelectedSize(s);
+                  setSizeError(false);
+                }}
+                className={`${scss.sizeChip} ${selectedSize === s ? scss.sizeChipOn : ""}`}
               >
-                <CheckIcon />
-                Посмотреть в корзине
+                {s}
               </button>
-            ) : (
-              <button className={scss.btnPrimary} onClick={handleAddToCart}>
-                Добавить в корзину
-              </button>
-            )}
-            <button className={scss.btnSecondary}>Купить сейчас</button>
+            ))}
           </div>
+          {sizeError && <p className={scss.sizeErr}>Выберите размер</p>}
+        </div>
+      )}
 
-          {/* Stock row */}
-          <div className={scss.stockRow}>
-            <span className={stockCount > 0 ? scss.inStock : scss.outOfStock}>
-              {stockCount > 0
-                ? `● В наличии · ${stockCount} шт`
-                : "● Нет в наличии"}
-            </span>
-            {product.createdAt && (
-              <span className={scss.addedDate}>
-                Добавлен{" "}
-                {new Date(product.createdAt).toLocaleDateString("ru-RU", {
-                  day: "numeric",
-                  month: "long",
-                })}
-              </span>
-            )}
-          </div>
+      {/* Quantity */}
+      <div className={scss.qtyRow}>
+        <p className={scss.fieldLabel}>Количество</p>
+        <div className={scss.qtyControl}>
+          <button
+            className={scss.qtyBtn}
+            onClick={() => setQuantity(Math.max(1, quantity - 1))}
+            disabled={quantity <= 1}
+          >
+            −
+          </button>
+          <span className={scss.qtyVal}>{quantity}</span>
+          <button
+            className={scss.qtyBtn}
+            onClick={() =>
+              setQuantity(Math.min(stockCount || 99, quantity + 1))
+            }
+            disabled={stockCount > 0 && quantity >= stockCount}
+          >
+            +
+          </button>
         </div>
       </div>
 
-      {/* ── Bottom: description + tags ── */}
+      {/* CTA */}
+      <div className={scss.ctaGroup}>
+        {isInCart ? (
+          <button
+            className={`${scss.btnPrimary} ${scss.btnGreen}`}
+            onClick={() => router.push("/cart")}
+          >
+            <CheckIcon /> Посмотреть в корзине
+          </button>
+        ) : (
+          <button className={scss.btnPrimary} onClick={handleAddToCart}>
+            Добавить в корзину
+          </button>
+        )}
+        <button className={scss.btnOutline}>Купить сейчас</button>
+      </div>
+
+      {/* Stock */}
+      <div className={scss.stockRow}>
+        <span className={stockCount > 0 ? scss.inStock : scss.noStock}>
+          {stockCount > 0
+            ? `● В наличии · ${stockCount} шт`
+            : "● Нет в наличии"}
+        </span>
+        {product.createdAt && (
+          <span className={scss.addedDate}>
+            {new Date(product.createdAt).toLocaleDateString("ru-RU", {
+              day: "numeric",
+              month: "long",
+            })}
+          </span>
+        )}
+      </div>
+    </>
+  );
+
+  return (
+    <section className={scss.page}>
+      {/* Back button — floats on mobile photo, static on desktop */}
+      <button onClick={() => router.back()} className={scss.btnBack}>
+        <ArrowLeftIcon />
+        <span className={scss.btnBackLabel}>Назад</span>
+      </button>
+
+      {/* ── Main layout ── */}
+      <div className={scss.layout}>
+        {/* Gallery column */}
+        <div className={scss.galleryCol}>
+          {/* MOBILE: fixed-height swiper ─────────────────── */}
+          <div className={scss.mobileGallery}>
+            <Swiper
+              modules={[Pagination]}
+              pagination={{ clickable: true }}
+              slidesPerView={1}
+              spaceBetween={0}
+              className={scss.swiper}
+            >
+              {imgs.length > 0 ? (
+                imgs.map((img, i) => (
+                  <SwiperSlide key={i} className={scss.slide}>
+                    <img
+                      src={img}
+                      alt={`${product.title} фото ${i + 1}`}
+                      loading={i === 0 ? "eager" : "lazy"}
+                    />
+                  </SwiperSlide>
+                ))
+              ) : (
+                <SwiperSlide
+                  className={`${scss.slide} ${scss.slidePlaceholder}`}
+                >
+                  <ImageOffIcon />
+                </SwiperSlide>
+              )}
+            </Swiper>
+
+            {discountPct > 0 && (
+              <span className={scss.photoBadgeDiscount}>−{discountPct}%</span>
+            )}
+            {stockCount > 0 && stockCount <= 5 && (
+              <span className={scss.photoBadgeUrgency}>
+                Осталось {stockCount} шт
+              </span>
+            )}
+
+            {/* bottom gradient for readability */}
+            <div className={scss.photoGradient} />
+          </div>
+
+          {/* DESKTOP: thumbnails + main image ──────────────── */}
+          <div className={scss.desktopGallery}>
+            {imgs.length > 1 && (
+              <div className={scss.thumbCol}>
+                {imgs.map((img, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setActiveImage(img)}
+                    className={`${scss.thumb} ${mainImg === img ? scss.thumbActive : ""}`}
+                  >
+                    <img src={img} alt={`Фото ${i + 1}`} loading="lazy" />
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className={scss.mainImgBox}>
+              {discountPct > 0 && (
+                <span className={scss.photoBadgeDiscount}>−{discountPct}%</span>
+              )}
+              {stockCount > 0 && stockCount <= 5 && (
+                <span className={scss.photoBadgeUrgency}>
+                  Осталось {stockCount} шт
+                </span>
+              )}
+              {mainImg ? (
+                <img
+                  src={mainImg}
+                  alt={product.title}
+                  className={scss.mainImg}
+                  loading="lazy"
+                />
+              ) : (
+                <div className={scss.imgPlaceholder}>
+                  <ImageOffIcon />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Info column / floating card ─────────────────────── */}
+        <div className={scss.infoCard}>
+          <div className={scss.pullHandle} />
+          {infoContent}
+        </div>
+      </div>
+
+      {/* Description + Tags */}
       {(product.description || (product as any).tags?.length > 0) && (
         <div className={scss.bottomSection}>
           {product.description && (
-            <div className={scss.descBlock}>
-              <p className={scss.descHead}>Описание</p>
+            <div className={scss.bottomCard}>
+              <p className={scss.bottomCardLabel}>ОПИСАНИЕ</p>
               <p className={scss.descText}>{product.description}</p>
             </div>
           )}
           {(product as any).tags?.length > 0 && (
-            <div className={scss.tagsBlock}>
-              <p className={scss.descHead}>Теги</p>
-              <div className={scss.tags}>
-                {((product as any).tags as string[]).map((tag, i) => (
+            <div className={scss.bottomCard}>
+              <p className={scss.bottomCardLabel}>ТЕГИ</p>
+              <div className={scss.tagList}>
+                {((product as any).tags as string[]).map((t, i) => (
                   <span key={i} className={scss.tag}>
-                    {tag}
+                    {t}
                   </span>
                 ))}
               </div>
@@ -451,6 +492,32 @@ const Detail: FC = () => {
           )}
         </div>
       )}
+
+      {/* Sticky CTA — mobile only, behind mobile nav (z-index: 20 < nav z-index: 30) */}
+      <div className={scss.stickyBar}>
+        <div className={scss.stickyInner}>
+          <div className={scss.stickyPrices}>
+            <span className={scss.stickyPrice}>{displayPrice} сом</span>
+            {discountPct > 0 && (
+              <span className={scss.stickyOld}>
+                {Number(price).toLocaleString("ru-RU")}
+              </span>
+            )}
+          </div>
+          {isInCart ? (
+            <button
+              className={`${scss.stickyBtn} ${scss.stickyBtnGreen}`}
+              onClick={() => router.push("/cart")}
+            >
+              В корзине →
+            </button>
+          ) : (
+            <button className={scss.stickyBtn} onClick={handleAddToCart}>
+              В корзину
+            </button>
+          )}
+        </div>
+      </div>
     </section>
   );
 };

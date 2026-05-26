@@ -1,0 +1,99 @@
+$accent: #5533eb;
+$text: #111;
+$text-muted: #aaa;
+
+.section {
+  margin-top: 40px;
+  padding-bottom: 40px;
+
+  @media (min-width: 900px) {
+    margin-top: 56px;
+    padding-bottom: 64px;
+  }
+}
+
+.inner {
+  padding: 0 18px;
+
+  @media (min-width: 900px) {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: $text;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+
+  @media (min-width: 900px) {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+}
+
+// Mobile: horizontal snap scroll; desktop: grid
+.scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+
+  @media (min-width: 900px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    overflow-x: visible;
+    padding-bottom: 0;
+    gap: 16px;
+  }
+}
+
+.card {
+  flex: 0 0 180px;
+  scroll-snap-align: start;
+
+  @media (min-width: 900px) {
+    flex: none;
+  }
+}
+
+// Empty state
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 48px 20px;
+  background: #f8f8f8;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.emptyText {
+  font-size: 16px;
+  font-weight: 600;
+  color: $text;
+  margin: 0;
+}
+
+.emptySub {
+  font-size: 13px;
+  color: $text-muted;
+  margin: 0;
+}

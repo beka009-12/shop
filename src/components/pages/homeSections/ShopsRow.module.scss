@@ -1,4 +1,3 @@
-// src/components/pages/homeSections/ShopsRow.module.scss
 .section {
   padding: 28px 0 0;
 }
@@ -7,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .title {
@@ -25,112 +24,160 @@
   background: none;
   border: none;
   padding: 0;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
+  font-weight: 500;
 }
 
+// ── Horizontal scroll ─────────────────────────────────────────────────────────
 .scroll {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   overflow-x: auto;
-  padding-bottom: 8px;
+  padding-bottom: 4px;
   scrollbar-width: none;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  &::-webkit-scrollbar { display: none; }
 }
 
+// ── Card ──────────────────────────────────────────────────────────────────────
 .card {
   flex-shrink: 0;
-  width: 130px;
+  width: 180px;
   background: #fff;
-  border-radius: 14px;
+  border-radius: 18px;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.06);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: relative;
 
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  &:focus-visible {
+    outline: 2px solid #5533EB;
+    outline-offset: 2px;
   }
 }
 
+// ── Cover area ────────────────────────────────────────────────────────────────
 .cover {
-  height: 70px;
-  background: #111827;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 96px;
   position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 14px 0;
+  overflow: hidden;
+}
+
+.coverOrb {
+  position: absolute;
+  top: -30px;
+  right: -20px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  pointer-events: none;
 }
 
 .verified {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  font-size: 8px;
-  color: #0f6e56;
-  background: rgba(225, 245, 238, 0.92);
-  padding: 2px 6px;
-  border-radius: 4px;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  color: #10b981;
+  background: rgba(209, 250, 229, 0.92);
+  padding: 3px 7px;
+  border-radius: 6px;
   backdrop-filter: blur(4px);
+  letter-spacing: 0.02em;
 }
 
 .logoWrap {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: 2px solid #fff;
+  position: absolute;
+  bottom: -20px;
+  left: 14px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 3px solid #fff;
   overflow: hidden;
-  background: #f5f5f3;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  background: #1a1a2e;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .logoIni {
   width: 100%;
   height: 100%;
-  background: #374151;
+  background: linear-gradient(145deg, #374151, #111827);
   color: #fff;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
 }
 
+// ── Body ──────────────────────────────────────────────────────────────────────
 .body {
-  padding: 8px 10px;
+  padding: 28px 14px 14px;
+  position: relative;
 }
 
 .shopName {
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   color: #111827;
-  margin: 0 0 3px;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .meta {
-  font-size: 9px;
-  color: #9ca3af;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-// Skeleton
+.region {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  color: #9ca3af;
+
+  svg { flex-shrink: 0; }
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.arrow {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  font-size: 14px;
+  color: #5533EB;
+  font-weight: 600;
+}
+
+// ── Skeleton ──────────────────────────────────────────────────────────────────
 @keyframes shimmer {
   0% { background-position: -400px 0; }
   100% { background-position: 400px 0; }
@@ -138,9 +185,9 @@
 
 .skCard {
   flex-shrink: 0;
-  width: 130px;
-  height: 118px;
-  border-radius: 14px;
+  width: 180px;
+  height: 164px;
+  border-radius: 18px;
   background: linear-gradient(90deg, #ebebeb 25%, #f5f5f5 50%, #ebebeb 75%);
   background-size: 400px 100%;
   animation: shimmer 1.4s ease-in-out infinite;

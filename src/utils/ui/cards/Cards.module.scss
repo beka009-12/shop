@@ -2,7 +2,7 @@
 
 .card {
   width: 100%;
-  max-width: 275px;
+  max-width: 100%;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
@@ -241,11 +241,7 @@
 
   // ─── Responsive ──────────────────────────────────────────────
 
-  @media (max-width: 1400px) { max-width: 240px; }
-  @media (max-width: 884px)  { max-width: 260px; }
-  @media (max-width: 840px)  { max-width: 240px; }
   @media (max-width: 768px)  {
-    max-width: 100%;
     .info { gap: 5px; }
   }
   @media (max-width: 576px) { flex: 1 1 45%; }

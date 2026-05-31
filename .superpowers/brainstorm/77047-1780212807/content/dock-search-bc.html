@@ -1,0 +1,107 @@
+<h2>B+C комбо — компактная кнопка → Spotlight оверлей</h2>
+<p class="subtitle">Внизу по центру постоянная мини-кнопка. При нажатии — полноэкранный spotlight с результатами.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin:0 auto;">
+
+  <!-- State 1: закрытый -->
+  <div class="mockup">
+    <div class="mockup-header">Состояние 1 — кнопка (всегда видна)</div>
+    <div class="mockup-body" style="position:relative;height:260px;background:#f7f7f6;overflow:hidden;">
+      <!-- Sidebar -->
+      <div style="position:absolute;left:0;top:0;bottom:0;width:48px;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:10px;">
+        <div style="width:28px;height:28px;background:#5533EB;border-radius:8px;"></div>
+        <div style="width:32px;height:32px;background:#f3f4f6;border-radius:10px;margin-top:8px;"></div>
+        <div style="width:32px;height:32px;background:#f3f4f6;border-radius:10px;"></div>
+        <div style="width:32px;height:32px;background:#f3f4f6;border-radius:10px;"></div>
+        <div style="width:32px;height:32px;background:#f3f4f6;border-radius:10px;"></div>
+      </div>
+      <!-- Product grid -->
+      <div style="position:absolute;left:48px;right:0;top:0;bottom:0;padding:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:7px;align-content:start;">
+        <div style="background:#fff;border-radius:8px;height:70px;"></div>
+        <div style="background:#fff;border-radius:8px;height:70px;"></div>
+        <div style="background:#fff;border-radius:8px;height:70px;"></div>
+        <div style="background:#fff;border-radius:8px;height:70px;"></div>
+        <div style="background:#fff;border-radius:8px;height:70px;"></div>
+        <div style="background:#fff;border-radius:8px;height:70px;"></div>
+        <div style="background:#fff;border-radius:8px;height:70px;"></div>
+        <div style="background:#fff;border-radius:8px;height:70px;"></div>
+      </div>
+      <!-- Dock button -->
+      <div style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,0.08);border-radius:100px;padding:9px 16px;display:flex;align-items:center;gap:9px;box-shadow:0 6px 20px rgba(0,0,0,0.1),0 1px 3px rgba(0,0,0,0.06);cursor:pointer;">
+        <div style="width:28px;height:28px;background:#5533EB;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <span style="font-size:12px;color:#9ca3af;white-space:nowrap;">Поиск товаров</span>
+        <span style="font-size:10px;color:#d1d5db;background:#f3f4f6;padding:2px 7px;border-radius:5px;letter-spacing:0.02em;">⌘K</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- State 2: открытый spotlight -->
+  <div class="mockup">
+    <div class="mockup-header">Состояние 2 — Spotlight открыт</div>
+    <div class="mockup-body" style="position:relative;height:260px;background:#f7f7f6;overflow:hidden;">
+      <!-- Sidebar dimmed -->
+      <div style="position:absolute;left:0;top:0;bottom:0;width:48px;background:rgba(255,255,255,0.4);border-right:1px solid #e5e7eb;display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:10px;filter:blur(1px);">
+        <div style="width:28px;height:28px;background:#5533EB;border-radius:8px;opacity:0.5;"></div>
+        <div style="width:32px;height:32px;background:#f3f4f6;border-radius:10px;margin-top:8px;opacity:0.5;"></div>
+        <div style="width:32px;height:32px;background:#f3f4f6;border-radius:10px;opacity:0.5;"></div>
+      </div>
+      <!-- Overlay -->
+      <div style="position:absolute;inset:0;background:rgba(15,15,25,0.45);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;padding-top:36px;gap:0;">
+        <!-- Search box -->
+        <div style="background:#fff;border-radius:14px;width:300px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.25);">
+          <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #f0f0f0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5533EB" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <span style="font-size:13px;color:#374151;flex:1;">клавиатура</span>
+            <span style="font-size:10px;color:#aaa;background:#f5f5f5;padding:2px 6px;border-radius:5px;">ESC</span>
+          </div>
+          <!-- Results -->
+          <div style="padding:6px;">
+            <div style="font-size:9px;color:#9ca3af;letter-spacing:0.08em;text-transform:uppercase;padding:6px 10px 4px;">Результаты</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:#f5f3ff;">
+              <div style="width:32px;height:32px;background:#ede9ff;border-radius:6px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-size:11px;font-weight:500;color:#18180f;">Клавиатура механическая</div>
+                <div style="font-size:10px;color:#9ca3af;">1212 сом</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;">
+              <div style="width:32px;height:32px;background:#f3f4f6;border-radius:6px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-size:11px;color:#374151;">Клавиатура беспроводная</div>
+                <div style="font-size:10px;color:#9ca3af;">2400 сом</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;">
+              <div style="width:32px;height:32px;background:#f3f4f6;border-radius:6px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-size:11px;color:#374151;">Клавиатура игровая RGB</div>
+                <div style="font-size:10px;color:#9ca3af;">3800 сом</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="max-width:900px;margin:24px auto 0;">
+  <h3>Как это работает</h3>
+  <ul style="font-size:14px;color:#374151;line-height:1.8;padding-left:20px;">
+    <li>Иконка поиска убирается из левого сайдбара</li>
+    <li>Внизу по центру — постоянная pill-кнопка (frosted glass, всегда поверх контента)</li>
+    <li>Нажатие или <strong>⌘K</strong> открывает Spotlight оверлей с поиском</li>
+    <li>Результаты появляются прямо в оверлее — без перехода на /search страницу</li>
+    <li>ESC или клик вне — закрывает</li>
+    <li>Мобилка: pill не показывается (там своя нав), ⌘K недоступен на телефоне</li>
+  </ul>
+</div>
+
+<div style="max-width:900px;margin:20px auto 0;padding:16px;background:#f5f3ff;border-radius:12px;border:1px solid rgba(85,51,235,0.15);">
+  <p style="font-size:13px;color:#5533EB;margin:0;">
+    <strong>Итого:</strong> компактно в покое, мощно при открытии. Не мешает просмотру товаров, но всегда под рукой.
+  </p>
+</div>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Category Card Styles</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #f4f4f0; padding: 32px 24px; }
+
+  h1 { font-size: 22px; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .sub { font-size: 14px; color: #888; margin-bottom: 40px; }
+
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #aaa; margin-bottom: 16px;
+  }
+
+  .option-block {
+    background: #fff; border-radius: 20px; padding: 28px;
+    margin-bottom: 24px; border: 2px solid transparent;
+    cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .option-block:hover { border-color: #5533EB; box-shadow: 0 8px 32px rgba(85,51,235,0.12); }
+  .option-block.selected { border-color: #5533EB; box-shadow: 0 8px 32px rgba(85,51,235,0.18); }
+
+  .option-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .option-title { font-size: 15px; font-weight: 600; color: #111; }
+  .option-tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
+    padding: 4px 10px; border-radius: 100px; text-transform: uppercase;
+  }
+  .tag-rec { background: #f0edff; color: #5533EB; }
+  .tag-bold { background: #111; color: #fff; }
+  .tag-clean { background: #f0fdf4; color: #059669; }
+
+  .option-desc { font-size: 12px; color: #888; margin-top: 14px; line-height: 1.6; }
+
+  /* ── Style A: Gradient Geometric Tiles ── */
+  .style-a { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+  .tile-a {
+    border-radius: 14px; padding: 18px 16px; min-height: 88px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden; cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .tile-a:hover { transform: translateY(-2px); }
+  .tile-a::before {
+    content: ''; position: absolute; top: -20px; right: -20px;
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+  }
+  .tile-a::after {
+    content: ''; position: absolute; bottom: -30px; left: -10px;
+    width: 100px; height: 100px; border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .tile-name { font-size: 13px; font-weight: 600; color: #fff; position: relative; z-index: 1; }
+  .tile-count { font-size: 10px; color: rgba(255,255,255,0.6); position: relative; z-index: 1; }
+
+  .t1 { background: linear-gradient(135deg, #5533EB, #7c5ff5); }
+  .t2 { background: linear-gradient(135deg, #0f172a, #1e3a5f); }
+  .t3 { background: linear-gradient(135deg, #064e3b, #059669); }
+  .t4 { background: linear-gradient(135deg, #7c2d12, #c2410c); }
+  .t5 { background: linear-gradient(135deg, #1e1b4b, #4338ca); }
+  .t6 { background: linear-gradient(135deg, #701a75, #a21caf); }
+
+  /* ── Style B: Pill strip + sub-cards ── */
+  .pills {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;
+  }
+  .pill {
+    display: flex; align-items: center; gap: 7px;
+    padding: 7px 14px; border-radius: 100px;
+    border: 1.5px solid #ebebeb; background: #fff;
+    font-size: 12px; font-weight: 500; color: #374151;
+    cursor: pointer; transition: all 0.18s; white-space: nowrap;
+  }
+  .pill:hover { border-color: #5533EB; color: #5533EB; background: #f5f3ff; }
+  .pill.active { border-color: #5533EB; color: #fff; background: #5533EB; }
+  .pill-dot {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; flex-shrink: 0;
+  }
+
+  .sub-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+  .sub-card {
+    border-radius: 12px; background: #f5f4f8;
+    padding: 12px; display: flex; flex-direction: column;
+    align-items: flex-start; gap: 6px; cursor: pointer;
+    border: 1.5px solid transparent; transition: all 0.18s;
+  }
+  .sub-card:hover { border-color: #5533EB; background: #f5f3ff; }
+  .sub-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .sub-name { font-size: 11px; font-weight: 500; color: #374151; }
+
+  /* ── Style C: Editorial bold cards ── */
+  .style-c { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .card-c {
+    border-radius: 16px; overflow: hidden;
+    display: flex; align-items: stretch; cursor: pointer;
+    border: 1.5px solid #e5e7eb; background: #fff;
+    transition: box-shadow 0.2s, transform 0.2s;
+    min-height: 72px;
+  }
+  .card-c:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-1px); }
+  .card-c-accent {
+    width: 6px; flex-shrink: 0;
+  }
+  .card-c-body {
+    padding: 14px 16px; display: flex; flex-direction: column;
+    justify-content: center; gap: 3px; flex: 1;
+  }
+  .card-c-name { font-size: 14px; font-weight: 600; color: #111; }
+  .card-c-sub { font-size: 11px; color: #9ca3af; }
+  .card-c-arrow { padding: 14px 14px 14px 0; display: flex; align-items: center; color: #d1d5db; }
+
+  .sel-badge {
+    display: none; position: absolute; top: 12px; right: 12px;
+    width: 24px; height: 24px; border-radius: 50%; background: #5533EB;
+    color: #fff; font-size: 14px; align-items: center; justify-content: center;
+  }
+  .option-block.selected .sel-badge { display: flex; }
+</style>
+</head>
+<body>
+
+<h1>Стиль карточек категорий</h1>
+<p class="sub">Все три варианта работают без фото — только имя категории + цвет/иконка. Кликни чтобы выбрать.</p>
+
+<!-- Option A -->
+<div class="option-block" onclick="select(this,'a')">
+  <span class="sel-badge" style="position:absolute">✓</span>
+  <div class="option-header">
+    <span class="option-title">A — Градиентные плитки</span>
+    <span class="option-tag tag-rec">Рекомендую</span>
+  </div>
+  <div class="style-a">
+    <div class="tile-a t1"><span class="tile-name">Одежда</span><span class="tile-count">6 подкатегорий</span></div>
+    <div class="tile-a t2"><span class="tile-name">Электроника</span><span class="tile-count">4 подкатегории</span></div>
+    <div class="tile-a t3"><span class="tile-name">Обувь</span><span class="tile-count">5 подкатегорий</span></div>
+    <div class="tile-a t4"><span class="tile-name">Спорт</span><span class="tile-count">7 подкатегорий</span></div>
+    <div class="tile-a t5"><span class="tile-name">Аксессуары</span><span class="tile-count">3 подкатегории</span></div>
+    <div class="tile-a t6"><span class="tile-name">Красота</span><span class="tile-count">5 подкатегорий</span></div>
+  </div>
+  <p class="option-desc">Каждой родительской категории назначается уникальный градиентный цвет из заданной палитры. Работает без единой фотографии — цвет + название. Подкатегории показываются при наведении или при клике.</p>
+</div>
+
+<!-- Option B -->
+<div class="option-block" onclick="select(this,'b')">
+  <span class="sel-badge" style="position:absolute">✓</span>
+  <div class="option-header">
+    <span class="option-title">B — Пилюли + иконки подкатегорий</span>
+    <span class="option-tag tag-bold">Shop.app стиль</span>
+  </div>
+  <div class="pills">
+    <div class="pill active"><div class="pill-dot" style="background:#ede9ff;">👗</div>Одежда</div>
+    <div class="pill"><div class="pill-dot" style="background:#fef3c7;">💻</div>Электроника</div>
+    <div class="pill"><div class="pill-dot" style="background:#dcfce7;">👟</div>Обувь</div>
+    <div class="pill"><div class="pill-dot" style="background:#fce7f3;">💄</div>Красота</div>
+    <div class="pill"><div class="pill-dot" style="background:#e0f2fe;">🏋️</div>Спорт</div>
+  </div>
+  <div class="sub-grid">
+    <div class="sub-card">
+      <div class="sub-icon" style="background:#ede9ff;">👔</div>
+      <span class="sub-name">Футболки</span>
+    </div>
+    <div class="sub-card">
+      <div class="sub-icon" style="background:#fce7f3;">👗</div>
+      <span class="sub-name">Платья</span>
+    </div>
+    <div class="sub-card">
+      <div class="sub-icon" style="background:#dcfce7;">🧥</div>
+      <span class="sub-name">Куртки</span>
+    </div>
+    <div class="sub-card">
+      <div class="sub-icon" style="background:#fef3c7;">👖</div>
+      <span class="sub-name">Джинсы</span>
+    </div>
+  </div>
+  <p class="option-desc">Горизонтальные пилюли — выбор родительской категории. Ниже — сетка подкатегорий с эмодзи-иконкой и названием. Интерактивно: выбрал пилюлю — обновились карточки ниже.</p>
+</div>
+
+<!-- Option C -->
+<div class="option-block" onclick="select(this,'c')">
+  <span class="sel-badge" style="position:absolute">✓</span>
+  <div class="option-header">
+    <span class="option-title">C — Список с акцентной полосой</span>
+    <span class="option-tag tag-clean">Чистый</span>
+  </div>
+  <div class="style-c">
+    <div class="card-c">
+      <div class="card-c-accent" style="background:#5533EB;"></div>
+      <div class="card-c-body">
+        <span class="card-c-name">Одежда</span>
+        <span class="card-c-sub">Футболки · Платья · Куртки +3</span>
+      </div>
+      <div class="card-c-arrow">›</div>
+    </div>
+    <div class="card-c">
+      <div class="card-c-accent" style="background:#0ea5e9;"></div>
+      <div class="card-c-body">
+        <span class="card-c-name">Электроника</span>
+        <span class="card-c-sub">Смартфоны · Ноутбуки +2</span>
+      </div>
+      <div class="card-c-arrow">›</div>
+    </div>
+    <div class="card-c">
+      <div class="card-c-accent" style="background:#10b981;"></div>
+      <div class="card-c-body">
+        <span class="card-c-name">Обувь</span>
+        <span class="card-c-sub">Кроссовки · Ботинки +3</span>
+      </div>
+      <div class="card-c-arrow">›</div>
+    </div>
+    <div class="card-c">
+      <div class="card-c-accent" style="background:#f59e0b;"></div>
+      <div class="card-c-body">
+        <span class="card-c-name">Спорт</span>
+        <span class="card-c-sub">Тренажёры · Форма +5</span>
+      </div>
+      <div class="card-c-arrow">›</div>
+    </div>
+  </div>
+  <p class="option-desc">Минималистичные карточки-строки с цветной акцентной полосой слева. Подкатегории перечислены текстом. Работает на любом контенте, очень читаемо на мобилке.</p>
+</div>
+
+<script>
+function select(el, choice) {
+  document.querySelectorAll('.option-block').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  if (window.recordChoice) recordChoice(choice, el.querySelector('.option-title').textContent);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+$accent:  #5533eb;
+$text:    #18180f;
+$muted:   #9a9a9a;
+$border:  #ebebeb;
+$bg-page: #f7f7f6;
+
+.SearchResults {
+  padding: 40px 0 80px;
+  background: $bg-page;
+  min-height: 80vh;
+}
+
+// ── Search form ───────────────────────────────────────────────────────────────
+.searchForm {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 11px 16px;
+  border: 1.5px solid $border;
+  border-radius: 12px;
+  font-size: 14px;
+  color: $text;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+
+  &::placeholder {
+    color: #bbb;
+  }
+
+  &:focus {
+    border-color: $accent;
+  }
+
+  &::-webkit-search-cancel-button {
+    appearance: none;
+  }
+}
+
+.searchBtn {
+  padding: 11px 22px;
+  border-radius: 12px;
+  border: none;
+  background: $accent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.88;
+  }
+}
+
+// ── Head bar ──────────────────────────────────────────────────────────────────
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  border-bottom: 1.5px solid $border;
+}
+
+.countBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.queryLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: $text;
+}
+
+.countNum {
+  font-size: 28px;
+  font-weight: 600;
+  color: $text;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.countLabel {
+  font-size: 13px;
+  color: $muted;
+}
+
+.sortGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1.5px solid $border;
+  border-radius: 40px;
+  padding: 5px 6px;
+}
+
+.sortLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: $muted;
+  padding: 0 8px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.sortBtn {
+  padding: 7px 14px;
+  border-radius: 30px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  white-space: nowrap;
+
+  &:hover:not(.sortBtnActive) {
+    background: #f2f2f1;
+    color: $text;
+  }
+}
+
+.sortBtnActive {
+  background: $text;
+  color: #fff;
+  font-weight: 500;
+}
+
+// ── Layout ────────────────────────────────────────────────────────────────────
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 36px;
+  align-items: start;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Aside ─────────────────────────────────────────────────────────────────────
+.aside {
+  position: sticky;
+  top: 24px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid $border;
+  overflow: hidden;
+
+  @media (max-width: 992px) {
+    display: none;
+  }
+}
+
+.filterSection {
+  padding: 18px 18px 16px;
+
+  & + & {
+    border-top: 1.5px solid $border;
+  }
+}
+
+.filterTitle {
+  font-size: 10px;
+  font-weight: 600;
+  color: $muted;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+// ── Price inputs ──────────────────────────────────────────────────────────────
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.priceInput {
+  width: 0;
+  flex: 1;
+  padding: 7px 10px;
+  border: 1.5px solid $border;
+  border-radius: 8px;
+  font-size: 13px;
+  color: $text;
+  background: #fafafa;
+  outline: none;
+  transition: border-color 0.15s;
+
+  &::placeholder {
+    color: #bbb;
+  }
+
+  &:focus {
+    border-color: $accent;
+    background: #fff;
+  }
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+  }
+}
+
+.priceDash {
+  font-size: 13px;
+  color: $muted;
+  flex-shrink: 0;
+}
+
+// ── Chips ─────────────────────────────────────────────────────────────────────
+.chips {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chip {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1.5px solid $border;
+  background: transparent;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover:not(.chipActive) {
+    background: #f5f3ff;
+    border-color: rgba($accent, 0.3);
+    color: $accent;
+  }
+}
+
+.chipActive {
+  background: $accent;
+  border-color: $accent;
+  color: #fff;
+  font-weight: 500;
+}
+
+// ── Brand input ───────────────────────────────────────────────────────────────
+.brandInput {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1.5px solid $border;
+  border-radius: 8px;
+  font-size: 13px;
+  color: $text;
+  background: #fafafa;
+  margin-bottom: 10px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+
+  &::placeholder {
+    color: #bbb;
+  }
+
+  &:focus {
+    border-color: $accent;
+    background: #fff;
+  }
+}
+
+// ── Buttons ───────────────────────────────────────────────────────────────────
+.applyBtn {
+  width: 100%;
+  padding: 7px 0;
+  border-radius: 8px;
+  border: 1.5px solid $accent;
+  background: transparent;
+  color: $accent;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    background: $accent;
+    color: #fff;
+  }
+}
+
+.resetBtn {
+  width: 100%;
+  padding: 7px 0;
+  border-radius: 8px;
+  border: 1.5px solid $border;
+  background: transparent;
+  color: $muted;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: #d0d0d0;
+    color: $text;
+  }
+}
+
+// ── Main ──────────────────────────────────────────────────────────────────────
+.main {
+  min-width: 0;
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.emptyState {
+  text-align: center;
+  padding: 80px 0;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #555;
+    margin-bottom: 16px;
+  }
+
+  button {
+    color: $accent;
+    background: #f0edff;
+    border: 1px solid rgba($accent, 0.25);
+    padding: 8px 22px;
+    border-radius: 100px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.18s;
+
+    &:hover {
+      background: #e4deff;
+      border-color: $accent;
+    }
+  }
+}
+
+// ── Loader ────────────────────────────────────────────────────────────────────
+.loader {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 13px;
+  color: #aaa;
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: 600px) {
+  .head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .sortGroup {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .sortLabel {
+    display: none;
+  }
+
+  .sortBtn {
+    flex: 1;
+    text-align: center;
+  }
+}

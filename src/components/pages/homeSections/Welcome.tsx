@@ -3,7 +3,6 @@ import { type FC, useState, useRef, useEffect, useCallback } from "react";
 import scss from "./Welcome.module.scss";
 import Grid from "@/utils/ui/cards/Grid";
 import ShopsRow from "./ShopsRow";
-import CategoriesGrid from "./CategoriesGrid";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getCommodityProductsInfinite } from "@/api/generated/endpoints/product/product";
 import type {
@@ -57,8 +56,6 @@ const Welcome: FC = () => {
     <section className={scss.Welcome}>
       <div className="container">
         <ShopsRow />
-        <div className={scss.divider} />
-        <CategoriesGrid />
         <div className={scss.divider} />
 
         <div className={scss.sortBar}>

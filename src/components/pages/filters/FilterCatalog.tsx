@@ -1,113 +1,242 @@
 "use client";
 import { FC, useState, useMemo } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import scss from "./FilterCatalog.module.scss";
 import Grid from "@/utils/ui/cards/Grid";
 import { useGetCommodityProductsByCategoryCategoryId } from "@/api/generated/endpoints/product/product";
+import { useGetCategoryCategoriesTree } from "@/api/generated/endpoints/category/category";
 
-interface Props {
-  categoryId?: number;
+interface Category {
+  id: number;
+  name: string;
+  children?: Category[];
 }
 
+const findCategory = (cats: Category[], id: number): Category | null => {
+  for (const cat of cats) {
+    if (cat.id === id) return cat;
+    if (cat.children) {
+      const found = findCategory(cat.children, id);
+      if (found) return found;
+    }
+  }
+  return null;
+};
+
+const plural = (n: number) => {
+  if (n % 10 === 1 && n % 100 !== 11) return "товар";
+  if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return "товара";
+  return "товаров";
+};
+
 const SORT_OPTIONS = [
-  { value: "default",    label: "По умолчанию" },
+  { value: "default",    label: "Все" },
   { value: "price-asc",  label: "Дешевле" },
   { value: "price-desc", label: "Дороже" },
 ];
 
+const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+interface Props { categoryId?: number; }
+
 const FilterCatalog: FC<Props> = ({ categoryId }) => {
+  const reduce = useReducedMotion();
+
   const { data, isLoading, isError } =
     useGetCommodityProductsByCategoryCategoryId(categoryId as number);
 
-  const [sortBy, setSortBy] = useState("default");
+  const { data: catTree } = useGetCategoryCategoriesTree();
 
-  const sortedProducts = useMemo(() => {
+  const [sortBy, setSortBy]           = useState("default");
+  const [onlyDiscount, setOnlyDiscount] = useState(false);
+  const [selectedBrands, setSelectedBrands] = useState<Set<string>>(new Set());
+
+  const category = useMemo(() => {
+    if (!catTree?.categories || !categoryId) return null;
+    return findCategory(catTree.categories as Category[], categoryId);
+  }, [catTree, categoryId]);
+
+  const brands = useMemo(() => {
     if (!data?.products) return [];
-    const products = [...data.products];
+    const set = new Set(
+      data.products.map((p) => p.brandName).filter(Boolean) as string[]
+    );
+    return Array.from(set).sort();
+  }, [data?.products]);
+
+  const filteredProducts = useMemo(() => {
+    if (!data?.products) return [];
+    let list = [...data.products];
+
+    if (onlyDiscount)
+      list = list.filter((p) => p.newPrice && p.price && p.newPrice < p.price);
+
+    if (selectedBrands.size > 0)
+      list = list.filter((p) => p.brandName && selectedBrands.has(p.brandName));
+
     switch (sortBy) {
       case "price-asc":
-        return products.sort(
-          (a, b) => (a.price ?? 0) - (b.newPrice ?? b.price ?? 0),
+        return list.sort(
+          (a, b) => (a.newPrice ?? a.price ?? 0) - (b.newPrice ?? b.price ?? 0)
         );
       case "price-desc":
-        return products.sort(
-          (a, b) => (b.newPrice ?? b.price ?? 0) - (a.price ?? 0),
+        return list.sort(
+          (a, b) => (b.newPrice ?? b.price ?? 0) - (a.newPrice ?? a.price ?? 0)
         );
       default:
-        return products;
+        return list;
     }
-  }, [data?.products, sortBy]);
+  }, [data?.products, sortBy, onlyDiscount, selectedBrands]);
 
-  if (isError) return <div className={scss.error}>Ошибка загрузки товаров</div>;
+  const hasActiveFilters = onlyDiscount || selectedBrands.size > 0;
+  const total = filteredProducts.length;
 
-  const total = data?.pagination?.total ?? 0;
+  const toggleBrand = (brand: string) =>
+    setSelectedBrands((prev) => {
+      const next = new Set(prev);
+      next.has(brand) ? next.delete(brand) : next.add(brand);
+      return next;
+    });
+
+  if (isError)
+    return <div className={scss.error}>Ошибка загрузки товаров</div>;
 
   return (
     <div className={scss.FilterCatalog}>
       <div className="container">
 
-        {/* ── Head bar ── */}
-        <div className={scss.head}>
-          <div className={scss.countBlock}>
-            <span className={scss.countNum}>{total}</span>
-            <span className={scss.countLabel}>товаров</span>
-          </div>
+        {/* ── Head ─────────────────────────────────────────────────────── */}
+        <motion.div
+          className={scss.head}
+          initial={{ opacity: 0, y: reduce ? 0 : -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease }}
+        >
+          <h1 className={scss.categoryName}>
+            {category?.name ?? "Каталог"}
+          </h1>
+          <span className={scss.count}>
+            {total} {plural(total)}
+          </span>
+        </motion.div>
 
-          <div className={scss.sortGroup}>
-            <span className={scss.sortLabel}>Сортировка</span>
+        {/* ── Filter bar ───────────────────────────────────────────────── */}
+        <motion.div
+          className={scss.filterBar}
+          initial={{ opacity: 0, y: reduce ? 0 : -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease, delay: 0.06 }}
+        >
+          {/* Sort segment */}
+          <div className={scss.sortSegment}>
             {SORT_OPTIONS.map((opt) => (
-              <button
+              <motion.button
                 key={opt.value}
-                className={`${scss.sortBtn} ${sortBy === opt.value ? scss.sortBtnActive : ""}`}
+                className={`${scss.segBtn} ${sortBy === opt.value ? scss.segBtnActive : ""}`}
                 onClick={() => setSortBy(opt.value)}
+                whileTap={{ scale: 0.94 }}
+                transition={{ duration: 0.12 }}
               >
                 {opt.label}
-              </button>
+              </motion.button>
             ))}
           </div>
-        </div>
 
-        {/* ── Layout ── */}
-        <div className={scss.layout}>
-          <aside className={scss.aside}>
-            <div className={scss.filterSection}>
-              <p className={scss.filterSectionTitle}>Цена</p>
-              <div className={scss.priceHint}>Используйте сортировку выше</div>
-            </div>
+          {/* Separator */}
+          <div className={scss.sep} />
 
-            <div className={scss.filterSection}>
-              <p className={scss.filterSectionTitle}>Наличие</p>
-              <label className={scss.checkLabel}>
-                <input type="checkbox" className={scss.check} />
-                <span className={scss.checkMark} />
-                В наличии
-              </label>
-              <label className={scss.checkLabel}>
-                <input type="checkbox" className={scss.check} />
-                <span className={scss.checkMark} />
-                Со скидкой
-              </label>
-            </div>
+          {/* Discount chip */}
+          <motion.button
+            className={`${scss.chip} ${onlyDiscount ? scss.chipOn : ""}`}
+            onClick={() => setOnlyDiscount((v) => !v)}
+            whileTap={{ scale: 0.94 }}
+            transition={{ duration: 0.12 }}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {onlyDiscount && (
+                <motion.svg
+                  key="check"
+                  width="10" height="10"
+                  viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" strokeWidth="3"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.12 }}
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </motion.svg>
+              )}
+            </AnimatePresence>
+            Со скидкой
+          </motion.button>
 
-            <div className={scss.filterSection}>
-              <p className={scss.filterSectionTitle}>Бренды</p>
-              {["Nike", "Adidas", "Puma", "New Balance"].map((brand) => (
-                <label key={brand} className={scss.checkLabel}>
-                  <input type="checkbox" className={scss.check} />
-                  <span className={scss.checkMark} />
-                  {brand}
-                </label>
-              ))}
-            </div>
-          </aside>
+          {/* Brand chips */}
+          {brands.map((brand) => {
+            const active = selectedBrands.has(brand);
+            return (
+              <motion.button
+                key={brand}
+                className={`${scss.chip} ${active ? scss.chipOn : ""}`}
+                onClick={() => toggleBrand(brand)}
+                whileTap={{ scale: 0.94 }}
+                transition={{ duration: 0.12 }}
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  {active && (
+                    <motion.svg
+                      key="check"
+                      width="10" height="10"
+                      viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" strokeWidth="3"
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.5 }}
+                      transition={{ duration: 0.12 }}
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </motion.svg>
+                  )}
+                </AnimatePresence>
+                {brand}
+              </motion.button>
+            );
+          })}
 
-          <div className={scss.main}>
-            <Grid
-              products={sortedProducts}
-              isLoading={isLoading}
-              isError={isError}
-            />
-          </div>
-        </div>
+          {/* Clear */}
+          <AnimatePresence>
+            {hasActiveFilters && (
+              <motion.button
+                className={scss.clearBtn}
+                onClick={() => {
+                  setOnlyDiscount(false);
+                  setSelectedBrands(new Set());
+                }}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.85 }}
+                transition={{ duration: 0.15 }}
+                whileTap={{ scale: 0.94 }}
+              >
+                Сбросить
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* ── Grid (re-animates on filter change) ──────────────────────── */}
+        <motion.div
+          key={`${sortBy}-${onlyDiscount}-${[...selectedBrands].join(",")}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.18, ease }}
+        >
+          <Grid
+            products={filteredProducts}
+            isLoading={isLoading}
+            isError={isError}
+          />
+        </motion.div>
 
       </div>
     </div>

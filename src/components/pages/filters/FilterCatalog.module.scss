@@ -1,213 +1,144 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
-
 $accent:  #5533eb;
 $text:    #18180f;
-$muted:   #9a9a9a;
+$muted:   #9ca3af;
 $border:  #ebebeb;
 $bg-page: #f7f7f6;
 
-// ── Page wrapper ──────────────────────────────────────────────────────────────
+// ── Page ──────────────────────────────────────────────────────────────────────
 .FilterCatalog {
-  padding: 40px 0 80px;
+  padding: 36px 0 80px;
   background: $bg-page;
   min-height: 80vh;
-  font-family: 'DM Sans', sans-serif;
 }
 
-// ── Head bar ──────────────────────────────────────────────────────────────────
+// ── Head ──────────────────────────────────────────────────────────────────────
 .head {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-  padding-bottom: 24px;
-  margin-bottom: 32px;
-  border-bottom: 1.5px solid $border;
-}
-
-.countBlock {
-  display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 10px;
+  margin-bottom: 18px;
 }
 
-.countNum {
-  font-family: 'Instrument Serif', serif;
-  font-size: 38px;
-  font-weight: 400;
+.categoryName {
+  font-size: 22px;
+  font-weight: 600;
   color: $text;
   letter-spacing: -0.03em;
-  line-height: 1;
+  margin: 0;
+  line-height: 1.2;
 }
 
-.countLabel {
+.count {
   font-size: 13px;
-  font-weight: 400;
   color: $muted;
-  letter-spacing: 0.02em;
+  font-weight: 400;
 }
 
-// ── Sort group ────────────────────────────────────────────────────────────────
-.sortGroup {
+// ── Filter bar ────────────────────────────────────────────────────────────────
+.filterBar {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding: 8px 10px;
   background: #fff;
   border: 1.5px solid $border;
-  border-radius: 40px;
-  padding: 5px 6px;
+  border-radius: 16px;
 }
 
-.sortLabel {
-  font-size: 12px;
-  font-weight: 500;
-  color: $muted;
-  padding: 0 8px;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
+// Sort segment control
+.sortSegment {
+  display: flex;
+  gap: 2px;
+  background: #f2f2f0;
+  border-radius: 10px;
+  padding: 3px;
+  flex-shrink: 0;
 }
 
-.sortBtn {
-  padding: 7px 16px;
-  border-radius: 30px;
+.segBtn {
+  padding: 5px 13px;
+  border-radius: 8px;
   border: none;
   background: transparent;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 400;
-  color: #555;
+  color: #6b7280;
   cursor: pointer;
-  transition: background 0.18s, color 0.18s;
+  transition: color 0.15s;
   white-space: nowrap;
+  line-height: 1.4;
 
-  &:hover:not(.sortBtnActive) {
-    background: #f2f2f1;
+  &:hover:not(.segBtnActive) {
     color: $text;
   }
 }
 
-.sortBtnActive {
-  background: $text;
-  color: #fff;
-  font-weight: 500;
-}
-
-// ── Layout ────────────────────────────────────────────────────────────────────
-.layout {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 36px;
-  align-items: start;
-
-  @media (max-width: 992px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-// ── Aside ─────────────────────────────────────────────────────────────────────
-.aside {
-  position: sticky;
-  top: 24px;
+.segBtnActive {
   background: #fff;
-  border-radius: 16px;
-  border: 1.5px solid $border;
-  overflow: hidden;
-
-  @media (max-width: 992px) {
-    display: none;
-  }
+  color: $text;
+  font-weight: 500;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.09);
 }
 
-.filterSection {
-  padding: 20px 20px 18px;
-
-  & + & {
-    border-top: 1.5px solid $border;
-  }
+// Separator
+.sep {
+  width: 1px;
+  height: 18px;
+  background: $border;
+  margin: 0 2px;
+  flex-shrink: 0;
 }
 
-.filterSectionTitle {
-  font-size: 10px;
-  font-weight: 600;
-  color: $muted;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 0 0 14px;
-}
-
-.priceHint {
-  font-size: 12px;
-  color: #bbb;
-  line-height: 1.5;
-}
-
-// ── Custom checkbox ───────────────────────────────────────────────────────────
-.checkLabel {
-  display: flex;
+// Filter chips
+.chip {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1.5px solid $border;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
   cursor: pointer;
-  font-size: 13.5px;
-  font-weight: 400;
-  color: #444;
-  padding: 5px 0;
-  transition: color 0.15s;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  white-space: nowrap;
+  line-height: 1.4;
+
+  &:hover:not(.chipOn) {
+    border-color: rgba($accent, 0.5);
+    color: $accent;
+    background: rgba($accent, 0.04);
+  }
+}
+
+.chipOn {
+  background: $accent;
+  border-color: $accent;
+  color: #fff;
+}
+
+// Clear button
+.clearBtn {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 500;
+  color: $muted;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
 
   &:hover {
     color: $text;
-
-    .checkMark {
-      border-color: $accent;
-    }
+    background: #f0f0ef;
   }
-
-  &:has(.check:checked) {
-    color: $text;
-
-    .checkMark {
-      background: $accent;
-      border-color: $accent;
-
-      &::after {
-        opacity: 1;
-      }
-    }
-  }
-}
-
-.check {
-  display: none;
-}
-
-.checkMark {
-  width: 17px;
-  height: 17px;
-  border-radius: 5px;
-  border: 1.5px solid #d4d4d4;
-  flex-shrink: 0;
-  position: relative;
-  transition: background 0.15s, border-color 0.15s;
-
-  &::after {
-    content: '';
-    position: absolute;
-    left: 4px;
-    top: 1.5px;
-    width: 5px;
-    height: 9px;
-    border: 2px solid #fff;
-    border-top: none;
-    border-left: none;
-    transform: rotate(42deg);
-    opacity: 0;
-    transition: opacity 0.12s;
-  }
-}
-
-// ── Main ──────────────────────────────────────────────────────────────────────
-.main {
-  min-width: 0;
 }
 
 // ── Error ─────────────────────────────────────────────────────────────────────
@@ -215,33 +146,24 @@ $bg-page: #f7f7f6;
   padding: 60px 24px;
   text-align: center;
   color: $muted;
-  font-family: 'DM Sans', sans-serif;
   font-size: 15px;
 }
 
-// ── Responsive sort ───────────────────────────────────────────────────────────
+// ── Mobile ────────────────────────────────────────────────────────────────────
 @media (max-width: 600px) {
-  .head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+  .FilterCatalog { padding: 24px 0 60px; }
+
+  .filterBar {
+    gap: 5px;
+    padding: 7px 8px;
   }
 
-  .sortGroup {
-    width: 100%;
-    justify-content: space-between;
-  }
+  .sortSegment { width: 100%; }
 
-  .sortLabel {
-    display: none;
-  }
-
-  .sortBtn {
+  .segBtn {
     flex: 1;
     text-align: center;
   }
 
-  .countNum {
-    font-size: 30px;
-  }
+  .categoryName { font-size: 18px; }
 }

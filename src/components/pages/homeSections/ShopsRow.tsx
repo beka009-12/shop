@@ -1,10 +1,10 @@
 // src/components/pages/homeSections/ShopsRow.tsx
 "use client";
 import { type FC } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import scss from "./ShopsRow.module.scss";
 import { useGetShops } from "@/api/generated/endpoints/shops/shops";
-import { ShopSummary } from "@/api/generated/models";
 
 const MAX_SHOPS = 8;
 
@@ -12,14 +12,15 @@ const getInitials = (name: string) =>
   name
     .split(" ")
     .slice(0, 2)
-    .map((w) => w[0])
+    .map((w) => w[0] ?? "")
+    .filter(Boolean)
     .join("")
-    .toUpperCase();
+    .toUpperCase() || "?";
 
 const ShopsRow: FC = () => {
   const router = useRouter();
   const { data, isPending } = useGetShops();
-  const shops = ((data?.shops ?? []) as ShopSummary[]).slice(0, MAX_SHOPS);
+  const shops = (data?.shops ?? []).slice(0, MAX_SHOPS);
 
   return (
     <div className={scss.section}>
@@ -39,7 +40,10 @@ const ShopsRow: FC = () => {
               <div
                 key={store.id}
                 className={scss.card}
+                role="button"
+                tabIndex={0}
                 onClick={() => router.push(`/shops/${store.id}`)}
+                onKeyDown={(e) => e.key === "Enter" && router.push(`/shops/${store.id}`)}
               >
                 <div className={scss.cover}>
                   {store.isVerified && (
@@ -47,7 +51,7 @@ const ShopsRow: FC = () => {
                   )}
                   <div className={scss.logoWrap}>
                     {store.logo ? (
-                      <img src={store.logo} alt={store.name ?? ""} />
+                      <Image src={store.logo} alt={store.name ?? ""} width={36} height={36} style={{ objectFit: "cover" }} />
                     ) : (
                       <div className={scss.logoIni}>
                         {getInitials(store.name ?? "")}

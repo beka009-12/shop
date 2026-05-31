@@ -3,6 +3,7 @@ import scss from "./Layout.module.scss";
 import Header from "./header/Header";
 import Footer from "./footer/Footer";
 import Mobile from "./mobileNavigation/Mobile";
+import DockSearch from "./dockSearch/DockSearch";
 
 interface ILay {
   children: ReactNode;
@@ -19,6 +20,7 @@ const Layout: FC<ILay> = ({ children }) => {
         </div>
       </main>
       <Mobile />
+      <DockSearch />
     </div>
   );
 };

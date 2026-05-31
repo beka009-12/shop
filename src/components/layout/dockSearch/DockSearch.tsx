@@ -7,7 +7,6 @@ import scss from "./DockSearch.module.scss";
 import { useGetSearchProducts } from "@/api/generated/endpoints/search/search";
 
 const springs = {
-  snappy: { type: "spring" as const, stiffness: 300, damping: 30 },
   gentle: { type: "spring" as const, stiffness: 120, damping: 14 },
 };
 
@@ -22,35 +21,28 @@ const DockSearch: FC = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
 
   const { data } = useGetSearchProducts(
     { search: query, page: 1 },
     { query: { enabled: query.length >= 2, staleTime: 1000 * 10 } },
   );
-
   const products = data?.products ?? [];
 
+  // CMD+K / ESC
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         setIsOpen(true);
       }
-      if (e.key === "Escape") {
-        setIsOpen(false);
-        setQuery("");
-      }
+      if (e.key === "Escape") { setIsOpen(false); setQuery(""); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  useEffect(() => {
-    if (isOpen) setTimeout(() => inputRef.current?.focus(), 80);
-  }, [isOpen]);
-
+  // Click outside
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e: MouseEvent) => {
@@ -64,22 +56,19 @@ const DockSearch: FC = () => {
   }, [isOpen]);
 
   const close = () => { setIsOpen(false); setQuery(""); };
-
-  const goToProduct = (id: number) => {
-    close();
-    router.push(`/product/${id}`);
-  };
+  const goToProduct = (id: number) => { close(); router.push(`/product/${id}`); };
 
   return (
     <div ref={wrapRef} className={scss.root}>
-      {/* Results panel — slides up from above the pill */}
+
+      {/* Results — slides up above the bar */}
       <AnimatePresence>
         {isOpen && query.length >= 2 && (
           <motion.div
             className={scss.results}
-            initial={{ opacity: 0, y: 12, scale: 0.97 }}
+            initial={{ opacity: 0, y: 10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.97 }}
+            exit={{ opacity: 0, y: 6, scale: 0.98 }}
             transition={springs.gentle}
           >
             {products.length === 0 ? (
@@ -90,11 +79,10 @@ const DockSearch: FC = () => {
                 {products.slice(0, 6).map((p) => {
                   const imgUrl = p.productImages?.[0]?.url;
                   return (
-                    <motion.div
+                    <div
                       key={p.id}
                       className={scss.resultItem}
                       onClick={() => p.id && goToProduct(p.id)}
-                      whileTap={{ scale: 0.98 }}
                       role="button"
                       tabIndex={0}
                       onKeyDown={(e) => e.key === "Enter" && p.id && goToProduct(p.id)}
@@ -108,17 +96,11 @@ const DockSearch: FC = () => {
                         <p className={scss.resultName}>{p.title}</p>
                         <p className={scss.resultPrice}>{p.newPrice ?? p.price} сом</p>
                       </div>
-                    </motion.div>
+                    </div>
                   );
                 })}
                 <div className={scss.resultsFooter}>
-                  <button
-                    className={scss.seeAll}
-                    onClick={() => {
-                      close();
-                      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
-                    }}
-                  >
+                  <button className={scss.seeAll} onClick={() => { close(); router.push(`/search?q=${encodeURIComponent(query.trim())}`); }}>
                     Все результаты →
                   </button>
                 </div>
@@ -128,28 +110,54 @@ const DockSearch: FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Pill — expands in-place into search bar */}
-      <motion.div
-        className={scss.pill}
-        layout
-        transition={springs.snappy}
-        data-open={isOpen}
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          {isOpen ? (
-            <motion.div
-              key="input"
-              className={scss.inputRow}
+      {/* Pill — CSS width transition (no layout animation to avoid translateX conflict) */}
+      <div className={scss.pill} data-open={isOpen}>
+
+        {/* Icon — always visible */}
+        <button
+          className={scss.iconBtn}
+          onClick={() => !isOpen && setIsOpen(true)}
+          aria-label="Поиск"
+          tabIndex={isOpen ? -1 : 0}
+        >
+          <span className={scss.pillIcon}>
+            <SearchIcon size={13} color="#fff" />
+          </span>
+        </button>
+
+        {/* Closed label */}
+        <AnimatePresence initial={false}>
+          {!isOpen && (
+            <motion.button
+              key="label"
+              className={scss.labelBtn}
+              onClick={() => setIsOpen(true)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.1 }}
+              transition={{ duration: 0.12 }}
             >
-              <span className={scss.pillIcon}>
-                <SearchIcon size={13} color="#fff" />
-              </span>
+              <span className={scss.pillText}>Поиск товаров</span>
+              <span className={scss.pillShortcut}>⌘K</span>
+            </motion.button>
+          )}
+        </AnimatePresence>
+
+        {/* Open input — autoFocus fires immediately on mount */}
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.div
+              key="inputwrap"
+              className={scss.inputWrap}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.12 }}
+            >
               <input
-                ref={inputRef}
+                // autoFocus mounts and focuses immediately — no setTimeout needed
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus
                 className={scss.input}
                 placeholder="Поиск товаров..."
                 value={query}
@@ -161,32 +169,14 @@ const DockSearch: FC = () => {
                   }
                 }}
               />
-              <button className={scss.escBtn} onClick={close} aria-label="Закрыть">
-                <span className={scss.escHint}>ESC</span>
+              <button className={scss.escBtn} onClick={close} tabIndex={0} aria-label="Закрыть">
+                ESC
               </button>
             </motion.div>
-          ) : (
-            <motion.button
-              key="trigger"
-              className={scss.trigger}
-              onClick={() => setIsOpen(true)}
-              aria-label="Открыть поиск"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.1 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span className={scss.pillIcon}>
-                <SearchIcon size={13} color="#fff" />
-              </span>
-              <span className={scss.pillText}>Поиск товаров</span>
-              <span className={scss.pillShortcut}>⌘K</span>
-            </motion.button>
           )}
         </AnimatePresence>
-      </motion.div>
+
+      </div>
     </div>
   );
 };

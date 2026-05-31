@@ -1,12 +1,11 @@
-$accent:  #5533eb;
-$text:    #18180f;
-$muted:   #9a9a9a;
-$border:  #ebebeb;
+$accent: #5533eb;
+$text: #18180f;
+$muted: #9a9a9a;
+$border: #ebebeb;
 $bg-page: #f7f7f6;
 
 .SearchResults {
   padding: 40px 0 80px;
-  background: $bg-page;
   min-height: 80vh;
 }
 
@@ -24,7 +23,6 @@ $bg-page: #f7f7f6;
   border-radius: 12px;
   font-size: 14px;
   color: $text;
-  background: #fff;
   outline: none;
   transition: border-color 0.15s;
 
@@ -122,7 +120,9 @@ $bg-page: #f7f7f6;
   font-size: 13px;
   color: #555;
   cursor: pointer;
-  transition: background 0.18s, color 0.18s;
+  transition:
+    background 0.18s,
+    color 0.18s;
   white-space: nowrap;
 
   &:hover:not(.sortBtnActive) {

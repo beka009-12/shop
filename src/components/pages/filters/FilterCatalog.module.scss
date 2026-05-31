@@ -1,13 +1,12 @@
-$accent:  #5533eb;
-$text:    #18180f;
-$muted:   #9ca3af;
-$border:  #ebebeb;
+$accent: #5533eb;
+$text: #18180f;
+$muted: #9ca3af;
+$border: #ebebeb;
 $bg-page: #f7f7f6;
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 .FilterCatalog {
   padding: 36px 0 80px;
-  background: $bg-page;
   min-height: 80vh;
 }
 
@@ -104,7 +103,10 @@ $bg-page: #f7f7f6;
   font-weight: 500;
   color: #555;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background 0.15s;
   white-space: nowrap;
   line-height: 1.4;
 
@@ -132,7 +134,9 @@ $bg-page: #f7f7f6;
   cursor: pointer;
   padding: 4px 10px;
   border-radius: 8px;
-  transition: color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s;
   white-space: nowrap;
 
   &:hover {
@@ -151,19 +155,25 @@ $bg-page: #f7f7f6;
 
 // ── Mobile ────────────────────────────────────────────────────────────────────
 @media (max-width: 600px) {
-  .FilterCatalog { padding: 24px 0 60px; }
+  .FilterCatalog {
+    padding: 24px 0 60px;
+  }
 
   .filterBar {
     gap: 5px;
     padding: 7px 8px;
   }
 
-  .sortSegment { width: 100%; }
+  .sortSegment {
+    width: 100%;
+  }
 
   .segBtn {
     flex: 1;
     text-align: center;
   }
 
-  .categoryName { font-size: 18px; }
+  .categoryName {
+    font-size: 18px;
+  }
 }

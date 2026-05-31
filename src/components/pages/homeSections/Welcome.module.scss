@@ -1,89 +1,78 @@
+$accent:  #5533eb;
+$text:    #18180f;
+$border:  #ebebeb;
+$bg-page: #f7f7f6;
+
 .Welcome {
-  padding: 20px 0 60px;
+  padding: 20px 0 80px;
+  background: $bg-page;
+  min-height: 80vh;
+}
 
-  .filterBar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 12px 0;
-    margin-bottom: 24px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+.divider {
+  border-top: 1px solid $border;
+  margin: 28px 0;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: $text;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.sortBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
   }
+}
 
-  .tabs {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
+.sortBtns {
+  display: flex;
+  gap: 6px;
+  background: #fff;
+  border: 1.5px solid $border;
+  border-radius: 40px;
+  padding: 4px 5px;
+}
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
+.sortBtn {
+  padding: 6px 14px;
+  border-radius: 30px;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 400;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  white-space: nowrap;
 
-    .tab {
-      padding: 7px 18px;
-      border-radius: 100px;
-      background: #f4f4f6;
-      border: 1px solid transparent;
-      color: #666;
-      font-size: 13.5px;
-      font-weight: 400;
-      white-space: nowrap;
-      transition: all 0.18s ease;
-      cursor: pointer;
-      letter-spacing: -0.01em;
-
-      &:hover {
-        background: #ede9ff;
-        color: #5533EB;
-      }
-
-      &.active {
-        background: #5533EB;
-        color: #fff;
-        border-color: #5533EB;
-        box-shadow: 0 4px 12px rgba(85, 51, 235, 0.28);
-      }
-    }
+  &:hover:not(.sortBtnActive) {
+    background: #f2f2f1;
+    color: $text;
   }
+}
 
-  .emptyState {
-    text-align: center;
-    padding: 80px 0;
+.sortBtnActive {
+  background: $text;
+  color: #fff;
+  font-weight: 500;
+}
 
-    h3 {
-      font-size: 16px;
-      font-weight: 400;
-      color: #555;
-      margin-bottom: 12px;
-    }
-
-    button {
-      margin-top: 4px;
-      color: #5533EB;
-      background: #f0edff;
-      border: 1px solid rgba(85, 51, 235, 0.25);
-      padding: 8px 22px;
-      border-radius: 100px;
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.18s;
-
-      &:hover {
-        background: #e4deff;
-        border-color: #5533EB;
-      }
-    }
-  }
-
-  .loader {
-    text-align: center;
-    padding: 20px 0;
-    font-size: 13px;
-    color: #aaa;
-    letter-spacing: 0.05em;
-  }
+.loader {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 13px;
+  color: #aaa;
+  letter-spacing: 0.05em;
 }

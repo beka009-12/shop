@@ -106,7 +106,7 @@ const Detail: FC = () => {
   const handleAddToCart = () => {
     if (sizes.length > 0 && !selectedSize) { setSizeError(true); return; }
     setSizeError(false);
-    if (product.id) addToCart(product.id);
+    if (product.id) addToCart(product.id, quantity);
   };
 
   return (

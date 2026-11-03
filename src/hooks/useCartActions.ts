@@ -26,8 +26,8 @@ export const useCartAddAction = () => {
   });
 
   const handleAddToCart = useCallback(
-    (productId: number) => {
-      const promise = addToCartMutation({ data: { productId, quantity: 1 } });
+    (productId: number, quantity = 1) => {
+      const promise = addToCartMutation({ data: { productId, quantity } });
       toast.promise(promise, {
         loading: "Добавляем в корзину...",
         success: "Товар добавлен в корзину 🛒",

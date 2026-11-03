@@ -12,8 +12,14 @@ import {
   useGetCart,
   useDeleteCartClear,
   useDeleteCartProductId,
+  usePatchCartProductId,
   getGetCartQueryKey,
 } from "@/api/generated/endpoints/cart/cart";
+import type { CartItem } from "@/api/generated/models";
+import { getEffectivePrice } from "@/utils/price";
+
+const serverQuantities = (items: CartItem[] = []): Record<number, number> =>
+  Object.fromEntries(items.map((item) => [item.id!, item.quantity || 1]));
 
 const Order: FC = () => {
   const router = useRouter();
@@ -53,14 +59,20 @@ const Order: FC = () => {
   const [quantities, setQuantities] = useState<Record<number, number>>({});
   const summaryRef = useRef<HTMLDivElement>(null);
 
+  const { mutate: updateQuantity } = usePatchCartProductId({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
+      },
+      onError: () => {
+        toast.error("Не удалось изменить количество");
+        setQuantities(serverQuantities(cartData?.items));
+      },
+    },
+  });
+
   useEffect(() => {
-    if (cartData?.items) {
-      const initial: Record<number, number> = {};
-      cartData.items.forEach((item) => {
-        initial[item.id!] = item.quantity || 1;
-      });
-      setQuantities(initial);
-    }
+    if (cartData?.items) setQuantities(serverQuantities(cartData.items));
   }, [cartData]);
 
   useEffect(() => {
@@ -79,22 +91,24 @@ const Order: FC = () => {
     };
   }, [cartItems.length]);
 
+  // The backend charges newPrice when it is set, so the cart must total the same way
+  const unitPrice = (item: CartItem) =>
+    getEffectivePrice(item.product?.price, item.product?.newPrice);
+
   const subtotal = cartItems.reduce((acc, item) => {
     const qty = quantities[item.id!] || item.quantity || 1;
-    return acc + Number(item?.product?.price || 0) * qty;
+    return acc + unitPrice(item) * qty;
   }, 0);
 
   const discount = promoApplied ? Math.round(subtotal * 0.1) : 0;
   const total = subtotal - discount;
 
-  const increment = (id: number) =>
-    setQuantities((prev) => ({ ...prev, [id]: (prev[id] || 1) + 1 }));
-
-  const decrement = (id: number) =>
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: Math.max((prev[id] || 1) - 1, 1),
-    }));
+  const changeQuantity = (item: CartItem, next: number) => {
+    const productId = item.product?.id;
+    if (!productId || next < 1) return;
+    setQuantities((prev) => ({ ...prev, [item.id!]: next }));
+    updateQuantity({ productId, data: { quantity: next } });
+  };
 
   const handlePromo = () => {
     if (!promoCode.trim()) return;
@@ -140,7 +154,7 @@ const Order: FC = () => {
               <div className={scss.items}>
                 {cartItems.map((item) => {
                   const qty = quantities[item.id!] || item.quantity || 1;
-                  const itemTotal = Number(item.product?.price || 0) * qty;
+                  const itemTotal = unitPrice(item) * qty;
 
                   return (
                     <div key={item.id} className={scss.card}>
@@ -193,10 +207,7 @@ const Order: FC = () => {
                             </span>
                             {qty > 1 && (
                               <span className={scss.cardUnit}>
-                                {Number(
-                                  item.product?.price || 0,
-                                ).toLocaleString()}{" "}
-                                × {qty}
+                                {unitPrice(item).toLocaleString()} × {qty}
                               </span>
                             )}
                           </div>
@@ -206,7 +217,7 @@ const Order: FC = () => {
                           <div className={scss.counter}>
                             <button
                               className={scss.cBtn}
-                              onClick={() => decrement(item.id!)}
+                              onClick={() => changeQuantity(item, qty - 1)}
                               disabled={qty <= 1}
                               aria-label="Уменьшить"
                             >
@@ -215,7 +226,7 @@ const Order: FC = () => {
                             <span className={scss.cVal}>{qty}</span>
                             <button
                               className={scss.cBtn}
-                              onClick={() => increment(item.id!)}
+                              onClick={() => changeQuantity(item, qty + 1)}
                               aria-label="Увеличить"
                             >
                               +

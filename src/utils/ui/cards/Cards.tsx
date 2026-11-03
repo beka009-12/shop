@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useGetCart } from "@/api/generated/endpoints/cart/cart";
 import { useGetFavoriteFavorites } from "@/api/generated/endpoints/favorite/favorite";
 import { Product } from "@/api/generated/models";
+import { getDiscountPercent } from "@/utils/price";
 
 const Cards: FC<Product> = ({
   id,
@@ -48,10 +49,7 @@ const Cards: FC<Product> = ({
     return () => clearInterval(interval);
   }, [isHovered, images.length]);
 
-  const discountPercent =
-    newPrice && price && price > newPrice
-      ? Math.round(((price - newPrice) / price) * 100)
-      : 0;
+  const discountPercent = getDiscountPercent(price, newPrice);
 
   const handleClick = () => router.push(`/product/${id}`);
   const handleHover = () => router.prefetch(`/product/${id}`);

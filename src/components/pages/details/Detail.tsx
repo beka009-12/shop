@@ -16,6 +16,7 @@ import {
 } from "@/hooks/useCartActions";
 import { useGetFavoriteFavorites } from "@/api/generated/endpoints/favorite/favorite";
 import { useGetCommodityProductUserId } from "@/api/generated/endpoints/product/product";
+import { getDiscountPercent } from "@/utils/price";
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 const ArrowLeftIcon = () => (
@@ -89,9 +90,7 @@ const Detail: FC = () => {
   const imgs        = (product.productImages?.map((img) => img.url).filter(Boolean) as string[]) ?? [];
   const mainImg     = activeImage ?? imgs[0];
   const displayPrice  = Number(newPrice ?? price).toLocaleString("ru-RU");
-  const discountPct   = newPrice != null && price > newPrice
-    ? Math.round(((price - newPrice) / price) * 100)
-    : 0;
+  const discountPct   = getDiscountPercent(price, newPrice);
   const isInCart  = cartData?.items?.some((i) => i.product?.id === product.id);
   const isFav     = favorite?.favorites?.some((i: any) => i.product.id === product.id);
   const sizes      = product.sizes ?? [];
@@ -107,7 +106,7 @@ const Detail: FC = () => {
   const handleAddToCart = () => {
     if (sizes.length > 0 && !selectedSize) { setSizeError(true); return; }
     setSizeError(false);
-    if (product.id) addToCart(product.id);
+    if (product.id) addToCart(product.id, quantity);
   };
 
   return (

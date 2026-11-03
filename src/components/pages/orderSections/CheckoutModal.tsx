@@ -20,8 +20,6 @@ const CheckoutModal: FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const city = address.split(" ").slice(0, 3).join(" ");
-
   const detectAddress = () => {
     setLoadingAddress(true);
 
@@ -97,7 +95,7 @@ const CheckoutModal: FC<CheckoutModalProps> = ({ isOpen, onClose }) => {
             <label>Адрес доставки</label>
 
             <textarea
-              value={city}
+              value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="Улица, дом, квартира"
               rows={3}
